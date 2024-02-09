@@ -1,0 +1,61 @@
+"""
+Task
+Given an integer, , perform the following conditional actions:
+
+If  is odd, print Weird
+If  is even and in the inclusive range of  to , print Not Weird
+If  is even and in the inclusive range of  to , print Weird
+If  is even and greater than , print Not Weird
+
+Input Format
+
+A single line containing a positive integer, .
+
+Constraints
+1<=n>=100
+
+Output Format
+
+Print Weird if the number is weird. Otherwise, print Not Weird.
+
+"""
+n = int(input().strip()) #strip will remove the whitespaces
+if(n%2==0):
+    if(n>=2 and n<=5):
+        print("Not Weird")
+    elif(n>=6 and n<=20):
+        print("Weird")
+    elif (n>20):
+         print("Not Weird")
+else: print("Weird ")
+
+(or)
+
+
+n = int(input().strip())
+check = {True: "Not Weird", False: "Weird"}
+
+print(check[n%2==0 and (n in range(2,6) or n > 20) ])
+
+defined a simple dictionary. 
+If the value it gets is true, 
+the program prints "Not Weird", and if it's false "Weird" is printed.
+Then I simply created a bunch of statements that evaluate to either True or False.
+
+(or)
+
+import math
+import os
+import random
+import re
+import sys
+
+
+
+if __name__ == '__main__':
+    n = int(input().strip())
+#print(n%2) would print 1 if its true. 
+if (n%2) or (6 <= n <= 20):
+    print('Weird')
+else:
+    print('Not Weird')
