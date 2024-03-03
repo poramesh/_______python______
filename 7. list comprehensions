@@ -1,0 +1,112 @@
+Task:
+
+Let's learn about list comprehensions! 
+You are given three integers x, y and z representing the dimensions of a cuboid along with an integer .
+Print a list of all possible coordinates given by i,j,k on a 3D grid where the sum of  i+j+k  is not equal to n . 
+
+Here, 0<=i<+x;
+0<=j<=y;
+0<=k<=z . Please use list comprehensions rather than multiple loops, as a learning exercise.
+refer this link for more understanding 
+https://www.hackerrank.com/challenges/list-comprehensions/problem?isFullScreen=true
+
+Sample Input 0
+
+1
+1
+1
+2
+
+Sample Output 0
+
+[[0, 0, 0], [0, 0, 1], [0, 1, 0], [1, 0, 0], [1, 1, 1]]
+
+
+Consider a list called 'a' with even and odd numbers. Now suppose you want to create a list 'b' that contains only the even numbers of list 'a'.
+
+One way to do this in the usual way with a loop:
+
+b = []
+for n in a:
+if n % 2 == 0:
+b.append(n)
+Using list comprehension this would look like this single line:
+
+b = [n for n in a if n % 2 == 0]
+
+
+
+The Syntax
+newlist = [expression for item in iterable if condition == True]
+The return value is a new list, leaving the old list unchanged.
+#x, y, z, n = int(input()), int(input()), int(input()), int(input())
+
+SOLUTION
+
+x,y,z,n = (int(input()) for _ in range(4))
+
+print ([[a,b,c] for a in range(0,x+1) for b in range(0,y+1) for c in range(0,z+1) if a + b + c != n ])
+#print ([[a,b,c] for a in range(x+1) for b in range(y+1) for c in range(z+1) if a + b + c != n ])
+
+
+#_ is used to signify that even though something is being returned, we don't plan to use that variable any where.
+
+(or)
+
+x, y, z, n = (int(input()) for _ in range(4))
+
+# Create an empty list to store the result
+result = []
+
+# Iterate over all possible values of a, b, and c within the specified ranges
+for a in range(0, x + 1):
+    for b in range(0, y + 1):
+        for c in range(0, z + 1):
+            # Check if the sum of a, b, and c is not equal to n
+            if a + b + c != n:
+                # If the condition is met, add the triplet [a, b, c] to the result list
+                result.append([a, b, c])
+
+# Print the result
+print(result)
+
+
+
+
+
+Java implementaion: 
+
+java
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int x = scanner.nextInt();
+        int y = scanner.nextInt();
+        int z = scanner.nextInt();
+        int n = scanner.nextInt();
+
+        ArrayList<ArrayList<Integer>> result = new ArrayList<>();
+
+        for (int a = 0; a <= x; a++) {
+            for (int b = 0; b <= y; b++) {
+                for (int c = 0; c <= z; c++) {
+                    if (a + b + c != n) {
+                        ArrayList<Integer> triplet = new ArrayList<>();
+                        triplet.add(a);
+                        triplet.add(b);
+                        triplet.add(c);
+                        result.add(triplet);
+                    }
+                }
+            }
+        }
+
+        System.out.println(result);
+    }
+}
+
