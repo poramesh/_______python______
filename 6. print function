@@ -44,3 +44,18 @@ log_in(*user)
 The * is actually used to unpack a iterator. *[1,2,3] mean 1 2 3
 
 In python cursor will go to next line automatically so using end=" " we can stop the cursor
+
+
+More on range: 
+Syntax
+range(start, stop, step)
+
+Create a sequence of numbers from 3 to 5, and print each item in the sequence:
+x = range(3, 6)
+for n in x:
+  print(n) #3 4 5 
+
+Create a sequence of numbers from 0 to 5, and print each item in the sequence:
+x = range(6)
+for n in x:
+  print(n) #0 1 2 3 4 5 6 
