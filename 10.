@@ -1,0 +1,161 @@
+Consider a list (list = []). You can perform the following commands:
+
+insert i e: Insert integer e at position i.
+print: Print the list.
+remove e: Delete the first occurrence of integer e.
+append e: Insert integer e at the end of the list.
+sort: Sort the list.
+pop: Pop the last element from the list.
+reverse: Reverse the list.
+Initialize your list and read in the value of n followed by n lines of commands where each command will be of the 7 types listed above. Iterate through each command in order and perform the corresponding operation on your list.
+
+example: 
+N=4
+append 1
+append 2
+insert 3 1
+print
+
+append 1: append 1 to the lsit, arr=[1]
+append 2: append 2 to the lsit , arr=[1,2]
+insert 3 1: insert 3 at index 1, arr=[1,3,2]
+print: print the array. => [1,3.2]
+
+Input Format
+
+The first line contains an integer,n , denoting the number of commands.
+Each line i of the n subsequent lines contains one of the commands described above.
+
+Constraints
+
+The elements added to the list must be integers.
+Output Format
+
+For each command of type print, print the list on a new line.
+
+Sample Input 0
+
+12
+insert 0 5
+insert 1 10
+insert 0 6
+print
+remove 6
+append 9
+append 1
+sort
+print
+pop
+reverse
+print
+
+Solution
+
+N = int(input())
+lis=[]
+for _ in range(N):
+        s=input().strip().split(" ") #In Python, the strip() method is used to remove leading and trailing whitespace characters from a string.
+        #When you call strip() without any arguments, it removes all whitespace characters such as spaces, tabs, and newline characters from the beginning and end of the string.
+
+
+        if s[0]=="insert":
+            lis.insert(int(s[1]),int(s[2]))
+        if s[0]=="print":
+            print(lis)
+        if s[0]=="remove":
+            lis.remove(int(s[1]))
+        if s[0]=="append":
+            lis.append(int(s[1]))
+        if s[0]=="sort":
+            lis.sort()
+        if s[0]=="pop":
+            lis.pop()
+        if s[0]=="reverse":
+            lis.reverse()
+
+(or)
+
+T = int(input().strip())
+L = []
+for t in range(T):
+    args = input().strip().split(" ")
+    if args[0] == "print":
+        print L
+    elif len(args) == 3:
+        getattr(L, args[0])(int(args[1]), int(args[2])) #L.insert(1,3)
+    elif len(args) == 2:
+        getattr(L, args[0])(int(args[1])) #L.append(2)
+    else:
+        getattr(L, args[0])()
+
+
+
+{or)  
+
+L = []
+for _ in range(int(input())):
+    command, *args = input().split()
+    try:
+        getattr(L, command)(*(int(x) for x in args))
+    except AttributeError:
+        print(L)
+
+(or)
+
+n = input()
+l = []
+for _ in range(n):
+    s = raw_input().split()
+    cmd = s[0]
+    args = s[1:]
+    if cmd !="print":
+        cmd += "("+ ",".join(args) +")"
+        eval("l."+cmd)
+    else:
+        print l
+
+(or)
+
+n = input()
+l = []
+for _ in range(n):
+    s = input().split()
+    cmd = s[0]
+    args = s[1:]
+    if cmd !="print":
+        cmd += "("+ ",".join(args) +")"
+        eval("l."+cmd)
+    else:
+        print l
+The eval() function evaluates the specified expression, if the expression is a legal Python statement, it will be executed.
+
+Evaluate the expression 'print(55)':
+
+x = 'print(55)'
+eval(x)
+
+(or)
+
+L = []
+for _ in range(0, int(input())):
+    user_input = input().split(' ')
+    command = user_input.pop(0 ) # first arguemnet, could be print, append and so on
+    if len(user_input) > 0:
+        if 'insert' == command:
+            eval("L.{0}({1}, {2})".format(command, user_input[0], user_input[1]))
+        else:
+            eval("L.{0}({1})".format(command, user_input[0]))
+    elif command == 'print':
+        print L
+    else:
+        eval("L.{0}()".format(command))
+----
+
+class Person:
+    name = "John"
+    age = 36
+    country = "Norway"
+
+x = getattr(Person, 'age') #Person.age
+
+print(x)
