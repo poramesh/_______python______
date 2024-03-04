@@ -1,1 +1,57 @@
 
+
+
+The provided code stub will read in a dictionary containing key/value pairs of name:[marks] for a list of students. Print the average of the marks array for the student name provided, showing 2 places after the decimal.
+
+Input Format
+
+The first line contains the integer , the number of students' records. The next  lines contain the names and marks obtained by a student, each value separated by a space. The final line contains query_name, the name of a student to query.
+
+Constraints
+2<=n<=10
+0<=marks[i]<=100
+lenght of marks arrays = 3
+
+Output Format
+
+Print one line: The average of the marks obtained by the particular student correct to 2 decimal places.
+Sample Input 0
+
+3
+Krishna 67 68 69
+Arjun 70 98 63
+Malika 52 56 60
+Malika
+Sample Output 0
+
+56.00
+
+solution:
+
+if __name__ == '__main__':
+    n = int(input())
+    student_marks = {}
+    for _ in range(n):
+        name, *line = input().split() #this line unpacks the first element of the list (the student's name) into the variable name, and the remaining elements (the scores) into the variable line. The asterisk (*) preceding line indicates that it should capture all remaining elements after name.
+        scores = list(map(float, line)) #scores = list(map(float, line)): This line converts the score strings into floating-point numbers and stores them in a list called scores.
+        student_marks[name] = scores
+    query_name = input()
+    
+k = student_marks.get(query_name)
+temp=0
+#sum(k)
+for i in k:
+    temp=temp+i
+    
+avg = (temp/3)
+
+print("{0:.2f}".format(avg)) 
+#When using the format() method, you can specify placeholders like {0}, {1}, {2}, etc., to indicate the position of the arguments passed to the format() method. 
+These indices correspond to the positional arguments provided in the format() method.
+
+In the example "{0:.2f}", the 0 indicates that the first (and only, in this case) argument passed to the format() method should be inserted at that position.
+In your code, avg is the only argument provided to format(), so it will be inserted at the position of {0}.
+
+(or)
+
+print( format(sum(student_marks[query_name])/len(student_marks[query_name]), ".2f") )
