@@ -64,3 +64,10 @@ Now input_list looks like this: [1, 2, 3, 4]
 t = tuple(input_list)
 print the result
 print hash(t)
+
+(or)
+
+n = int(input())
+ints = input().split()
+t = tuple(int(i) for i in ints)
+print(hash(t))
