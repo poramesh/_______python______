@@ -1,0 +1,205 @@
+Given the names and grades for each student in a class of n students, store them in a nested list and
+print the name(s) of any student(s) having the second lowest grade.
+
+Note: If there are multiple students with the second lowest grade, order their names alphabetically and print each name on a new line.
+
+records = [["chi", 20.0],["beta",50.0],["alpha",50.0]]
+
+
+Input Format
+
+The first line contains an integer, N, the number of students.
+The 2N  subsequent lines describe each student over 2 lines.
+- The first line contains a student's name.
+- The second line contains their grade.
+
+Constraints
+
+2<=N<=5
+There will always be one or more students having the second lowest grade.
+Output Format
+
+Print the name(s) of any student(s) having the second lowest grade in. 
+If there are multiple students, order their names alphabetically and print each one on a new line.
+
+Sample Input 
+5
+Harry
+37.21
+Berry
+37.21
+Tina
+37.2
+Akriti
+41
+Harsh
+39
+
+Sample Output 
+Berry
+Harry
+
+
+Solution:
+
+if __name__ == '__main__':
+    for _ in range(int(input())):
+        name = input()
+        score = float(input())
+
+marksheet = []
+for _ in range(0,int(input())):
+    marksheet.append([input(), float(input())])
+
+second_highest = sorted(list(set([marks for name, marks in marksheet])))[1]
+print('\n'.join([a for a,b in sorted(marksheet) if b == second_highest]))
+
+(or)
+
+d={} 
+for _ in range(int(input())): 
+    Name=input() 
+    Grade=float(input()) 
+    d[Name]=Grade 
+v=d.values()
+second=sorted(list(set(v)))[1]  #Remoing duplicte grades by using set data type , changing it to list, sorting in ascending order and taking the second lowest grade.
+second_lowest=[] 
+for key,value in d.items():  
+    if value==second: 
+        second_lowest.append(key) 
+second_lowest.sort() 
+for name in second_lowest: 
+    print (name)
+
+(or)
+
+if __name__ == '__main__':
+    a= []
+    for _ in range(int(input())):
+        name = input()
+        score = float(input())
+        a.append([score, name])
+
+    a.sort()
+    b = [i for i in a if i[0] != a[0][0]]
+    c = [j for j in b if j[0] == b[0][0]]
+    
+    c.sort(key=lambda x: x[1])
+    for i in range(len(c)):
+        print(c[i][1])
+
+---
+lambda:
+A lambda function is a small anonymous function.
+
+A lambda function can take any number of arguments, but can only have one expression.
+
+example: 
+Add 10 to argument a, and return the result:
+x = lambda a : a + 10
+print(x(5))
+Multiply argument a with argument b and return the result:
+x = lambda a, b : a * b
+print(x(5, 6))
+
+sort:
+The sort() method sorts the list ascending by default.
+
+You can also make a function to decide the sorting criteria(s).
+
+Syntax
+list.sort(reverse=True|False, key=myFunc)
+
+ex: # A function that returns the length of the value:
+def myFunc(e):
+  return len(e)
+
+cars = ['Ford', 'Mitsubishi', 'BMW', 'VW']
+
+cars.sort(key=myFunc)
+
+print(cars) #['VW', 'BMW', 'Ford', 'Mitsubishi']
+
+another example-
+# A function that returns the 'year' value:
+def myFunc(e):
+  return e['year']
+
+cars = [
+  {'car': 'Ford', 'year': 2005},
+  {'car': 'Mitsubishi', 'year': 2000},
+  {'car': 'BMW', 'year': 2019},
+  {'car': 'VW', 'year': 2011}
+]
+
+cars.sort(key=myFunc) #[{'car': 'Mitsubishi', 'year': 2000}, {'car': 'Ford', 'year': 2005}, {'car': 'VW', 'year': 2011}, {'car': 'BMW', 'year': 2019}]
+
+
+how dictionary  works: 
+
+car = {
+"brand": "Ford",
+"model": "Mustang",
+"year": 1964
+}
+
+x = car.keys()
+
+print(x) #before the change, dict_keys(['brand', 'model', 'year'])
+
+car["color"] = "white"
+
+print(x) #after the change, dict_keys(['brand', 'model', 'year', 'color'])
+
+sets work?
+
+Sets are used to store multiple items in a single variable.
+
+Set is one of 4 built-in data types in Python used to store collections of data, the other 3 are List, Tuple, and Dictionary,
+all with different qualities and usage.
+
+A set is a collection which is unordered, unchangeable*, and unindexed.
+
+eg: False and 0 is considered the same value:
+
+thisset = {"apple", "banana", "cherry", False, True, 0}
+
+print(thisset)
+
+tuple?
+
+Tuples are used to store multiple items in a single variable.
+
+Tuple is one of 4 built-in data types in Python used to store collections of data, the other 3 are List, Set, and Dictionary, all with different qualities and usage.
+
+A tuple is a collection which is ordered and unchangeable.
+
+Tuples are written with round brackets.
+eg: 
+thistuple = ("apple", "banana", "cherry", "apple", "cherry")
+print(thistuple)
+
+
+list? 
+Lists are used to store multiple items in a single variable.
+
+Lists are one of 4 built-in data types in Python used to store collections of data,
+the other 3 are Tuple, Set, and Dictionary, all with different qualities and usage.
+
+Lists are created using square brackets:
+
+Example
+Create a List:
+
+thislist = ["apple", "banana", "cherry"]
+print(thislist)
+
+
+Python Collections (Arrays)
+There are four collection data types in the Python programming language:
+
+List is a collection which is ordered and changeable. Allows duplicate members. []
+Tuple is a collection which is ordered and unchangeable. Allows duplicate members. ()
+Set is a collection which is unordered, unchangeable*, and unindexed. No duplicate members. {}
+Dictionary is a collection which is ordered** and changeable. No duplicate members. {}
+----
