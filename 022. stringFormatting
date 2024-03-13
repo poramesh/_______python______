@@ -1,0 +1,113 @@
+
+def print_formatted(number):
+    w = len(bin(number)[2:])
+    for i in range(1, number+1):
+        print(" {}  {}  {}  {} ".format(i, oct(i).lstrip('0o'), hex(i).lstrip('0x'), bin(i).lstrip('0b')))        
+        (or)
+        print (str(i).rjust(w,' '),str(oct(i)[2:]).rjust(w,' '),str(hex(i)[2:].upper()).rjust(w,' '),str(bin(i)[2:]).rjust(w,' '),sep=' ')
+        (or)
+        b = bin(int(i)).replace('0b','').rjust(w, ' ')
+        o = oct(int(i)).replace('0o','', 1).rjust(w, ' ')
+        h = hex(int(i)).replace('0x','').upper().rjust(w, ' ')
+        j = str(i).rjust(w, ' ')
+        print(j, o, h, b)
+        (or)
+
+        width = len("{0:b}".format(n))
+        for i in xrange(1,n+1):
+        print "{0:{width}d} {0:{width}o} {0:{width}X} {0:{width}b}".format(i, width=width)    
+        #0 is the placeholder in the string format
+if __name__ == '__main__':
+    n = int(input())
+    print_formatted(n)
+
+
+
+
+""
+example 1: Convert an Integer to Binary
+x = 10
+binary = bin(x)
+print(binary)
+Python
+This code will output:
+
+0b1010
+Python
+The output starts with 0b, which indicates that the following characters represent a binary value.
+
+example 2: Using 'lstrip' to Remove Leading Characters
+If you want to remove the leading characters (-0b or 0b) from the binary string, you can use the lstrip() method:
+
+x = 10
+binary = bin(x)
+stripped_binary = binary.lstrip('-0b')
+print(stripped_binary)
+Python
+This code will output:
+
+1010
+
+example 3: Example 4: Using 'zfill' to Add Leading Zeros
+If you want to pad the binary string with leading zeros, you can use the zfill() method:
+
+x = 10
+binary = bin(x)[2:].zfill(8)
+print(binary)
+Python
+This code will output:
+
+00001010
+Python
+The [2:] slice notation is used to remove the leading 0b. The zfill(8) method adds leading zeros to pad the string to a length of 8 characters.
+'"""
+
+
+"""
+
+Right padding:
+
+This is the most common way to use padding format, right padding with spaces.
+
+name = 'Bill Doe'
+balance = 13.566
+print(f"- {'Name':<8}: {name}")
+print(f"- {'Balance':8}: {balance}")
+>>> - Name    : Bill Doe
+>>> - Balance : 13.566
+
+The < indicate the right orientation, you can omit it, because it is a default value. The first print it is explicit and on the second one is omitted.
+
+Left Padding:
+
+Just use> to indicate the orientation.
+
+name = 'Bill Doe'
+balance = 13.566
+print(f"- {name:>12}")
+print(f"- {balance:>12}")
+>>> -     Bill Doe
+>>> -       13.566
+
+Center Padding:
+
+For center orientation use ^.
+
+name = 'Bill'
+print(f"---{name:^8}---")
+>>> ---  Bill  ---
+
+Type Formating:
+
+There is an especial formatting atributes called type. This is an example of format typing for: decimal, octal, hexadecimal (capitalized) and binary values.
+
+number = 2022
+padding = 10
+print(f"{'decimal':<{padding}}{number:d}")
+print(f"{'octal':<{padding}}{number:o}")
+print(f"{'hex':<{padding}}{number:X}")
+print(f"{'binary':<{padding}}{number:b}")
+>>> decimal   2022
+>>> octal     3746
+>>> hex       7E6
+>>> binary    11111100110
