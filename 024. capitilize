@@ -45,8 +45,19 @@ process the mutable one inside the loop and finally make a backward transformati
 (or)
 
 def solve(s):
-    st = s.split(' ')
+    st = s.split(' ') 
+    print(st)
     return ' '.join(x.capitalize() for x in st)
+
+
+
+Input 
+hello   world  lol
+Your Output 
+Hello   World  Lol
+Debug output
+['hello', '', '', 'world', '', 'lol']
+
 
 (or)
 def solve(s):
@@ -60,6 +71,9 @@ if __name__ == '__main__':
     result = solve(s)
     fptr.write(result + '\n')
     fptr.close()
+(or)
+
+' '.join(map(str.capitalize, string.split(' ')))
 
 
 """"
