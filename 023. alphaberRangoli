@@ -1,0 +1,214 @@
+             
+You are given an integer,N. Your task is to print an alphabet rangoli of size N. (Rangoli is a form of Indian folk art based on creation of patterns.)
+
+Different sizes of alphabet rangoli are shown below:
+
+#size 3
+
+----c----
+--c-b-c--
+c-b-a-b-c
+--c-b-c--
+----c----
+
+#size 5
+
+--------e--------
+------e-d-e------
+----e-d-c-d-e----
+--e-d-c-b-c-d-e--
+e-d-c-b-a-b-c-d-e
+--e-d-c-b-c-d-e--
+----e-d-c-d-e----
+------e-d-e------
+--------e--------
+
+#size 10
+
+------------------j------------------
+----------------j-i-j----------------
+--------------j-i-h-i-j--------------
+------------j-i-h-g-h-i-j------------
+----------j-i-h-g-f-g-h-i-j----------
+--------j-i-h-g-f-e-f-g-h-i-j--------
+------j-i-h-g-f-e-d-e-f-g-h-i-j------
+----j-i-h-g-f-e-d-c-d-e-f-g-h-i-j----
+--j-i-h-g-f-e-d-c-b-c-d-e-f-g-h-i-j--
+j-i-h-g-f-e-d-c-b-a-b-c-d-e-f-g-h-i-j
+--j-i-h-g-f-e-d-c-b-c-d-e-f-g-h-i-j--
+----j-i-h-g-f-e-d-c-d-e-f-g-h-i-j----
+------j-i-h-g-f-e-d-e-f-g-h-i-j------
+--------j-i-h-g-f-e-f-g-h-i-j--------
+----------j-i-h-g-f-g-h-i-j----------
+------------j-i-h-g-h-i-j------------
+--------------j-i-h-i-j--------------
+----------------j-i-j----------------
+------------------j------------------
+The center of the rangoli has the first alphabet letter a, and the boundary has the Nth alphabet letter (in alphabetical order).
+
+Function Description
+
+Complete the rangoli function in the editor below.
+
+rangoli has the following parameters:
+
+>int size: the size of the rangoli
+
+Returns
+
+> string: a single string made up of each of the lines of the rangoli separated by a newline character (\n)
+
+Input Format
+
+Only one line of input containing size, the size of the rangoli.
+
+Constraints
+
+o<size<27
+
+Sample Input
+
+5
+Sample Output
+
+--------e--------
+------e-d-e------
+----e-d-c-d-e----
+--e-d-c-b-c-d-e--
+e-d-c-b-a-b-c-d-e
+--e-d-c-b-c-d-e--
+----e-d-c-d-e----
+------e-d-e------
+--------e--------
+
+Solution: 
+
+import string
+
+
+def print_rangoli(size):
+    alpha = string.ascii_lowercase
+    #print(alpha)
+    L = []
+    for i in range(size):
+        s = "-".join(alpha[i:size])
+        #print(s)
+        L.append((s[::-1]+s[1:]).center(4*n-3,"-"))
+        
+    print("\n".join(L[:0:-1]+L))
+        
+if __name__ == '__main__':
+    n = int(input())
+    print_rangoli(n)
+
+(or)
+
+def print_rangoli(size):
+    width = 4 * size - 3
+    alpha = string.ascii_lowercase
+    for i in list(range(size))[::-1] + list(range(1, size)):
+        print('-'.join(alpha[size-1:i:-1] + alpha[i:size]).center(width, '-'))
+
+""""
+
+ L =" "
+    for i in range(size-1, -size, -1): #range(4, -5, -1)
+        L=L+str(i)+","        
+    print(L)
+
+Input (stdin)
+5
+Your Output (stdout)
+4,3,2,1,0,-1,-2,-3,-4,
+""""
+
+for i in list(range(size))[::-1] + list(range(1, size)):
+        print(i)
+        print(list(range(size))[::-1])
+        print( list(range(1, size)))
+        print(list(range(size))[::-1] + list(range(1, size)))
+
+o/p
+4
+[4, 3, 2, 1, 0]
+[1, 2, 3, 4]
+[4, 3, 2, 1, 0, 1, 2, 3, 4]
+3
+[4, 3, 2, 1, 0]
+[1, 2, 3, 4]
+[4, 3, 2, 1, 0, 1, 2, 3, 4]
+2
+[4, 3, 2, 1, 0]
+[1, 2, 3, 4]
+[4, 3, 2, 1, 0, 1, 2, 3, 4]
+1
+[4, 3, 2, 1, 0]
+[1, 2, 3, 4]
+[4, 3, 2, 1, 0, 1, 2, 3, 4]
+0
+[4, 3, 2, 1, 0]
+[1, 2, 3, 4]
+[4, 3, 2, 1, 0, 1, 2, 3, 4]
+1
+[4, 3, 2, 1, 0]
+[1, 2, 3, 4]
+[4, 3, 2, 1, 0, 1, 2, 3, 4]
+2
+[4, 3, 2, 1, 0]
+[1, 2, 3, 4]
+[4, 3, 2, 1, 0, 1, 2, 3, 4]
+3
+[4, 3, 2, 1, 0]
+[1, 2, 3, 4]
+[4, 3, 2, 1, 0, 1, 2, 3, 4]
+4
+[4, 3, 2, 1, 0]
+[1, 2, 3, 4]
+[4, 3, 2, 1, 0, 1, 2, 3, 4]
+
+"""
+
+
+Negative Indexing
+Use negative indexes to start the slice from the end of the string:
+Example
+Get the characters:
+
+From: "o" in "World!" (position -5)
+
+To, but not included: "d" in "World!" (position -2):
+
+b = "Hello, World!"
+print(b[-5:-2]) #orl
+
+
+#Example 1
+string1 = "Python is my favorite programming language!"
+print(string1[:6])      #specifying only the stop position (right offset)
+print(string1[10:])     #specifying only the start position (left offset)
+print(string1[13:22])   #specifying left &amp; right offset
+print(string1[:-3])     #fetches all but last three characters of string1
+
+"""
+
+b = "HelloDeerWorld!"
+print("1",b[:7]) #HElloDe
+print("2",b[-4:]) #rld!
+print("3",b[:-4]) #HelloDeerWo
+print("4",b[-4:-1]) #rld
+print("5,",b[1:-4]) #, elloDeerWo 
+#the offset pair [1:-4], fetches from offset 1 (i.e. from the character ‘y’) till the last but 5th item 
+print("6 ",b[-4:1]) #wouldnot work because we are basically asking to slice from the last 4th position caracter until the first index from th begining 
+print("7", b[5:1:-1]) #doll
+#the upper bound and the lower bound are essentially reversed. And a negative stride indicates we start slicing from right and if -1 wasnt there it wouldnt work
+"""
+>>> l = ['abc', 'def', 'ghi', 'jkl', 'mno', 'pqr', 'stu', 'vwx', 'yz&']
+
+# I want a string up to 'def' from 'vwx', all in between
+# from 'vwx' so -2;to 'def' just before 'abc' so -9; backwards all so -1.
+>>> l[-2:-9:-1]
+['vwx', 'stu', 'pqr', 'mno', 'jkl', 'ghi', 'def']
+
+# For the same 'vwx' 7 to 'def' just before 'abc' 0, backwards all -1
+>>> l[7:0:-1]
+['vwx', 'stu', 'pqr', 'mno', 'jkl', 'ghi', 'def']
