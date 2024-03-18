@@ -1,0 +1,274 @@
+  Consider the following: 
+  > A string, s, of length n where s = c0c1...cn-1
+  > An integer, k, where k is a factor of n.
+    
+    
+  We can split s into n/k substrings where each substring, ti, consists of a contiguous block of k characters in s. then, use each ti to create string ui such that:
+  > The characgers in ui are a subsequenxe of the characters in ti.
+  > any repeat occurence of a character is removed from the string such that each character in ui occurs exactly once. in other words, if the character at some index j in ti occurs at a previous index< j in ti, then do not include the chatacter in string ui.
+    
+  Given s and k, print n/k lines where each line i denotes string ui.
+    
+  example:
+  s = 'AAABCADDE'
+  k = 3
+    
+There are three substrings of lenght 3 to consider: 'AAA','BCA' and 'DDE'. the first substrig is all 'A' characters, so u1 ='A'. the second substring has all distinct charactes, so u2 ='BCA'. the third substring has 2 different characters, so u3='DE'. Note that s subsequence maintains the original order of chatacters encountered. the order of characters in each subsequence shown is important.
+
+Function desription:
+>compelte the merge_the_tools functions in the editor below.
+>merge_the_tools has the followinf parameters:
+ > string s: the string to analyse
+ > int k: the size go substrings to analyse
+ 
+print
+ print each subsequence on a new line. there will be n/k of them. no return value is expected.
+ 
+input format
+ >the first line contains a single string s.
+ >the seconf line contains an integer, k, the length of each substring.
+ 
+constratins:
+ 1<=n<=10^4, where n is the lenght of s
+ 1<=k<=n
+ it is guaranteed that n is a multiple of k
+ 
+sample input
+ 
+ STDIN       Function
+-----       --------
+AABCAAADA   s = 'AABCAAADA'
+3           k = 3
+Sample Output
+
+AB
+CA
+AD
+
+
+solution:
+
+def merge_the_tools(string, k):
+    for i in range(0, len(string), k):
+        s = ""
+        for j in string[i : i + k]:
+            if j in s:
+                continue
+            else:
+                s += j          
+        print(s)
+
+(or)
+
+def merge_the_tools(S, K):
+   temp = []
+   len_temp = 0
+   for item in S:
+      len_temp += 1
+      if item not in temp:
+         temp.append(item)
+      if len_temp == K:
+         print(''.join(temp))
+         temp = []
+         len_temp = 0
+
+(or)
+
+def merge_the_tools(string, k):
+# your code goes here
+while string:
+    s = string[0:k]
+    seen = ''
+    for c in s:
+        if c not in seen:
+            seen += c
+    print(seen)
+    string = string[k:]
+(or)
+
+def merge_the_tools(string, k):
+    for i in range(0,len(string),k):
+        y=string[i:i+k]
+        print("".join(dict.fromkeys(y)))
+"""
+x = ('key1', 'key2', 'key3')
+
+thisdict = dict.fromkeys(x)
+
+print(thisdict) #{'key1': None, 'key2': None, 'key3': None}
+
+
+Join all items in a tuple into a string, using a hash character as separator:
+
+myTuple = ("John", "Peter", "Vicky")
+
+x = "#".join(myTuple)
+print(x) #John#Peter#Vicky
+
+Definition and Usage
+The join() method takes all items in an iterable and joins them into one string.
+
+A string must be specified as the separator.
+Syntax
+string.join(iterable)
+
+myDict = {"name": "John", "country": "Norway"}
+mySeparator = "TEST"
+
+x = mySeparator.join(myDict)
+
+print(x) #nameTESTcountry
+
+>>>>Note: When using a dictionary as an iterable, the returned values are the keys, not the values.
+"""
+(or)
+
+S, N = input(), int(input()) 
+for part in zip(*[iter(S)] * N):
+    d = dict()
+    print(''.join([ d.setdefault(c, c) for c in part if c not in d ]))
+
+
+car = {
+  "brand": "Ford",
+  "model": "Mustang",
+  "year": 1964
+}
+
+x = car.setdefault("model", "Bronco") 
+
+print(x) #Mustang
+
+y = car.setdefault("color", "red")
+
+print(y) #red
+
+
+"""
+❶iter(s) returns an iterator for S.
+
+❷[iter(s)]*n makes a list of n times the same iterator for s.
+
+Example: [[iter(s)]*3] = ([iter(s), iter(s), iter(s)])
+
+ADVICE: It's not three copies of the same iterator, it's three times the same iterator object. Really:
+
+for part in zip(*[iter(S)] * N):
+It is equivalent to:
+
+it = iter(s)
+for part in zip(it, it, it):
+❹*[] unpack a list:
+
+Example: print(*[1,2,3,4]) = print(1,2,3,4)
+
+❺zip make an iterator that aggregates elements from each of the iterables.
+
+Example:
+
+>>>x = [1, 2, 3]
+>>> y = [4, 5, 6]
+>>> zipped = zip(x, y)
+>>> list(zipped)
+[(1, 4), (2, 5), (3, 6)]
+we have:
+
+zip(*[iter(s)]*3)
+It is equivalent to:
+
+itr = iter(s)
+zip(itr, itr, itr)
+it extracts an item from all the three iterators from the list in order. Since all the iterators are the same object, it just groups the list in chunks of 3.
+
+Example:
+
+for part in zip(*[iter('abcdefghi')]*3):
+	print(part)
+a,b,c,d,e,f,g,h,i  a,b,c,d,e,f,g,h,i  a,b,c,d,e,f,g,h,i
+^                    ^                    ^             
+      ^                    ^                    ^
+            ^                    ^                    ^
+Output:
+
+(a,b,c)
+
+(d,e,f)
+
+(g,h,i)
+
+""""
+
+Let me give a shot,
+
+Approach 1 : Simply passing a list
+
+>>>s='abcdefghi'
+>>>zip(s, s, s)
+[('a', 'a', 'a'), ('b', 'b', 'b'), ('c', 'c', 'c'), ('d', 'd', 'd'), ('e', 'e', 'e'), ('f', 'f', 'f'), ('g', 'g', 'g'), ('h', 'h', 'h'), ('i', 'i', 'i')]
+Explaination: Simply combining the elements of the same index. The total number of elements is equal to the length of smallest list. Since list is same and has 9 elements, therefore there are 9 tuples.
+
+Approach 2 : Passing an interator of the list
+
+>>>s='abdefghi'
+>>>i=iter(s)
+>>>zip(i, i, i)
+[('a', 'b', 'c'), ('d', 'e', 'f'), ('g', 'h', 'i')]
+Explaination : When passing iterators, zip internally invokes the next on the subsequent passed iterators before combining them. Since here, the iterator is to the same list. Hence you get such an output. For example,
+
+Output of (a, b, c) comes out like this:
+
+>>next(i) # first iterator passed
+a
+>>next(i) # second iterator passed
+b
+>>next(i) # third iterator passed
+c
+Combine them => (a,b,c)
+
+While generating the second tuple, (d, e, f)
+
+>>next(i) # Again on the fist iterator, last element 'c'
+d
+>>next(i) # Again on second iterator
+e
+>>next(i) # Again on third iterator
+f
+
+
+def merge_the_tools(S, N):
+    for part in zip(*[iter(S)] * N):
+       d = dict()
+       #print(''.join([ d.setdefault(c, c) for c in part if c not in d ]))
+       for c in part:
+           if c not in d:
+               k = d.setdefault(c,c) 
+               print(k) #
+               print(d)
+               
+               
+"""                       
+Input (stdin)
+AABCAAADA
+3
+Your Output (stdout)
+A
+{'A': 'A'}
+B
+{'A': 'A', 'B': 'B'}
+C
+{'C': 'C'}
+A
+{'C': 'C', 'A': 'A'}
+A
+{'A': 'A'}
+D
+{'A': 'A', 'D': 'D'}
+Expected Output
+AB
+CA
+AD
+
+"""
+
+
+""""
