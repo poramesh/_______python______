@@ -103,3 +103,25 @@ for i in orders:
         result += i[1]
         boots.remove(i[0])
 print result
+
+(or)
+
+n = input()
+boots = list(map(int, input().split()))
+orders = [list(map(int, input().split())) for _ in range(int(input()))]
+result = 0
+for i in orders:
+    if i[0] in boots:
+        result += i[1]
+        boots.remove(i[0])
+print (result)
+
+[[6, 55], [6, 45], [6, 55], [4, 40], [18, 60], [10, 50]]
+[6, 55]
+[6, 45]
+[6, 55]
+[4, 40]
+[18, 60]
+[10, 50]
+200
+
