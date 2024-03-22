@@ -95,18 +95,6 @@ print(totalMoney)
 (or)
 
 n = input()
-boots = map(int, raw_input().split())
-orders = [map(int, raw_input().split()) for _ in range(input())]
-result = 0
-for i in orders:
-    if i[0] in boots:
-        result += i[1]
-        boots.remove(i[0])
-print result
-
-(or)
-
-n = input()
 boots = list(map(int, input().split()))
 orders = [list(map(int, input().split())) for _ in range(int(input()))]
 result = 0
