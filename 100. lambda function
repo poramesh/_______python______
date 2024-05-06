@@ -1,0 +1,94 @@
+Lambda functions in Python are small, anonymous functions defined using the lambda keyword. They are useful when you need a simple function for a short period of time, 
+often as an argument to higher-order functions (functions that take other functions as arguments).
+
+The syntax of a lambda function is:
+
+""" lambda arguments: expression """"
+
+Lambda functions in Python are small, anonymous functions defined using the lambda keyword. They are useful when you need a simple function for a short period of time, 
+often as an argument to higher-order functions (functions that take other functions as arguments).
+
+Here's an example of a lambda function that calculates the square of a number:
+
+square = lambda x: x ** 2
+This lambda function takes one argument x and returns the square of x. You can use this lambda function like a regular function:
+
+result = square(5)
+print(result)  # Out
+
+Lambda functions are often used in conjunction with functions like map(), filter(), and sorted() for concise and readable code. 
+
+For example:
+# Using lambda with map()
+numbers = [1, 2, 3, 4, 5]
+squared_numbers = list(map(lambda x: x ** 2, numbers))
+print(squared_numbers)  # Output: [1, 4, 9, 16, 25]
+
+# Using lambda with filter()
+numbers = [1, 2, 3, 4, 5]
+even_numbers = list(filter(lambda x: x % 2 == 0, numbers))
+print(even_numbers)  # Output: [2, 4]
+
+# Using lambda with sorted()
+names = ['Alice', 'Bob', 'Charlie', 'David']
+sorted_names = sorted(names, key=lambda x: len(x))
+print(sorted_names)  # Output: ['Bob', 'Alice', 'David', 'Charlie']
+
+'''
+filter()
+
+Lambda functions are commonly used with the filter() function in Python. The filter() function filters elements from an iterable (such as a list) based on a given condition.
+It takes two arguments: a function (or None) and an iterable.
+
+When used with a lambda function, filter() applies the lambda function to each element of the iterable, 
+and it only keeps the elements for which the lambda function returns True.
+
+Here's the general syntax: filter(function, iterable)
+
+function: This is a function that tests each element of the iterable. It can be a regular function or a lambda function. 
+If it's None, it simply removes elements that are falsey.
+iterable: This is the iterable (e.g., a list) from which to filter elements.
+
+Here's an example using a lambda function with filter() to filter even numbers from a list:
+
+numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+even_numbers = filter(lambda x: x % 2 == 0, numbers)
+print(list(even_numbers))  # Output: [2, 4, 6, 8, 10]
+In this example:
+
+The lambda function lambda x: x % 2 == 0 checks if each element x is even.
+The filter() function applies this lambda function to each element of the numbers list.
+It keeps only the elements for which the lambda function returns True.
+Finally, the result is converted to a list and printed.
+Lambda functions are convenient for simple filtering operations because they allow you to define the filtering condition inline, 
+without the need to define a separate function.
+
+''''''
+Sorted()
+
+The sorted() function in Python is used to sort an iterable (such as a list) in a specific order. It can accept a key parameter, 
+which allows you to specify a function that will be applied to each element of the iterable to determine its sorting key.
+
+When used with a lambda function as the key, sorted() applies the lambda function to each element of the iterable and sorts the elements based on the values returned by the lambda function.
+
+Here's the general syntax:
+
+python
+Copy code
+sorted(iterable, key=lambda x: ...)
+iterable: This is the iterable (e.g., a list) to be sorted.
+key: This is an optional parameter that specifies a function to be applied to each element of the iterable before sorting.
+Here's an example using sorted() with a lambda function to sort a list of strings based on their lengths:
+
+python
+Copy code
+strings = ['apple', 'banana', 'cherry', 'date']
+sorted_strings = sorted(strings, key=lambda x: len(x))
+print(sorted_strings)  # Output: ['date', 'apple', 'banana', 'cherry']
+In this example:
+
+The lambda function lambda x: len(x) computes the length of each string x.
+The sorted() function applies this lambda function to each element of the strings list.
+It sorts the strings based on their lengths.
+Finally, the sorted list is printed.
+Lambda functions are convenient for defining sorting keys inline, allowing you to specify custom sorting criteria without the need to define a separate function.
