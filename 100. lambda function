@@ -35,8 +35,7 @@ sorted_names = sorted(names, key=lambda x: len(x))
 print(sorted_names)  # Output: ['Bob', 'Alice', 'David', 'Charlie']
 
 '''
-filter()
-
+FILTER()
 Lambda functions are commonly used with the filter() function in Python. The filter() function filters elements from an iterable (such as a list) based on a given condition.
 It takes two arguments: a function (or None) and an iterable.
 
@@ -64,31 +63,121 @@ Lambda functions are convenient for simple filtering operations because they all
 without the need to define a separate function.
 
 ''''''
-Sorted()
-
+SORTED()
 The sorted() function in Python is used to sort an iterable (such as a list) in a specific order. It can accept a key parameter, 
 which allows you to specify a function that will be applied to each element of the iterable to determine its sorting key.
 
-When used with a lambda function as the key, sorted() applies the lambda function to each element of the iterable and sorts the elements based on the values returned by the lambda function.
+When used with a lambda function as the key, sorted() applies the lambda function to each element of the iterable and sorts
+the elements based on the values returned by the lambda function.
 
 Here's the general syntax:
 
-python
-Copy code
 sorted(iterable, key=lambda x: ...)
+
 iterable: This is the iterable (e.g., a list) to be sorted.
 key: This is an optional parameter that specifies a function to be applied to each element of the iterable before sorting.
-Here's an example using sorted() with a lambda function to sort a list of strings based on their lengths:
 
-python
-Copy code
+Here's an example using sorted() with a lambda function to sort a list of strings based on their lengths:
 strings = ['apple', 'banana', 'cherry', 'date']
 sorted_strings = sorted(strings, key=lambda x: len(x))
 print(sorted_strings)  # Output: ['date', 'apple', 'banana', 'cherry']
-In this example:
+Here's how the sorting works step by step:
 
-The lambda function lambda x: len(x) computes the length of each string x.
-The sorted() function applies this lambda function to each element of the strings list.
-It sorts the strings based on their lengths.
-Finally, the sorted list is printed.
-Lambda functions are convenient for defining sorting keys inline, allowing you to specify custom sorting criteria without the need to define a separate function.
+First Iteration: The sorted() function starts by comparing the lengths of the strings in the list. It applies the lambda function lambda x: len(x) to each string, 
+calculating their lengths.
+'apple' has a length of 5.
+'banana' has a length of 6.
+'cherry' has a length of 6.
+'date' has a length of 4.
+Since 'date' is the shortest string, it will be placed first in the sorted list.
+Second Iteration: The sorted() function continues comparing the remaining strings based on their lengths.
+'apple' has a length of 5.
+'banana' has a length of 6.
+'cherry' has a length of 6.
+Both 'banana' and 'cherry' have the same length, but 'banana' comes before 'cherry' lexicographically. Therefore, 'apple' will come before both 'banana' and 'cherry'.
+Third Iteration: The sorted() function compares the remaining strings.
+'banana' has a length of 6.
+'cherry' has a length of 6.
+Since both strings have the same length, they maintain their relative order in the original list.
+End of Iteration: The sorted() function completes the sorting process, and the sorted list is returned.
+So, the sorted list sorted_strings will be ['date', 'apple', 'banana', 'cherry'], where strings are sorted based on their lengths in ascending order.
+
+When you call sorted() with a key function, such as key=lambda x: len(x), it computes the key for each element in the iterable and then sorts the
+elements based on these keys.
+
+Here's a simplified explanation of how it works internally:
+
+Key Computation: The sorted() function iterates through each element of the iterable and computes the key for each element using the provided key function
+(in this case, lambda x: len(x)). For the list ['apple', 'banana', 'cherry', 'date'], it computes the lengths of each string.
+Comparison and Sorting: After computing the keys for each element, the sorted() function uses a sorting algorithm (such as Timsort, which is the default in Python) to sort the elements based on their keys. This involves comparing the keys of different elements and rearranging them according to the desired sorting order.
+Return the Sorted List: Once the sorting is complete, the sorted() function returns a new list containing the sorted elements.
+
+sorted() function doesn't always have to come with a lambda function. The sorted() function can be used without specifying a key parameter,
+in which case it will sort the elements of the iterable based on their natural order.
+Here's an example without using a lambda function:
+
+numbers = [3, 1, 4, 1, 5, 9, 2, 6, 5, 3]
+sorted_numbers = sorted(numbers)
+print(sorted_numbers) #the sorted() function sorts the numbers list in ascending order based on their natural order.
+
+You can also use other functions as the key parameter, not just lambda functions.
+For example, you can use built-in functions like len() or str.lower() to sort elements based on their lengths or lowercase representations, respectively.
+
+Here's an example using sorted() with a built-in function as the key:
+
+strings = ['apple', 'Banana', 'Cherry', 'date']
+sorted_strings = sorted(strings, key=str.lower)
+print(sorted_strings)  # Output: ['apple', 'Banana', 'Cherry', 'date']
+
+strings = ['apple', 'Banana', 'Cherry', 'date']
+sorted_strings = sorted(strings) //['Banana', 'Cherry', 'apple', 'date']
+print(sorted_strings) 
+
+In this example, str.lower() is used as the key parameter to sort the strings list in a case-insensitive manner.
+
+User-Defined Functions: You can define your own functions and use them as the key parameter.
+For example, you could define a function to extract a specific attribute from objects and sort based on that attribute.
+
+class Person:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+people = [Person('Alice', 30), Person('Bob', 25), Person('Charlie', 35)]
+sorted_people = sorted(people, key=lambda person: person.age)
+print([person.name for person in sorted_people])  # Output: ['Bob', 'Alice', 'Charlie']
+
+Multiple Keys: You can also specify multiple keys for sorting. In this case, if two elements have the same value for the first key, 
+the second key is used to break ties,and so on.
+
+data = [('Alice', 30), ('Bob', 25), ('Alice', 35)]
+sorted_data = sorted(data, key=lambda x: (x[0], -x[1]))  # Sort by name ascending, age descending
+print(sorted_data)  # Output: [('Alice', 35), ('Alice', 30), ('Bob', 25)]
+
+data = [('Alice', 30), ('Bob', 25), ('Alice', 35)]
+sorted_data = sorted(data, key=lambda x: (x[0])) 
+print(sorted_data)  # Output: [('Alice', 30), ('Alice', 35), ('Bob', 25)]
+
+
+data = [('Alice', 30), ('Bob', 25), ('Alice', 35)]
+sorted_data = sorted(data, key=lambda x: x[1]) 
+print(sorted_data)  # [('Bob', 25), ('Alice', 30), ('Alice', 35)]
+
+data = [('Alice', 30), ('Bob', 25), ('Alice', 35)]
+sorted_data = sorted(data, key=lambda x: -x[1])  
+print(sorted_data)  # Output: [('Alice', 35), ('Alice', 30), ('Bob', 25)]
+
+
+data = [('Alice', 30), ('Bob', 25), ('Alice', 35)]
+sorted_data = sorted(data, key=lambda x: (x[0], -x[1])) 
+print(sorted_data)  # Output: [('Alice', 35), ('Alice', 30), ('Bob', 25)]
+
+data = [('Alice', 30), ('Bob', 25), ('Alice', 35)]
+sorted_data = sorted(data, key=lambda x: (x[0], -x[1]),reverse=True)  # Sort by name descending, age descendin
+print(sorted_data)  # Output: [('Bob', 25), ('Alice', 30), ('Alice', 35)]
+
+data = [('Alice', 30), ('Bob', 25), ('Alice', 35)]
+sorted_data = sorted(data, key=lambda x: (x[0], x[1]),reverse=True)  # Sort by name ascending, age ascending
+print(sorted_data)  # Output: [('Bob', 25), ('Alice', 35), ('Alice', 30)]
+
+
