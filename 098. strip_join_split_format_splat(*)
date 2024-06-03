@@ -180,6 +180,71 @@ price = 49
 myorder = "I want {0} pieces of item number {1} for {2:.2f} dollars."
 print(myorder.format(quantity, itemno, price))
 
+SPLAT:
+
+In Python, the * symbol, also known as the "splat" operator, has several important uses. Here are the key points of using * in Python:
+Python: * unpacks iterables or collects multiple arguments into a tuple, and ** works similarly with dictionaries.
+
+1. upacking iterables:
+
+You can use * to unpack iterables (such as lists, tuples, and sets) into individual elements.
+
+numbers = [1, 2, 3, 4]
+print(*numbers)  # Output: 1 2 3 4
+
+2. Variable-Length Argument Lists in Functions
+In function definitions, * allows you to pass a variable number of arguments to a function.This is useful when you don't know in advance how 
+many arguments might be passed to your function.
+
+def print_numbers(*args):
+    for number in args:
+        print(number)
+
+print_numbers(1, 2, 3)  # Output: 1 2 3
+
+3. Keyword-Only Arguments
+In function definitions, placing * before an argument makes all following arguments keyword-only. This means they must be specified by keyword.
+
+def func(a, b, *, c):
+    print(a, b, c)
+
+func(1, 2, c=3)  # Output: 1 2 3
+# func(1, 2, 3)  # This would raise a TypeError
+
+4. Unpacking Dictionaries
+Python: * unpacks iterables or collects multiple arguments into a tuple, and ** works similarly with dictionaries.
+
+Using **, you can unpack dictionaries in function calls or other places where keyword arguments are used.
+
+def print_key_values(**kwargs):
+    for key, value in kwargs.items():
+        print(f"{key}: {value}")
+
+data = {'name': 'Alice', 'age': 30}
+print_key_values(**data)  # Output: name: Alice, age: 30
+
+
+5. Combining Iterables
+The * operator can be used to concatenate multiple iterables into a single list.
+
+list1 = [1, 2, 3]
+list2 = [4, 5, 6]
+combined = [*list1, *list2]  # Output: [1, 2, 3, 4, 5, 6]
+
+
+6. Using * for Multiplication and Repetition
+The * operator is also used for multiplication of numbers and repetition of sequences.
+
+# Multiplication
+result = 3 * 4  # Output: 12
+
+# Repetition
+repeated_list = [1, 2, 3] * 2  # Output: [1, 2, 3, 1, 2, 3]
+These various uses of the * operator make it a powerful and versatile tool in Python programming.
+
+
+
+
 
 
 
