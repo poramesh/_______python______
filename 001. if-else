@@ -54,7 +54,7 @@ import sys
 
 if __name__ == '__main__':
     n = int(input().strip())
-#print(n%2) would print 1 if its true. 
+#print(n%2) would print 1 if its true. n=11
 if (n%2) or (6 <= n <= 20):
     print('Weird')
 else:
