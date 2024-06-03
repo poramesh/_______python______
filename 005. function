@@ -1,5 +1,28 @@
+An extra day is added to the calendar almost every four years as February 29, and the day is called a leap day. It corrects the calendar 
+for the fact that our planet takes approximately 365.25 days to orbit the sun. A leap year contains a leap day.
 
-import calendar
+In the Gregorian calendar, three conditions are used to identify leap years:
+
+A year is considered a leap year if it satisfies the following conditions:
+Divisible by 4: The year must be evenly divisible by 4.
+Not Divisible by 100: If the year is divisible by 100, then it must also be divisible by 400 to be a leap year.
+
+This means that in the Gregorian calendar, the years 2000 and 2400 are leap years, while 1800, 1900, 2100, 2200, 2300 and 2500 are NOT leap years
+
+Examples:
+2000: This year is divisible by 4, 100, and 400, so it is a leap year.
+1900: This year is divisible by 4 and 100 but not by 400, so it is not a leap year.
+2020: This year is divisible by 4 but not by 100, so it is a leap year.
+2021: This year is not divisible by 4, so it is not a leap year.
+
+
+Sample Input 
+1990
+Sample Output 
+False
+Explanation 
+1990 is not a multiple of 4 hence it's not a leap yea
+
 
 
 def is_leap(year):
