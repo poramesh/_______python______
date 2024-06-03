@@ -1,3 +1,8 @@
+Add logic to print two lines. The first line should contain the result of integer division,  a//b . The second line should contain the result of float division, a/b.
+No rounding or formatting is necessary.
+
+
+
 a = int(input())
 b = int(input())
 
@@ -7,6 +12,12 @@ print(a/b)
 (or)
  
 print('{} \n{}'.format((a//b),(a/b)))
+
+i/p: a=4, b=3
+o/p: 
+1 
+1.3333333333333333
+
 
 """
 if name == 'main': a = int(input()) b = int(input())
