@@ -36,16 +36,6 @@ print(result)
 (or)
 print(*range(1, int(input())+1), sep='')
 
-For short operator '*' allows you to pass an array. Example:
-
-user = [name, password, captcha]
-
-log_in(*user)
-
-The * is actually used to unpack a iterator. *[1,2,3] mean 1 2 3
-
-In python cursor will go to next line automatically so using end=" " we can stop the cursor
-
 
 More on range: 
 Syntax
