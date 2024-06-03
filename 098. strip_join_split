@@ -1,0 +1,190 @@
+STRIP
+
+strip method is used to remove leading and trailing whitespace (spaces, tabs, newlines) or specified characters from a string. 
+There are three related methods: strip, lstrip, and rstrip.
+
+strip(): Removes both leading and trailing whitespace (or specified characters).
+lstrip(): Removes leading whitespace (or specified characters).
+rstrip(): Removes trailing whitespace (or specified characters).
+
+syntax:
+string.strip([chars])
+string.lstrip([chars])
+string.rstrip([chars])
+
+string: The original string.
+chars (optional): A string specifying the set of characters to be removed. If omitted, the default is to remove whitespace.
+
+
+1. removing whitespaces
+
+text = "   Hello, World!   "
+print(text.strip())   # "Hello, World!"
+print(text.lstrip())  # "Hello, World!   "
+print(text.rstrip())  # "   Hello, World!"
+
+2. removing specific characters 
+
+text = "///Hello, World!///"
+print(text.strip('/'))   # "Hello, World!"
+print(text.lstrip('/'))  # "Hello, World!///"
+print(text.rstrip('/'))  # "///Hello, World!"
+
+3. removing multiple characters
+
+text = "abcHello, World!cba"
+print(text.strip('abc'))  # "Hello, World!"
+
+
+These methods are useful for cleaning up user input or data read from files, ensuring that there are no unwanted characters around the main content of the strings.
+
+---------------------------------------------------------------
+
+JOIN
+
+In Python, the join method is used to concatenate a sequence of strings with a specified delimiter. It is called on the delimiter string and,
+takes an iterable of strings as its argument.
+
+
+delimiter.join(iterable)
+
+delimiter: The string to be used as the separator between the elements.
+iterable: An iterable (e.g., list, tuple) containing the strings to be concatenated.
+
+1. joining list of strings:
+
+words = ["Hello", "world"]
+sentence = " ".join(words)
+print(sentence)  # Output: "Hello world"
+
+2. using difference delimiter:
+
+elements = ["one", "two", "three"]
+comma_separated = ",".join(elements)
+print(comma_separated)  # Output: "one,two,three"
+
+hyphen_separated = "-".join(elements)
+print(hyphen_separated)  # Output: "one-two-three"
+
+3. joining with no delimeter:
+
+chars = ['H', 'e', 'l', 'l', 'o']
+word = "".join(chars)
+print(word)  # Output: "Hello"
+
+4. joining a tuple of strings:
+
+items = ("apple", "banana", "cherry")
+fruit_list = " & ".join(items)
+print(fruit_list)  # Output: "apple & banana & cherry"
+
+5. joining strings from a generator:
+
+def string_generator():
+    yield "Join"
+    yield "these"
+    yield "words"
+
+result = " ".join(string_generator())
+print(result)  # Output: "Join these words"
+
+The join method is often used in scenarios where you need to construct a single string from multiple components, such as creating a CSV linefrom a
+list of values, combining paths, or simply formatting output. It is efficient and concise for merging strings with a specified separator.
+
+-------------------------------
+
+SPLIT
+
+In Python, the split method is used to divide a string into a list of substrings based on a specified delimiter. 
+By default, the delimiter is any whitespace (spaces, tabs, newlines).
+
+syntax:
+string.split([separator[, maxsplit]])
+separator (optional): The delimiter string based on which the split will occur. If not provided, the default is any whitespace.
+maxsplit (optional): The maximum number of splits to perform. If not provided or set to -1, all possible splits are made.
+
+1. Splitting by Whitespace (Default Behavior):
+
+text = "Hello world, welcome to Python."
+words = text.split()
+print(words)  # Output: ['Hello', 'world,', 'welcome', 'to', 'Python.']
+
+2. splitting by specific delimeter:
+
+data = "one,two,three,four"
+items = data.split(',')
+print(items)  # Output: ['one', 'two', 'three', 'four']
+
+3. using maxsplit parameter
+
+text = "apple banana cherry date"
+fruits = text.split(' ', 2)
+print(fruits)  # Output: ['apple', 'banana', 'cherry date']
+
+4. Splitting on Multiple Characters (using Regular Expressions):
+For more complex splitting scenarios, such as splitting on multiple characters or patterns, you can use the re.split method from the re (regular expressions)
+module.
+
+import re
+
+text = "one1two2three3four"
+items = re.split('[0-9]', text)
+print(items)  # Output: ['one', 'two', 'three', 'four']
+
+re.split method is different from the str.split method. In re.split, the pattern and the text are passed as arguments to the function, 
+not as a method of the string object. This is because re.split is a function in the re module, not a method of the string object.
+
+5. additional examples: 
+
+5(a). Splitting Lines from a String:
+
+text = "line1\nline2\nline3"
+lines = text.split('\n')
+print(lines)  # Output: ['line1', 'line2', 'line3']
+
+5(b). Handling Multiple Consecutive Delimiters:
+
+When using the default whitespace splitting, consecutive whitespace characters are treated as a single delimiter.
+
+text = "a   lot    of spaces"
+words = text.split()
+print(words)  # Output: ['a', 'lot', 'of', 'spaces']
+
+5(c). Splitting an Empty String:
+
+text = ""
+items = text.split()
+print(items)  # Output: []
+
+
+The split method is particularly useful for parsing strings, processing text data, and preparing input for further processing in various applications.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
