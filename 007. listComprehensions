@@ -21,6 +21,7 @@ Sample Output 0
 
 [[0, 0, 0], [0, 0, 1], [0, 1, 0], [1, 0, 0], [1, 1, 1]]
 
+example of list comphrensions:
 
 Consider a list called 'a' with even and odd numbers. Now suppose you want to create a list 'b' that contains only the even numbers of list 'a'.
 
