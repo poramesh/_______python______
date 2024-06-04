@@ -42,10 +42,12 @@ Harry
 
 Solution:
 
+''''
 if __name__ == '__main__':
     for _ in range(int(input())):
         name = input()
         score = float(input())
+'''
 
 marksheet = []
 for _ in range(0,int(input())):
