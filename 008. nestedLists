@@ -75,16 +75,19 @@ for name in second_lowest:
 
 (or)
 
+THIS APPROACH IS FUKCED UP
+
 if __name__ == '__main__':
     a= []
     for _ in range(int(input())):
         name = input()
         score = float(input())
-        a.append([score, name])
+        a.append([score, name]) 
 
-    a.sort()
-    b = [i for i in a if i[0] != a[0][0]]
-    c = [j for j in b if j[0] == b[0][0]]
+    a.sort() //The list a is ordered primarily by scores because the scores are the first elements in each sublist. Python's sort() function sorts lists by 
+         //comparing the elements of the lists, starting with the first element. If the first elements are equal, it moves to the second elements, and so on.
+    b = [i for i in a if i[0] != a[0][0]] // [37.21, 37.21, 37.2, 41, 39]
+    c = [j for j in b if j[0] == b[0][0]] // [37.21, 37.21]
     
     c.sort(key=lambda x: x[1])
     for i in range(len(c)):
