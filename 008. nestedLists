@@ -104,6 +104,11 @@ Multiply argument a with argument b and return the result:
 x = lambda a, b : a * b
 print(x(5, 6))
 
+add_multiply = lambda x, y, z: (x + y) * z # Define a lambda function that takes three arguments
+result = add_multiply(2, 3, 4) # Call the lambda function with arguments
+print(result)  # Output: 20
+
+
 sort:
 The sort() method sorts the list ascending by default.
 
