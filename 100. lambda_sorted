@@ -1,3 +1,35 @@
+sort:
+The sort() method sorts the list ascending by default.
+
+You can also make a function to decide the sorting criteria(s).
+
+Syntax
+list.sort(reverse=True|False, key=myFunc)
+
+ex: # A function that returns the length of the value:
+def myFunc(e):
+  return len(e)
+
+cars = ['Ford', 'Mitsubishi', 'BMW', 'VW']
+
+cars.sort(key=myFunc)
+
+print(cars) #['VW', 'BMW', 'Ford', 'Mitsubishi']
+
+another example-
+# A function that returns the 'year' value:
+def myFunc(e):
+  return e['year']
+
+cars = [
+  {'car': 'Ford', 'year': 2005},
+  {'car': 'Mitsubishi', 'year': 2000},
+  {'car': 'BMW', 'year': 2019},
+  {'car': 'VW', 'year': 2011}
+]
+
+cars.sort(key=myFunc) #[{'car': 'Mitsubishi', 'year': 2000}, {'car': 'Ford', 'year': 2005}, {'car': 'VW', 'year': 2011}, {'car': 'BMW', 'year': 2019}]
+
 
 lambda:
 A lambda function is a small anonymous function.
@@ -153,6 +185,10 @@ sorted_strings = sorted(strings) //['Banana', 'Cherry', 'apple', 'date']
 print(sorted_strings) 
 
 In this example, str.lower() is used as the key parameter to sort the strings list in a case-insensitive manner.
+
+
+
+
 
 User-Defined Functions: You can define your own functions and use them as the key parameter.
 For example, you could define a function to extract a specific attribute from objects and sort based on that attribute.
