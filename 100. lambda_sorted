@@ -1,12 +1,24 @@
-Lambda functions in Python are small, anonymous functions defined using the lambda keyword. They are useful when you need a simple function for a short period of time, 
-often as an argument to higher-order functions (functions that take other functions as arguments).
+
+lambda:
+A lambda function is a small anonymous function.
+
+A lambda function can take any number of arguments, but can only have one expression.
 
 The syntax of a lambda function is:
 
 """ lambda arguments: expression """"
 
-Lambda functions in Python are small, anonymous functions defined using the lambda keyword. They are useful when you need a simple function for a short period of time, 
-often as an argument to higher-order functions (functions that take other functions as arguments).
+example: 
+Add 10 to argument a, and return the result:
+x = lambda a : a + 10
+print(x(5))
+Multiply argument a with argument b and return the result:
+x = lambda a, b : a * b
+print(x(5, 6))
+
+add_multiply = lambda x, y, z: (x + y) * z # Define a lambda function that takes three arguments
+result = add_multiply(2, 3, 4) # Call the lambda function with arguments
+print(result)  # Output: 20
 
 Here's an example of a lambda function that calculates the square of a number:
 
@@ -64,6 +76,9 @@ without the need to define a separate function.
 
 ''''''
 SORTED()
+
+
+
 The sorted() function in Python is used to sort an iterable (such as a list) in a specific order. It can accept a key parameter, 
 which allows you to specify a function that will be applied to each element of the iterable to determine its sorting key.
 
@@ -116,12 +131,16 @@ sorted() function doesn't always have to come with a lambda function. The sorted
 in which case it will sort the elements of the iterable based on their natural order.
 Here's an example without using a lambda function:
 
+
 numbers = [3, 1, 4, 1, 5, 9, 2, 6, 5, 3]
 sorted_numbers = sorted(numbers)
 print(sorted_numbers) #the sorted() function sorts the numbers list in ascending order based on their natural order.
 
 You can also use other functions as the key parameter, not just lambda functions.
 For example, you can use built-in functions like len() or str.lower() to sort elements based on their lengths or lowercase representations, respectively.
+
+
+
 
 Here's an example using sorted() with a built-in function as the key:
 
