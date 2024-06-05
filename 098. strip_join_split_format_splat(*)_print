@@ -182,6 +182,27 @@ price = 49
 myorder = "I want {0} pieces of item number {1} for {2:.2f} dollars."
 print(myorder.format(quantity, itemno, price))
 
+print("{0:.2f}".format(avg)) 
+"{0:.2f}", the 0 indicates that the first (and only, in this case) argument passed to the format() method should be inserted at that position.
+In your code, avg is the only argument provided to format(), so it will be inserted at the position of {0}.
+
+(or)
+avg=1002.2342
+print( format(avg, ".2f") )
+
+more examples:
+format(10, ".2f")  # "10.00" //Fixed-point number with specific decimal places:
+
+format(1000000, ",")  # "1,000,000" //Comma as a thousands separator
+
+format(0.25, ".1%")  # "25.0%" //percentage
+
+
+
+
+
+
+
 SPLAT:
 
 In Python, the * symbol, also known as the "splat" operator, has several important uses. Here are the key points of using * in Python:
