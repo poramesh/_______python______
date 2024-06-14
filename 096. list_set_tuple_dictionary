@@ -6,7 +6,7 @@ Tuple is a collection which is ordered and unchangeable. Allows duplicate member
 Set is a collection which is unordered, unchangeable*, and unindexed. No duplicate members. {}
 Dictionary is a collection which is ordered** and changeable. No duplicate members. {}
 
-how dictionary  works: 
+DICTIONARY
 
 car = {
 "brand": "Ford",
@@ -21,6 +21,28 @@ print(x) #before the change, dict_keys(['brand', 'model', 'year'])
 car["color"] = "white"
 
 print(x) #after the change, dict_keys(['brand', 'model', 'year', 'color'])
+
+
+
+
+# Dictionary example
+person = {'name': 'Alice', 'age': 30, 'city': 'New York'}
+
+# Using get() to retrieve values
+name = person.get('name')
+print(name)  # Output: 'Alice'
+
+age = person.get('age')
+print(age)   # Output: 30
+
+# Trying to retrieve a key that doesn't exist
+country = person.get('country')
+print(country)  # Output: None
+
+# Providing a default value
+country = person.get('country', 'USA')
+print(country)  # Output: 'USA'
+
 
 sets work?
 
