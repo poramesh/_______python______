@@ -144,6 +144,40 @@ Compare the function to the original definition.
 link: https://stackoverflow.com/questions/231767/what-does-the-yield-keyword-do-in-python
 
 
+The yield statement in Python does have similarities to the return statement in that both are used to send a value back to the caller.
+However, there are key differences between yield and return, especially in the context of pytest fixtures. Let's explore these differences 
+and how yield is specifically used in pytest.
+
+Similarities and Differences
+
+return
+Purpose: The return statement is used to exit a function and optionally pass a value back to the caller.
+Behavior: Once a return statement is executed, the function terminates, and the control is passed back to the caller.
+Example:
+
+def get_value():
+    return 42
+value = get_value()  # value is 42
+
+yield
+Purpose: The yield statement is used to produce a value to the caller while suspending the function's state. The function can be resumed later, continuing 
+from where it left off.
+Behavior: When a function containing yield is called, it returns a generator object. The function's code runs up to the yield statement, returning
+the yielded value. Subsequent calls to the generator's __next__() method continue execution after the yield.
+
+Example:
+
+def generate_values():
+    yield 1
+    yield 2
+    yield 3
+
+gen = generate_values()
+print(next(gen))  # Output: 1
+print(next(gen))  # Output: 2
+print(next(gen))  # Output: 3
+
+
 
 
 
