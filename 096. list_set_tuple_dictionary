@@ -43,6 +43,70 @@ print(country)  # Output: None
 country = person.get('country', 'USA')
 print(country)  # Output: 'USA'
 
+another example:
+
+  game_counts[game_id] = {
+            "num_copies": 0,
+            "available": 0,
+            "not_available": 0
+        }
+this code holds the value like this:
+
+game_counts = {
+    248: {
+        "num_copies": 5,
+        "available": 4,
+        "not_available": 1
+    },
+    249: {
+        "num_copies": 5,
+        "available": 5,
+        "not_available": 0
+    }
+}
+
+game_copies = [
+    {"game_id": 248, "copy_id": 1, "availability_status": "Not Available"},
+    {"game_id": 248, "copy_id": 2, "availability_status": "Available"},
+    {"game_id": 248, "copy_id": 3, "availability_status": "Available"},
+    {"game_id": 248, "copy_id": 4, "availability_status": "Available"},
+    {"game_id": 248, "copy_id": 5, "availability_status": "Available"},
+    {"game_id": 249, "copy_id": 1, "availability_status": "Available"},
+    {"game_id": 249, "copy_id": 2, "availability_status": "Available"},
+    {"game_id": 249, "copy_id": 3, "availability_status": "Available"},
+    {"game_id": 249, "copy_id": 4, "availability_status": "Available"},
+    {"game_id": 249, "copy_id": 5, "availability_status": "Available"},
+]
+
+-------------------
+# Dictionary to store counts
+game_counts = {}
+
+# Iterate over game_copies and count copies and availability statuses
+for entry in game_copies:
+    game_id = entry["game_id"]
+    availability = entry["availability_status"]
+    
+    if game_id not in game_counts:
+        game_counts[game_id] = {
+            "num_copies": 0,
+            "available": 0,
+            "not_available": 0
+        }
+    
+    game_counts[game_id]["num_copies"] += 1
+    
+    if availability == "Available":
+        game_counts[game_id]["available"] += 1
+    elif availability == "Not Available":
+        game_counts[game_id]["not_available"] += 1
+
+for game_id, counts in game_counts.items():
+    print(f"Game ID: {game_id}, Num Copies: {counts['num_copies']}, Available: {counts['available']}, Not Available: {counts['not_available']}")
+--------------------------
+
+Game ID: 248, Num Copies: 5, Available: 4, Not Available: 1
+Game ID: 249, Num Copies: 5, Available: 5, Not Available: 0
 
 sets work?
 
