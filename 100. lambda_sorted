@@ -78,6 +78,68 @@ names = ['Alice', 'Bob', 'Charlie', 'David']
 sorted_names = sorted(names, key=lambda x: len(x))
 print(sorted_names)  # Output: ['Bob', 'Alice', 'David', 'Charlie']
 
+;;;;;
+
+Lambda Function with No Arguments
+
+When a lambda function has no arguments, its syntax simplifies to:
+
+lambda: expression
+
+Here, there are no arguments specified before the colon (:). The lambda function still evaluates an expression but does not take any input parameters.
+
+# Lambda function with no arguments
+get_hello = lambda: 'Hello, World!'
+
+# Calling the lambda function
+print(get_hello())  # Output: Hello, World!
+
+
+Use Cases of Lambda Functions with No Arguments
+
+Lambda functions with no arguments are often used in situations where a small anonymous function is needed for a specific task, such as:
+
+Simple Functionality: When you need to define a short function without explicitly naming it.
+
+# Example: Sorting a list of tuples by the second element using a lambda function
+data = [(1, 'b'), (3, 'a'), (2, 'c')]
+sorted_data = sorted(data, key=lambda x: x[1])
+print(sorted_data)  # Output: [(3, 'a'), (1, 'b'), (2, 'c')]
+
+THIS IS A STUPID EXAMPLE VAUSE IT DOES HAVE AN ARGUMENT
+
+Callbacks: In event-driven programming or asynchronous tasks where you need to pass a function that performs a specific action without needing any parameters.
+
+# Example: Using lambda in a callback function
+button.on_click(lambda: print('Button clicked'))
+
+(or)
+
+def handle_button_click():
+    print('Button clicked')
+
+button.on_click(handle_button_click)
+
+Default Values or Constants: When defining constants or default values within a function or class.
+
+
+# Example: Default message function using lambda
+def greeting(message=lambda: 'Hello, World!'):
+    print(message())
+
+greeting()  # Output: Hello, World!
+(or)
+
+def greeting(message='Hello, World!'):
+    print(message)
+
+When to Use Lambda vs Default Parameters
+
+def greeting(message=lambda: get_default_message()):
+    print(message())
+Lambda Functions: Use lambda functions when you need a default value that is computed at runtime or depends on some condition.
+Default Parameters: Use default parameters directly in the function definition when the default value is static or doesn't need to be computed dynamically.
+
 '''
 FILTER()
 Lambda functions are commonly used with the filter() function in Python. The filter() function filters elements from an iterable (such as a list) based on a given condition.
