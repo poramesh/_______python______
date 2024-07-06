@@ -16,6 +16,20 @@ Examples:
 2021: This year is not divisible by 4, so it is not a leap year.
 
 
+Earth's Orbital Period: The Earth takes approximately 365.2425 days to orbit the Sun. To keep our calendar in sync with this, we need 
+to account for the extra 0.2425 days each year.
+
+Adding a Day Every 4 Years: By adding an extra day every 4 years (leap year), we add approximately 0.25 days per year, which is
+close to the extra 0.2425 days. However, this slightly overcompensates.
+
+Skipping Leap Year Every 100 Years: To correct the overcompensation, we skip a leap year every 100 years. This means 
+that years divisible by 100 are not leap years. This adjustment removes 0.01 days per year,
+balancing the previous overcompensation.
+
+Reinserting Leap Year Every 400 Years: Skipping a leap year every 100 years slightly undercompensates
+(0.2425 - 0.24 = 0.0025 days per year). To correct this, we reinstate the leap year for
+years divisible by 400. This fine-tunes the correction further.
+
 Sample Input 
 1990
 Sample Output 
