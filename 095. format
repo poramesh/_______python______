@@ -226,3 +226,9 @@ f-Strings: Concise and readable, suitable for most formatting tasks.
 Percent Operator (%): Older method, still useful for simple formatting.
 Advanced Formatting with str.format: Allows width, alignment, padding, and numeric formatting.
 Dictionary Interpolation: Convenient for formatting strings with data from dictionaries.
+
+
+
+number = 12
+formatted_string = f"{number}%"
+print(formatted_string)  # Output: 12%
