@@ -1,0 +1,121 @@
+Formatting with Different Specifiers
+
+1. Fixed-Point Number (2 decimal places)
+
+number = 1234.5678
+formatted_number = "{:.2f}".format(number)
+print(formatted_number)  # Output: 1234.57
+
+2. Fixed-Point Number with Comma as Thousand Separator
+
+number = 1234567.89
+formatted_number = "{:,.2f}".format(number)
+print(formatted_number)  # Output: 1,234,567.89
+
+3. Percentage
+
+number = 0.1234
+formatted_number = "{:.2%}".format(number)
+print(formatted_number)  # Output: 12.34%
+
+4. Exponential Notation
+
+number = 1234.5678
+formatted_number = "{:.2e}".format(number)
+print(formatted_number)  # Output: 1.23e+03
+
+5. Aligning Text (Left, Center, Right)
+
+text = "Hello"
+print("{:<10}".format(text))  # Left align, width 10: 'Hello     '
+print("{:^10}".format(text))  # Center align, width 10: '  Hello   '
+print("{:>10}".format(text))  # Right align, width 10: '     Hello'
+
+6. Padding Numbers with Leading Zeros
+
+number = 42
+formatted_number = "{:05d}".format(number)
+print(formatted_number)  # Output: 00042
+
+7. Binary, Octal, Hexadecimal
+
+number = 42
+print("{:b}".format(number))  # Binary: 101010
+print("{:o}".format(number))  # Octal: 52
+print("{:x}".format(number))  # Hexadecimal: 2a
+print("{:X}".format(number))  # Hexadecimal uppercase: 2A
+
+Formatting with f-strings (Python 3.6+)
+
+1.Fixed-Point Number (2 decimal places)
+
+number = 1234.5678
+formatted_number = f"{number:.2f}"
+print(formatted_number)  # Output: 1234.57
+
+2. Fixed-Point Number with Comma as Thousand Separator
+
+number = 1234567.89
+formatted_number = f"{number:,.2f}"
+print(formatted_number)  # Output: 1,234,567.89
+
+3. Percentage
+
+number = 0.1234
+formatted_number = f"{number:.2%}"
+print(formatted_number)  # Output: 12.34%
+
+4. Exponential Notation
+
+number = 1234.5678
+formatted_number = f"{number:.2e}"
+print(formatted_number)  # Output: 1.23e+03
+
+5. Aligning Text (Left, Center, Right)
+
+text = "Hello"
+print(f"{text:<10}")  # Left align, width 10: 'Hello     '
+print(f"{text:^10}")  # Center align, width 10: '  Hello   '
+print(f"{text:>10}")  # Right align, width 10: '     Hello'
+
+6. Padding Numbers with Leading Zeros
+
+number = 42
+formatted_number = f"{number:05d}"
+print(formatted_number)  # Output: 00042
+
+7. Binary, Octal, Hexadecimal
+
+number = 42
+print(f"{number:b}")  # Binary: 101010
+print(f"{number:o}")  # Octal: 52
+print(f"{number:x}")  # Hexadecimal: 2a
+print(f"{number:X}")  # Hexadecimal uppercase: 2A
+
+8. Advanced Formatting Examples
+Dynamic Width and Precision
+
+width = 10
+precision = 4
+number = 123.456789
+formatted_number = f"{number:{width}.{precision}f}"
+print(formatted_number)  # Output: '  123.4568' (2 spaces padding)
+
+9. Sign Formatting
+
+number = 42
+formatted_number = f"{number:+d}"
+print(formatted_number)  # Output: +42
+number = -42
+formatted_number = f"{number:+d}"
+print(formatted_number)  # Output: -42
+
+
+10. Custom Fill Character
+
+number = 42
+formatted_number = f"{number:*>5d}"
+print(formatted_number)  # Output: ***42
+
+These examples cover a wide range of formatting options in Python, from simple numeric formatting
+to more complex text alignment and custom formatting needs.
