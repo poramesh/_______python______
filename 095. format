@@ -119,3 +119,110 @@ print(formatted_number)  # Output: ***42
 
 These examples cover a wide range of formatting options in Python, from simple numeric formatting
 to more complex text alignment and custom formatting needs.
+
+STRING FORMATING
+
+Using the format Method
+The format method is a powerful way to format strings. You can use placeholders ({}) within the string and pass values to be formatted into
+these placeholders.
+
+1. Basic Usage
+
+name = "Alice"
+age = 30
+formatted_string = "My name is {} and I am {} years old.".format(name, age)
+print(formatted_string)  # Output: My name is Alice and I am 30 years old.
+
+2. Positional Arguments
+
+formatted_string = "My name is {0} and I am {1} years old.".format(name, age)
+print(formatted_string)  # Output: My name is Alice and I am 30 years old.
+
+3. Keyword Arguments
+
+formatted_string = "My name is {name} and I am {age} years old.".format(name="Alice", age=30)
+print(formatted_string)  # Output: My name is Alice and I am 30 years old.
+
+4. Reusing Arguments
+
+formatted_string = "My name is {0} and I am {1} years old. Yes, {0} is my name.".format(name, age)
+print(formatted_string)  # Output: My name is Alice and I am 30 years old. Yes, Alice is my name.
+
+Using f-Strings (Python 3.6+)
+
+f-Strings provide a more concise and readable way to format strings.
+
+1. Basic Usage
+
+name = "Alice"
+age = 30
+formatted_string = f"My name is {name} and I am {age} years old."
+print(formatted_string)  # Output: My name is Alice and I am 30 years old.
+
+2. Expressions Inside f-Strings
+
+formatted_string = f"In two years, I will be {age + 2} years old."
+print(formatted_string)  # Output: In two years, I will be 32 years old.
+
+3. Calling Functions Inside f-Strings
+
+def greet(name):
+    return f"Hello, {name}!"
+
+formatted_string = f"{greet('Alice')}"
+print(formatted_string)  # Output: Hello, Alice!
+
+
+Using the Percent Operator (%)
+
+This is an older method of formatting strings but is still used in some codebases.
+
+1. Basic Usage
+
+name = "Alice"
+age = 30
+formatted_string = "My name is %s and I am %d years old." % (name, age)
+print(formatted_string)  # Output: My name is Alice and I am 30 years old.
+
+2. Formatting Floating-Point Numbers
+
+number = 123.456789
+formatted_string = "The number is %.2f." % number
+print(formatted_string)  # Output: The number is 123.46.
+
+
+Using str.format with Advanced Formatting
+
+1. Width and Alignment
+
+name = "Alice"
+formatted_string = "My name is {:>10}.".format(name)  # Right align with width 10
+print(formatted_string)  # Output: My name is      Alice.
+
+3. Padding with Fill Characters
+
+formatted_string = "My name is {:*^10}.".format(name)  # Center align with width 10 and '*' as fill character
+print(formatted_string)  # Output: My name is **Alice***.
+
+4. Formatting Numbers with Thousands Separator
+
+number = 1234567.89
+formatted_string = "The number is {:,.2f}.".format(number)
+print(formatted_string)  # Output: The number is 1,234,567.89.
+
+String Interpolation with Dictionaries
+
+1. You can use a dictionary to format strings using the format method.
+
+data = {"name": "Alice", "age": 30}
+formatted_string = "My name is {name} and I am {age} years old.".format(**data)
+print(formatted_string)  # Output: My name is Alice and I am 30 years old.
+
+Summary
+Python offers several ways to format strings, each with its own advantages:
+
+format Method: Flexible and powerful, allows positional and keyword arguments.
+f-Strings: Concise and readable, suitable for most formatting tasks.
+Percent Operator (%): Older method, still useful for simple formatting.
+Advanced Formatting with str.format: Allows width, alignment, padding, and numeric formatting.
+Dictionary Interpolation: Convenient for formatting strings with data from dictionaries.
