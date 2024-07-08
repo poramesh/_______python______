@@ -93,6 +93,34 @@ if __name__ == '__main__':
     for i in range(len(c)):
         print(c[i][1])
 
+
+
+How Sorting Works
+
+Key Extraction:
+The sort method iterates over each element in the list c and applies the lambda function to extract the key for comparison.
+In this case, the key is the second element of each tuple/list.
+
+For the list c = [(1, 3), (4, 1), (5, 2)]:
+
+For (1, 3), lambda x: x[1] returns 3.
+For (4, 1), lambda x: x[1] returns 1.
+For (5, 2), lambda x: x[1] returns 2.
+
+Comparison:
+The sort method uses these extracted keys (3, 1, 2) to sort the tuples/lists.
+
+Ordering:
+The list is rearranged in ascending order based on the extracted keys.
+
+Result
+After sorting, the list c will be:
+
+[(4, 1), (5, 2), (1, 3)]
+
+(4, 1) comes first because 1 is the smallest key.
+(5, 2) comes next because 2 is the next smallest key.
+(1, 3) comes last because 3 is the largest key.
 ---
 lambda:
 A lambda function is a small anonymous function.
@@ -145,6 +173,33 @@ cars = [
 cars.sort(key=myFunc) #[{'car': 'Mitsubishi', 'year': 2000}, {'car': 'Ford', 'year': 2005}, {'car': 'VW', 'year': 2011}, {'car': 'BMW', 'year': 2019}]
 
 
+Order of Execution
+
+1. The sort method is invoked on the cars list with key=myFunc.
+
+2. For each dictionary in the list, myFunc is called:
+For {'car': 'Ford', 'year': 2005}, myFunc returns 2005.
+For {'car': 'Mitsubishi', 'year': 2000}, myFunc returns 2000.
+For {'car': 'BMW', 'year': 2019}, myFunc returns 2019.
+For {'car': 'VW', 'year': 2011}, myFunc returns 2011.
+
+3.The sort method uses these returned values to sort the dictionaries:
+The dictionary with year: 2000 (Mitsubishi) comes first.
+Followed by the dictionary with year: 2005 (Ford).
+Then the dictionary with year: 2011 (VW).
+And finally, the dictionary with year: 2019 (BMW).
+
+4.
+After sorting, the cars list will be:
+[
+  {'car': 'Mitsubishi', 'year': 2000},
+  {'car': 'Ford', 'year': 2005},
+  {'car': 'VW', 'year': 2011},
+  {'car': 'BMW', 'year': 2019}
+]
+
+
+-----------------
 how dictionary  works: 
 
 car = {
