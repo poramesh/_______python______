@@ -7,17 +7,20 @@ append e: Insert integer e at the end of the list.
 sort: Sort the list.
 pop: Pop the last element from the list.
 reverse: Reverse the list.
-Initialize your list and read in the value of n followed by n lines of commands where each command will be of the 7 types listed above. Iterate through each command in order and perform the corresponding operation on your list.
+
+Initialize your list and read in the value of n followed by n lines of commands where each command will be of the 7 types listed
+above. Iterate through each command in order and perform the corresponding operation on your list.
 
 example: 
+
 N=4
 append 1
 append 2
 insert 3 1
 print
 
-append 1: append 1 to the lsit, arr=[1]
-append 2: append 2 to the lsit , arr=[1,2]
+append 1: append 1 to the list, arr=[1]
+append 2: append 2 to the list , arr=[1,2]
 insert 3 1: insert 3 at index 1, arr=[1,3,2]
 print: print the array. => [1,3.2]
 
@@ -29,6 +32,7 @@ Each line i of the n subsequent lines contains one of the commands described abo
 Constraints
 
 The elements added to the list must be integers.
+
 Output Format
 
 For each command of type print, print the list on a new line.
@@ -55,8 +59,8 @@ N = int(input())
 lis=[]
 for _ in range(N):
         s=input().strip().split(" ") #In Python, the strip() method is used to remove leading and trailing whitespace characters from a string.
-        #When you call strip() without any arguments, it removes all whitespace characters such as spaces, tabs, and newline characters from the beginning and end of the string.
-
+        #When you call strip() without any arguments, it removes all whitespace characters such as spaces, tabs, and newline characters from the 
+        #beginning and end of the string.
 
         if s[0]=="insert":
             lis.insert(int(s[1]),int(s[2]))
@@ -94,9 +98,10 @@ for t in range(T):
 
 L = []
 for _ in range(int(input())):
-    command, *args = input().split()
+    command, *args = input().split() #command, *args = ...: This line uses Python's unpacking feature. The first element of the list is assigned to command,
+and the rest of the elements (if any) are packed into the list args.
     try:
-        getattr(L, command)(*(int(x) for x in args))
+        getattr(L, command)(*(int(x) for x in args)) #args will be ['1', '10'] and *(int(x) for x in args) converts to *(1, 10)
     except AttributeError:
         print(L)
 
