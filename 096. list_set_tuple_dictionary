@@ -152,3 +152,117 @@ thislist = ["apple", "banana", "cherry"]
 print(thislist)
 
 
+
+List
+
+Ordered: Elements in a list are stored in a specific order, and this order is maintained when you iterate over the list.
+Changeable: Lists are mutable, meaning you can modify elements after the list is created.
+Allows Duplicate Members: Lists can contain duplicate elements.
+
+Example: 
+# Creating a list
+my_list = [1, 2, 3, 3, 4]
+
+# Ordered and changeable
+print(my_list)  # Output: [1, 2, 3, 3, 4]
+
+# Modifying the list
+my_list[0] = 5
+print(my_list)  # Output: [5, 2, 3, 3, 4]
+
+# Allows duplicate members
+my_list.append(4)
+print(my_list)  # Output: [5, 2, 3, 3, 4, 4]
+
+Tuple
+
+Ordered: Like lists, elements in a tuple are ordered and maintain their order when you iterate over the tuple.
+Unchangeable: Tuples are immutable, meaning once they are created, you cannot modify the elements or their order.
+Allows Duplicate Members: Tuples can contain duplicate elements.
+
+Example:
+# Creating a tuple
+my_tuple = (1, 2, 3, 3, 4)
+
+# Ordered and unchangeable
+print(my_tuple)  # Output: (1, 2, 3, 3, 4)
+
+# Accessing elements
+print(my_tuple[0])  # Output: 1
+
+# Trying to modify a tuple (will raise TypeError)
+try:
+    my_tuple[0] = 5
+except TypeError as e:
+    print("TypeError:", e)
+
+# Allows duplicate members
+print(my_tuple.count(3))  # Output: 2 (count of '3' in the tuple)
+
+Set
+
+Unordered: Elements in a set are not stored in any particular order. The order of elements can change between iterations.
+Unchangeable: Sets are mutable, meaning you can add or remove elements, but you cannot modify the elements themselves (e.g., change an existing element).
+No Duplicate Members: Sets do not allow duplicate elements. If you add an element that already exists in the set, it will not be added again.
+
+Example:
+# Creating a set
+my_set = {1, 2, 3, 3, 4}
+
+# Unordered and changeable
+print(my_set)  # Output: {1, 2, 3, 4} (Note the order may vary)
+
+# Adding elements
+my_set.add(5)
+print(my_set)  # Output: {1, 2, 3, 4, 5}
+
+# Trying to add a duplicate element (no effect)
+my_set.add(3)
+print(my_set)  # Output: {1, 2, 3, 4, 5}
+
+# Removing an element
+my_set.remove(2)
+print(my_set)  # Output: {1, 3, 4, 5}
+
+Dictionary
+
+Ordered (from Python 3.7+): Dictionaries in Python 3.7 and later maintain the insertion order of keys. Earlier versions do not guarantee this order.
+Changeable: Dictionaries are mutable, allowing you to add, modify, or remove key-value pairs.
+No Duplicate Members (for keys): Keys in a dictionary must be unique. Values can be duplicated across different keys.
+
+Example:
+# Creating a dictionary
+my_dict = {
+    "apple": 10,
+    "banana": 5,
+    "cherry": 7,
+    "apple": 15  # Note: Duplicate key "apple" will overwrite the previous value
+}
+
+# Ordered (Python 3.7+) and changeable
+print(my_dict)  # Output: {'apple': 15, 'banana': 5, 'cherry': 7}
+
+# Modifying a value
+my_dict["banana"] = 8
+print(my_dict)  # Output: {'apple': 15, 'banana': 8, 'cherry': 7}
+
+# Adding a new key-value pair
+my_dict["grape"] = 3
+print(my_dict)  # Output: {'apple': 15, 'banana': 8, 'cherry': 7, 'grape': 3}
+
+Summary
+List: Ordered, changeable, allows duplicates ([]).
+Tuple: Ordered, unchangeable, allows duplicates (()).
+Set: Unordered, changeable (for adding/removing elements), no duplicates ({}).
+Dictionary: Ordered (from Python 3.7+), changeable, keys must be unique, values can be duplicated ({}).
+
+
+Reassigning Variables
+Since immutable objects cannot be modified after creation, any operation that appears to modify the object actually creates a new object. 
+Therefore, reassigning variables to point to these new objects is common practice:
+
+x = 10
+print(id(x))  # Output: id of the integer object
+
+x = x + 1  # Creates a new integer object with value 11
+print(id(x))  # Output: id of the new integer object
