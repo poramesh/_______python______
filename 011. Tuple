@@ -71,3 +71,16 @@ n = int(input())
 ints = input().split()
 t = tuple(int(i) for i in ints)
 print(hash(t))
+
+
+
+''' Why Lists are Not Hashable
+A list in Python is not hashable due to two main reasons:
+
+Mutability: Lists are mutable, meaning their content can change over time. Since the content of the list can change, the hash value of
+the list would also need to change. This would violate the requirement for a hash value to be constant throughout the lifetime of the object.
+If the hash value of an object changes, it could corrupt the internal state of dictionaries or sets
+that rely on those hash values for quick lookups.
+
+Implementation: The hash function for lists is not implemented because of their mutability. Python's core data structures such as
+dictionaries and sets rely on the immutability of their keys to maintain consistent and reliable behavior.''''
