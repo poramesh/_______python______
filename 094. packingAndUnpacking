@@ -1,0 +1,82 @@
+for _ in range(n):
+    s = raw_input().split()
+    cmd = s[0]
+    args = s[1:]
+------
+
+for _ in range(int(input())):
+    command, *args = input().split() #command, *args = ...: This line uses Python's unpacking feature. The first element of the list is assigned to command,
+and the rest of the elements (if any) are packed into the list args.
+    try:
+        getattr(L, command)(*(int(x) for x in args)) #args will be ['1', '10'] and *(int(x) for x in args) converts to *(1, 10)
+    except AttributeError:
+        print(L)
+---
+
+for _ in range(0, int(input())):
+    user_input = input().split(' ')
+    command = user_input.pop(0 )
+
+---- 
+found them really interesting for their attitude of reading an input.
+
+
+now we get to the real deal>
+
+Unpacking a tuple like (1, 2, 3) in Python can be done using the unpacking operator *. Here's how you can unpack and use the elements
+of the tuple in different contexts:
+
+1. Unpacking in Function Arguments
+
+If you have a function and want to pass the elements of the tuple as individual arguments, you can do the following:
+
+def example_function(a, b, c):
+    print(a, b, c)
+
+tuple_values = (1, 2, 3)
+example_function(*tuple_values)
+
+Output: 1 2 3
+
+
+2. Unpacking into Variables
+If you want to assign the elements of a tuple to individual variables, you can do it like this:
+
+tuple_values = (1, 2, 3)
+a, b, c = tuple_values
+print(a, b, c)
+
+Output: 1 2 3
+
+3. Unpacking in Lists or Other Data Structures
+You can also unpack a tuple directly into a list or another tuple:
+
+tuple_values = (1, 2, 3)
+
+# Unpacking into a list
+list_values = [*tuple_values]
+print(list_values) #[1, 2, 3]
+
+# Unpacking into another tuple
+new_tuple = (*tuple_values, 4, 5)
+print(new_tuple) #(1, 2, 3, 4, 5)
+
+4. Unpacking in a For Loop
+When using a tuple in a loop, you can unpack its elements directly in the loop statement:
+
+list_of_tuples = [(1, 2), (3, 4), (5, 6)]
+for x, y in list_of_tuples:
+    print(x, y)
+
+Output:
+1 2
+3 4
+5 6
+
+5. Unpacking with Extended Unpacking
+Python 3 allows for extended unpacking, which can be useful for capturing multiple elements:
+
+
+tuple_values = (1, 2, 3, 4, 5)
+a, *middle, c = tuple_values
+print(a, middle, c) #1 [2, 3, 4] 5
