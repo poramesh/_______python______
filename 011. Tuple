@@ -23,10 +23,14 @@ print(input()==0 or hash(tuple(map(int,input().strip().split()))))
 print(input() and hash(eval('('+input().replace(' ',',')+')'))) 
 
 
+#If the first input() call returns 0, the expression short-circuits due to the or operator:
+input() == 0 is True.
+The entire expression evaluates to True, and nothing further is evaluated or printed.
 
-#input() and ...: This part is a logical operation. If the first input is considered "truthy" (i.e., not an empty string),
-it proceeds to evaluate and hash the tuple. If the first input is an empty string (which is considered "falsy"), it short-circuits and
-does not evaluate or hash the tuple. Instead, it just prints the empty string.
+#The expression uses input() and hash(...) where input() is implicitly converted to a boolean. If input() returns a non-empty string (which is truthy), 
+it proceeds to compute hash(...). Otherwise, if input() returns an empty string (which is falsy), it short-circuits and does not evaluate hash(...),
+thus not printing anything.
+
 
 #and #raw_input().replace(' ',','): This line takes user input, replaces all spaces with commas, and
 returns the modified string. For example, if the user enters "1 2 3", it becomes "1,2,3".
