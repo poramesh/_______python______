@@ -284,6 +284,13 @@ print(1, 2, 3, sep=' - ') //1-2-3
 print(1, 2, 3, end='; ')
 print(4, 5, 6)
 //1 2 3; 4 5 6 
+
+print(1, 2, 3, sep=' - ') #1-2-3
+print(1,2,3) #1 2 3
+print(1,2,3, sep=',') #1,2,3
+l=[1,2,3]
+print(*l,sep=';') #1;2;3
+
 The end parameter changes the ending character from the default newline to ; . As a result, the first print statement does not end with a newline,
 and the second print statement continues on the same line.
 
