@@ -52,6 +52,9 @@ def swap_case(s):
 
 print ''.join([i.lower() if i.isupper() else i.upper() for i in input()])
 
+//The isupper() and islower() methods will return False for periods, so the else part of the conditional is executed, converting
+the period to uppercase using i.upper(). Since periods or space do not have a case, they remain unchanged.
+
 (or)
 
 def swap_case(x):
