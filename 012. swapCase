@@ -107,3 +107,22 @@ words = ['Hello', 'world', '!']
 sentence = ' '.join(words)
 print(sentence)  # Output: Hello world !
 
+
+sep: This parameter specifies the string that separates the values. By default, it is a single space (' ').
+end: This parameter specifies the string that is appended at the end of the output. By default, it is a newline character ('\n').
+
+values = [1, 2, 3]
+print(*values) //1 2 3
+
+print(1, 2, 3, sep=' - ') //1-2-3
+
+print(1, 2, 3, end='; ')
+print(4, 5, 6)
+//1 2 3; 4 5 6 
+
+
+print(1, 2, 3, sep=' - ') #1-2-3
+print(1,2,3) #1 2 3
+print(1,2,3, sep=',') #1,2,3
+l=[1,2,3]
+print(*l,sep=';') #1;2;3
