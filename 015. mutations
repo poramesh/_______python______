@@ -24,8 +24,15 @@ Example
 >>> string = string[:5] + "k" + string[6:]
 >>> print string
 abrackdabra
+
+Immutability: Strings are immutable, so the original string "string" remains unchanged in memory.
+New Object: The expression string = string[:5] + "k" + string[6:] creates a new string object.
+
+
 Task
+
 Read a given string, change the character at a given index and then print the modified string.
+
 Function Description
 
 mutate_string has the following parameters:
@@ -33,6 +40,7 @@ mutate_string has the following parameters:
 string string: the string to change
 int position: the index to insert the character at
 string character: the character to insert
+
 solution:
 
 s = input()
