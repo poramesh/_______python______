@@ -1,8 +1,8 @@
 In this task, we would like for you to appreciate the usefulness of the groupby() function of itertools.
 
-You are given a string S. Suppose a character 'c' occurs consecutively X times in the string. Replace these consecutive occurrences of the character 'c' with (X,c in the string.
+You are given a string S. Suppose a character 'c' occurs consecutively X times in the string. Replace these consecutive occurrences of the character 'c'
+with (X,c in the string.
 
-For a better understanding of the problem, check the explanation.
 
 Input Format
 
@@ -18,14 +18,69 @@ All the characters of S denote integers between 0 and 9.
 
 1<=|S|<=10^4
 
-Sample Input
+Sample Input:
+
 1222311
 
-Sample Output
+Sample Output:
+
 (1, 1) (3, 2) (1, 3) (2, 1)
 
-Explanation
+Explanation:
 
 First, the character 1 occurs only once. It is replaced by (1,1). Then the character 2 occurs three times, and it is replaced by (3,2) and so on.
-
 Also, note the single space within each compression and between the compressions.
+
+solution:
+
+string=input()
+ch=""
+count = 1
+for i in range(len(string)):
+    ch = string[i]
+    if(i + 1 == len(string)):
+        print((count, int(ch)), end=" ")
+        count=1
+        continue
+    if ch == string[i+1]:
+        count+=1
+        continue
+    else:
+        print((count, int(ch)), end=" ")
+        count=1
+
+
+(or)
+
+a=input()
+s=''
+for i in range(0,len(a)):
+    if i!=0:
+        if a[i]==a[i-1]:  
+            continue
+    p=0
+    for j in range(i,len(a)):
+        if a[i]==a[j]:
+            p+=1
+        else:
+            break
+    s+='('+str(p)+', '+a[i]+')'+' '
+print(s)
+
+
+(or)
+
+lst = [int(i) for i in input()]
+tps = []
+prev = lst[0]
+count = 0
+for item in lst:
+    if item == prev:
+        count += 1
+    else:
+        tps.append((count, prev))
+        count = 1
+        prev = item
+tps.append((count, prev))
+print(*tps)
+
