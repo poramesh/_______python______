@@ -93,6 +93,23 @@ The join method is often used in scenarios where you need to construct a single 
 list of values, combining paths, or simply formatting output. It is efficient and concise for merging strings with a specified separator.
 
 #print(*[num**2 for num in range(n)],sep='\n') #0 1 4 9 16
+
+6. this would raise an error cause its integer
+
+numbers = [1, 2, 3, 4, 5]
+# This will raise an error: TypeError: sequence item 0: expected str instance, int found
+# joined_numbers = "-".join(numbers)
+
+# Convert integers to strings first
+string_numbers = [str(number) for number in numbers]  map(numners:str)
+joined_numbers = "-".join(string_numbers)
+print(joined_numbers)  # Output: "1-2-3-4-5"
+
+(or)
+
+numbers = [1, 2, 3, 4, 5]
+string_numbers = list(map(str, numbers))
+print(string_numbers) 
 -------------------------------
 
 SPLIT
