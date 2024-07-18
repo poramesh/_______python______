@@ -142,7 +142,8 @@ Default Parameters: Use default parameters directly in the function definition w
 
 '''
 FILTER()
-Lambda functions are commonly used with the filter() function in Python. The filter() function filters elements from an iterable (such as a list) based on a given condition.
+Lambda functions are commonly used with the filter() function in Python. The filter() function filters elements from an iterable (such as a list) based on 
+a given condition.
 It takes two arguments: a function (or None) and an iterable.
 
 When used with a lambda function, filter() applies the lambda function to each element of the iterable, 
@@ -218,7 +219,9 @@ Here's a simplified explanation of how it works internally:
 
 Key Computation: The sorted() function iterates through each element of the iterable and computes the key for each element using the provided key function
 (in this case, lambda x: len(x)). For the list ['apple', 'banana', 'cherry', 'date'], it computes the lengths of each string.
-Comparison and Sorting: After computing the keys for each element, the sorted() function uses a sorting algorithm (such as Timsort, which is the default in Python) to sort the elements based on their keys. This involves comparing the keys of different elements and rearranging them according to the desired sorting order.
+Comparison and Sorting: After computing the keys for each element, the sorted() function uses a sorting algorithm (such as Timsort, which is the default in
+Python) to sort the elements based on their keys. This involves comparing the keys of different elements and rearranging them according to the desired sorting
+order.
 Return the Sorted List: Once the sorting is complete, the sorted() function returns a new list containing the sorted elements.
 
 sorted() function doesn't always have to come with a lambda function. The sorted() function can be used without specifying a key parameter,
