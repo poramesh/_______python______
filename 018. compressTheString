@@ -84,3 +84,22 @@ for item in lst:
 tps.append((count, prev))
 print(*tps)
 
+(or)
+
+from itertools import *
+
+for i,j in groupby(map(int,list(input()))):
+    print(f"({len(list(j))}, {i})", end=' ')
+
+(or)
+
+
+from itertools import *
+
+for i,j in groupby(map(int,list(raw_input()))):
+    print(tuple([len(list(j)), i]) ,end = " ")
+
+(or)
+
+from itertools import groupby
+print(*[(len(list(c)), int(k)) for k, c in groupby(input())])
