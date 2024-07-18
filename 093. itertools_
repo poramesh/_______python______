@@ -63,8 +63,10 @@ data = [
 ]
 
 # Sort data by 'age' because groupby requires sorted data for proper grouping
+#sorted_data = sorted(data, key=lambda x: x['age'])
 
 data.sort(key=lambda x: x['age'])
+
 
 # Group by 'age'
 grouped_data = groupby(data, key=lambda x: x['age'])
