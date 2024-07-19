@@ -84,11 +84,13 @@ It returns a list of output lines.
 
 >>> import textwrap
 >>> string = "This is a very very very very very long string."
+             01234567 012345 01234
 >>> print(textwrap.wrap(string,8))
 ['This is', 'a very', 'very', 'very', 'very', 'very', 'long', 'string.'] # very is a complete word so it wouldnt be included. i am so dum it took me a while to understand this hhahahahhhhhahahaha
 
 textwrap.fill()
 The fill() function wraps a single paragraph in text and returns a single string containing the wrapped paragraph.
+it breaks the text into lines that are at most a specified width and then joins these lines with newlines.
 
 >>> import textwrap
 >>> string = "This is a very very very very very long string."
