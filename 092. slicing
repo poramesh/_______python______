@@ -1,1 +1,113 @@
 
+ L =" "
+    for i in range(size-1, -size, -1): #range(4, -5, -1)
+        L=L+str(i)+","        
+    print(L)
+
+Input (stdin)
+5
+Your Output (stdout)
+4,3,2,1,0,-1,-2,-3,-4,
+""""
+
+for i in list(range(size))[::-1] + list(range(1, size)):
+        print(i)
+        print(list(range(size))[::-1])
+        print( list(range(1, size)))
+        print(list(range(size))[::-1] + list(range(1, size)))
+
+o/p
+4
+[4, 3, 2, 1, 0]
+[1, 2, 3, 4]
+[4, 3, 2, 1, 0, 1, 2, 3, 4]
+3
+[4, 3, 2, 1, 0]
+[1, 2, 3, 4]
+[4, 3, 2, 1, 0, 1, 2, 3, 4]
+2
+[4, 3, 2, 1, 0]
+[1, 2, 3, 4]
+[4, 3, 2, 1, 0, 1, 2, 3, 4]
+1
+[4, 3, 2, 1, 0]
+[1, 2, 3, 4]
+[4, 3, 2, 1, 0, 1, 2, 3, 4]
+0
+[4, 3, 2, 1, 0]
+[1, 2, 3, 4]
+[4, 3, 2, 1, 0, 1, 2, 3, 4]
+1
+[4, 3, 2, 1, 0]
+[1, 2, 3, 4]
+[4, 3, 2, 1, 0, 1, 2, 3, 4]
+2
+[4, 3, 2, 1, 0]
+[1, 2, 3, 4]
+[4, 3, 2, 1, 0, 1, 2, 3, 4]
+3
+[4, 3, 2, 1, 0]
+[1, 2, 3, 4]
+[4, 3, 2, 1, 0, 1, 2, 3, 4]
+4
+[4, 3, 2, 1, 0]
+[1, 2, 3, 4]
+[4, 3, 2, 1, 0, 1, 2, 3, 4]
+
+"""
+
+
+Negative Indexing
+Use negative indexes to start the slice from the end of the string:
+Example
+Get the characters:
+
+From: "o" in "World!" (position -5)
+
+To, but not included: "d" in "World!" (position -2):
+
+b = "Hello, World!"
+print(b[-5:-2]) #orl
+
+
+#Example 1
+string1 = "Python is my favorite programming language!"
+print(string1[:6])      #specifying only the stop position (right offset)
+print(string1[10:])     #specifying only the start position (left offset)
+print(string1[13:22])   #specifying left &amp; right offset
+print(string1[:-3])     #fetches all but last three characters of string1
+
+"""
+
+b = "HelloDeerWorld!"
+print("1",b[:7]) #HElloDe
+print("2",b[-4:]) #rld!
+print("3",b[:-4]) #HelloDeerWo
+print("4",b[-4:-1]) #rld
+print("5,",b[1:-4]) #, elloDeerWo 
+#the offset pair [1:-4], fetches from offset 1 (i.e. from the character ‘y’) till the last but 5th item 
+print("6 ",b[-4:1]) #wouldnot work because we are basically asking to slice from the last 4th position caracter until the first index from th begining 
+print("7", b[5:1:-1]) #doll
+#the upper bound and the lower bound are essentially reversed. And a negative stride indicates we start slicing from right and if -1 wasnt there it wouldnt work
+"""
+print("8", item[1::-1]) #for b it is eh
+
+item = ['APPLE', 'JUICE', '10']
+['JUICE', 'APPLE']
+item = ['CANDY', '5']
+['5', 'CANDY']
+
+
+>>> l = ['abc', 'def', 'ghi', 'jkl', 'mno', 'pqr', 'stu', 'vwx', 'yz&']
+
+# I want a string up to 'def' from 'vwx', all in between
+# from 'vwx' so -2;to 'def' just before 'abc' so -9; backwards all so -1.
+>>> l[-2:-9:-1]
+['vwx', 'stu', 'pqr', 'mno', 'jkl', 'ghi', 'def']
+
+# For the same 'vwx' 7 to 'def' just before 'abc' 0, backwards all -1
+>>> l[7:0:-1]
+['vwx', 'stu', 'pqr', 'mno', 'jkl', 'ghi', 'def']
+
+>>>l[:0:-1]
+['yz&','vwx', 'stu', 'pqr', 'mno', 'jkl', 'ghi', 'def']
