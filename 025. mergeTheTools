@@ -3,17 +3,22 @@
   > An integer, k, where k is a factor of n.
     
     
-  We can split s into n/k substrings where each substring, ti, consists of a contiguous block of k characters in s. then, use each ti to create string ui such that:
+  We can split s into n/k substrings where each substring, ti, consists of a contiguous block of k characters in s. then, use each ti to create
+string ui such that:
   > The characgers in ui are a subsequenxe of the characters in ti.
-  > any repeat occurence of a character is removed from the string such that each character in ui occurs exactly once. in other words, if the character at some index j in ti occurs at a previous index< j in ti, then do not include the chatacter in string ui.
+  > any repeat occurence of a character is removed from the string such that each character in ui occurs exactly once. in other words, 
+if the character at some index j in ti occurs at a previous index< j in ti, then do not include the chatacter in string ui.
     
-  Given s and k, print n/k lines where each line i denotes string ui.
+  
+Given s and k, print n/k lines where each line i denotes string ui.
     
   example:
   s = 'AAABCADDE'
   k = 3
     
-There are three substrings of lenght 3 to consider: 'AAA','BCA' and 'DDE'. the first substrig is all 'A' characters, so u1 ='A'. the second substring has all distinct charactes, so u2 ='BCA'. the third substring has 2 different characters, so u3='DE'. Note that s subsequence maintains the original order of chatacters encountered. the order of characters in each subsequence shown is important.
+There are three substrings of lenght 3 to consider: 'AAA','BCA' and 'DDE'. the first substrig is all 'A' characters, so u1 ='A'. the second substring has
+all distinct charactes, so u2 ='BCA'. the third substring has 2 different characters, so u3='DE'. Note that s subsequence maintains 
+the original order of chatacters encountered. the order of characters in each subsequence shown is important.
 
 Function desription:
 >compelte the merge_the_tools functions in the editor below.
@@ -84,13 +89,15 @@ while string:
             seen += c
     print(seen)
     string = string[k:]
+
 (or)
 
 def merge_the_tools(string, k):
     for i in range(0,len(string),k):
         y=string[i:i+k]
         print("".join(dict.fromkeys(y)))
-"""
+
+ """
 x = ('key1', 'key2', 'key3')
 
 thisdict = dict.fromkeys(x)
