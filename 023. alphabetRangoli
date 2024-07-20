@@ -202,7 +202,7 @@ print("6 ",b[-4:1]) #wouldnot work because we are basically asking to slice from
 print("7", b[5:1:-1]) #doll
 #the upper bound and the lower bound are essentially reversed. And a negative stride indicates we start slicing from right and if -1 wasnt there it wouldnt work
 """
-print("8", item[1::-1])
+print("8", item[1::-1]) #for b it is eh
 
 item = ['APPLE', 'JUICE', '10']
 ['JUICE', 'APPLE']
