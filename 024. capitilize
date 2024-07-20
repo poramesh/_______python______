@@ -1,4 +1,5 @@
-You are asked to ensure that the first and last names of people begin with a capital letter in their passports. For example, alison heck should be capitalised correctly as Alison Heck.
+You are asked to ensure that the first and last names of people begin with a capital letter in their passports. For example, alison heck should be 
+capitalised correctly as Alison Heck.
 
 Given a full name, your task is to capitalize the name appropriately.
 
@@ -33,31 +34,36 @@ import re
 import sys
 
 # Complete the solve function below.
+
 def solve(s):
     
     for x in s.split(" "):
-        s = s.replace(x,x.capitalize())
-    return s 
-#The code above is a bit inefficient as replace() method inside the loop creates copies of string. The reason is that a string is an immutable object. So it's better first to translate it into a mutable object,
+        s = s.replace(x,x.capitalize()) 
+    return s #hello world to Hello World
+
+
+#The code above is a bit inefficient as replace() method inside the loop creates copies of string. The reason is that a string is an immutable object. 
+So it's better first to translate it into a mutable object,
 process the mutable one inside the loop and finally make a backward transformation.
+so use this one?instead.
+
+a_string = input().split(' ')
+print(' '.join((word.capitalize() for word in a_string)))
+----
+if i dont  use this is what it happesn split
+
+import string
+# Complete the solve function below.
+def solve(s):
+    print(s) # hello world
+    return ' '.join(x.capitalize() for x in s) #H E L L O   W O R L D
+------
+
 (or)
     return s.title() but this would fail in one test case. 123abc will be capitalised when it shouldnt be.
 (or)
 
-def solve(s):
-    st = s.split(' ') 
-    print(st)
-    return ' '.join(x.capitalize() for x in st)
-
-
-
-Input 
-hello   world  lol
-Your Output 
-Hello   World  Lol
-Debug output
-['hello', '', '', 'world', '', 'lol']
-
+' '.join(map(str.capitalize, string.split(' ')))
 
 (or)
 def solve(s):
@@ -73,11 +79,13 @@ if __name__ == '__main__':
     fptr.close()
 (or)
 
-' '.join(map(str.capitalize, string.split(' ')))
+ s = ' '.join(map(str.capitalize, string.split(' '))) # if we dont s = then it wont be replaced cause string is immutable
+ return s
 
 
 """"
-print(input().title()) will not work because the question is asking to capitalise firse letter of each word keeping in mind that "if it is a letter". Title and Capitalise are different in function as:
+print(input().title()) will not work because the question is asking to capitalise firse letter of each word keeping in mind that "if it is a letter". Title 
+and Capitalise are different in function as:
 
 'abcd'.title()
 results in 'Abcd' but
