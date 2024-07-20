@@ -109,6 +109,14 @@ def print_rangoli(size):
     for i in list(range(size))[::-1] + list(range(1, size)):
         print('-'.join(alpha[size-1:i:-1] + alpha[i:size]).center(width, '-'))
 
+starts off 
+3-------d-------
+2
+1
+0
+1
+2
+3
 """"
 
  L =" "
