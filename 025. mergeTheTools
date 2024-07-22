@@ -150,6 +150,12 @@ y = car.setdefault("color", "red")
 
 print(y) #red
 
+car.setdefault('carType',zeep)
+
+print(car) #{'brand': 'Ford', 'model': 'Mustang', 'year': 1964, 'carType': 'zeep'}
+
+setdefault is used to retrieve a key’s value, inserting the key with a default value if it doesn’t exist.
+
 
 """
 ❶iter(s) returns an iterator for S.
