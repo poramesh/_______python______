@@ -218,15 +218,17 @@ Approach 1 : Simply passing a list
 >>>s='abcdefghi'
 >>>zip(s, s, s)
 [('a', 'a', 'a'), ('b', 'b', 'b'), ('c', 'c', 'c'), ('d', 'd', 'd'), ('e', 'e', 'e'), ('f', 'f', 'f'), ('g', 'g', 'g'), ('h', 'h', 'h'), ('i', 'i', 'i')]
-Explaination: Simply combining the elements of the same index. The total number of elements is equal to the length of smallest list. Since list is same and has 9 elements, therefore there are 9 tuples.
+Explaination: Simply combining the elements of the same index. The total number of elements is equal to the length of smallest list. Since list is same 
+and has 9 elements, therefore there are 9 tuples.
 
 Approach 2 : Passing an interator of the list
 
 >>>s='abdefghi'
->>>i=iter(s)
+>>>i=iter(s) #iter takes it to the next next, so there wont be repetition like previous example.
 >>>zip(i, i, i)
 [('a', 'b', 'c'), ('d', 'e', 'f'), ('g', 'h', 'i')]
-Explaination : When passing iterators, zip internally invokes the next on the subsequent passed iterators before combining them. Since here, the iterator is to the same list. Hence you get such an output. For example,
+Explaination : When passing iterators, zip internally invokes the next on the subsequent passed iterators before combining them. Since here, the
+iterator is to the same list. Hence you get such an output. For example,
 
 Output of (a, b, c) comes out like this:
 
