@@ -178,3 +178,83 @@ True
 False
 True
 Just a fun and different solution :)
+
+***************
+zip(*[
+    [True, True, False, True, False],
+    [True, False, True, False, False]
+])
+The result will be:
+
+python
+Copy code
+[
+    (True, True),    # isalnum() results
+    (True, False),   # isalpha() results
+    (False, True),   # isdigit() results
+    (True, False),   # islower() results
+    (False, False)   # isupper() results
+]
+List Comprehension and any Function:
+[str(any(i)) for i in ...]
+**************
+more on get_atrr
+
+class MyClass:
+    def __init__(self):
+        self.name = "Alice"
+        self.age = 30
+    
+    def greet(self):
+        return f"Hello, my name is {self.name} and I am {self.age} years old."
+
+    def is_adult(self):
+        return self.age >= 18
+
+# Create an instance of MyClass
+obj = MyClass()
+
+# List of method and attribute names as strings
+attributes = ['name', 'age', 'greet', 'is_adult']
+
+# Iterate over each attribute name
+for attr_name in attributes:
+    # Use getattr to get the attribute from the object
+    attr = getattr(obj, attr_name)
+    # If the attribute is callable (a method), call it
+    if callable(attr):
+        print(f"{attr_name}(): {attr()}")
+    else:
+        print(f"{attr_name}: {attr}")
+
+o/p
+name: Alice
+age: 30
+greet(): Hello, my name is Alice and I am 30 years old.
+is_adult(): True
+
+
+s = 'asdas2'
+
+# List of method names as strings
+methods = ['isalnum', 'isalpha', 'isdigit', 'islower', 'isupper']
+
+# Iterate over each method name
+for method_name in methods:
+    # Use getattr to get the method from the string object
+    methd = getattr(s, method_name)
+    print(methd)
+    # Apply the method to the string object and print the result
+    print(methd())
+    
+<built-in method isalnum of str object at 0x7b7df32ae830>
+True
+<built-in method isalpha of str object at 0x7b7df32ae830>
+False
+<built-in method isdigit of str object at 0x7b7df32ae830>
+False
+<built-in method islower of str object at 0x7b7df32ae830>
+True
+<built-in method isupper of str object at 0x7b7df32ae830>
+False
+
