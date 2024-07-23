@@ -171,6 +171,7 @@ rotated = [[True,  True,  True,  True ] # results for .isalnum()
            [True,  False, False, True]] # results for .isupper()
 
 # prints whether or not a True is present for each list
+
 stdout:
 True
 True
@@ -186,8 +187,6 @@ zip(*[
 ])
 The result will be:
 
-python
-Copy code
 [
     (True, True),    # isalnum() results
     (True, False),   # isalpha() results
@@ -195,9 +194,19 @@ Copy code
     (True, False),   # islower() results
     (False, False)   # isupper() results
 ]
+
 List Comprehension and any Function:
 [str(any(i)) for i in ...]
+
 **************
+
+from itertools import product 
+B = [[1,2,3],[3,4,5],[7,8]]
+print(*B) #[1, 2, 3] [3, 4, 5] [7, 8]
+print(B) #[1, 2, 3] [3, 4, 5] [7, 8]
+
+
+****************
 more on get_atrr
 
 class MyClass:
