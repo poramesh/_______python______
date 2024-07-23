@@ -175,4 +175,77 @@ CA
 AD
 
 """
+more examples on zip
+
+Original Code with Unpacking
+https://github.com/poramesh/_______python______/blob/main/026.%20stringValidators
+
+print "\n".join([str(any(i)) for i in (list(zip(*[[c.isalnum(), c.isalpha(), c.isdigit(), c.islower(), c.isupper()] for c in raw_input()])))]
+What Unpacking Does
+The unpacking operator (*) is used to pass all items in a list (or any iterable) as separate arguments to a function. When used with zip,
+it transposes the list of lists. Without unpacking, zip will treat the whole list as a single argument.
+
+Example
+s = 'a1'
+With unpacking (*), the intermediate steps are:
+
+properties = [[c.isalnum(), c.isalpha(), c.isdigit(), c.islower(), c.isupper()] for c in s]
+
+Result:
+properties = [
+    [True, True, False, True, False],  # for 'a'
+    [True, False, True, False, False]  # for '1'
+]
+Transpose using zip with unpacking:
+zipped_properties = list(zip(*properties))
+
+Result:
+zipped_properties = [
+    (True, True),   # isalnum() results
+    (True, False),  # isalpha() results
+    (False, True),  # isdigit() results
+    (True, False),  # islower() results
+    (False, False)  # isupper() results
+]
+Process each tuple with any:
+
+results = [str(any(i)) for i in zipped_properties]
+Result:
+results = ["True", "True", "True", "True", "False"]
+
+Without unpacking (*), the zip function will receive a single list argument:
+
+zipped_properties = list(zip(properties))
+This treats properties as a single iterable and will not transpose the inner lists:
+
+Generate properties for each character:
+properties = [[c.isalnum(), c.isalpha(), c.isdigit(), c.islower(), c.isupper()] for c in s]
+
+Result:
+properties = [
+    [True, True, False, True, False],  # for 'a'
+    [True, False, True, False, False]  # for '1'
+]
+zip without unpacking:
+
+zipped_properties = list(zip(properties))
+
+Result:
+zipped_properties = [
+    ([True, True, False, True, False],),  # single tuple containing the first list
+    ([True, False, True, False, False],)  # single tuple containing the second list
+]
+Process each tuple with any:
+
+results = [str(any(i)) for i in zipped_properties]
+Here, i is a tuple containing a single list, and any will evaluate it to True because non-empty lists are truthy:
+Result:
+results = ["True", "True"]
+
+Summary
+Without unpacking, zip(properties) does not transpose the list of lists. Instead, it creates a list of tuples, where each tuple 
+contains a single list. This results in different, and typically incorrect, behavior for your intended purpose.
+
+Correct Approach
+To achieve the intended transposition of the list of lists, you should use the unpacking operator:
 
