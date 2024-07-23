@@ -83,3 +83,10 @@ This prints
 instead of
 
 [1, 2, 3]
+
+
+from itertools import product 
+B = [[1,2,3],[3,4,5],[7,8]]
+print(*B) #[1, 2, 3] [3, 4, 5] [7, 8]
+print(B) #[1, 2, 3] [3, 4, 5] [7, 8]
+
