@@ -198,6 +198,8 @@ properties = [
 ]
 Transpose using zip with unpacking:
 zipped_properties = list(zip(*properties))
+zip([True, True, False, True, False], [True, False, True, False, False])
+
 
 Result:
 zipped_properties = [
