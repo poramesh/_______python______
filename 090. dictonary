@@ -397,4 +397,87 @@ print(my_information)
 
 Using this method will leave you with an empty dictionary.
 
+-_________________________________________________________________
+dictionary.setdefault(key, default_value)
+_________________________________________________________
+
+Returns the value for key if key is in the dictionary, else inserts key with a value of default and returns default.
+
+value = my_dict.setdefault('a', 0)
+
+my_dict = {'a': 1, 'b': 2}
+value = my_dict.setdefault('a', 100)
+print(value)  # Output: 1
+print(my_dict)  # Output: {'a': 1, 'b': 2}
+
+another example
+
+my_dict = {'a': 1, 'b': 2}
+value = my_dict.setdefault('c', 100)
+print(value)  # Output: 100
+print(my_dict)  # Output: {'a': 1, 'b': 2, 'c': 100}
+
+Practical Example
+
+Let's consider a scenario where we want to count the occurrences of each character in a string:
+
+text = "hello world"
+char_count = {}
+for char in text:
+    char_count[char] = char_count.setdefault(char, 0) + 1
+print(char_count)
+# Output: {'h': 1, 'e': 1, 'l': 3, 'o': 2, ' ': 1, 'w': 1, 'r': 1, 'd': 1}
+
+___________________________
+dictionary get
+___________________________
+dict.get(key, default=None):
+
+Returns the value for key if key is in the dictionary, else default.
+value = my_dict.get('a', 0)
+
+SUMMARY:
+
+# Creating a dictionary
+my_dict = {'a': 1, 'b': 2}
+
+# Accessing a value with get
+print(my_dict.get('a'))  # Output: 1
+print(my_dict.get('c', 0))  # Output: 0
+
+# Adding a new key with setdefault
+my_dict.setdefault('c', 3)
+print(my_dict)  # Output: {'a': 1, 'b': 2, 'c': 3}
+
+# Updating the dictionary
+my_dict.update({'d': 4, 'e': 5})
+print(my_dict)  # Output: {'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5}
+
+# Removing an item
+value = my_dict.pop('a')
+print(value)  # Output: 1
+print(my_dict)  # Output: {'b': 2, 'c': 3, 'd': 4, 'e': 5}
+
+# Removing an arbitrary item
+key, value = my_dict.popitem()
+print(key, value)  # Output: ('e', 5)
+print(my_dict)  # Output: {'b': 2, 'c': 3, 'd': 4}
+
+# Iterating over keys, values, and items
+for key in my_dict.keys():
+    print(key)  # Output: b, c, d
+
+for value in my_dict.values():
+    print(value)  # Output: 2, 3, 4
+
+for key, value in my_dict.items():
+    print(key, value)  # Output: b 2, c 3, d 4
+
+# Copying the dictionary
+new_dict = my_dict.copy()
+print(new_dict)  # Output: {'b': 2, 'c': 3, 'd': 4}
+
+# Clearing the dictionary
+my_dict.clear()
+print(my_dict)  # Output: {}
 
