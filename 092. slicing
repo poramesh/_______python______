@@ -88,6 +88,9 @@ print("5,",b[1:-4]) #, elloDeerWo
 #the offset pair [1:-4], fetches from offset 1 (i.e. from the character ‘y’) till the last but 5th item 
 print("6 ",b[-4:1]) #wouldnot work because we are basically asking to slice from the last 4th position caracter until the first index from th begining 
 print("7", b[5:1:-1]) #doll
+print("7a",b[:-1]) #HelloDeerWorld
+print("7a",b[:-1]) #!
+
 #the upper bound and the lower bound are essentially reversed. And a negative stride indicates we start slicing from right and if -1 wasnt there it wouldnt work
 """
 print("8", item[1::-1]) #for b it is eh
