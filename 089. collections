@@ -1,0 +1,99 @@
+The collections module provides alternatives to Python's general-purpose built-in containers such as dictionaries, lists, sets, and tuples. key classes are as follows.
+
+__________
+namedtuple:
+___________
+Factory function for creating tuple subclasses with named fields.
+
+from collections import namedtuple
+Point = namedtuple('Point', ['x', 'y'])
+p = Point(10, 20)
+print(p.x, p.y)  # Output: 10 20
+____________
+deque:
+_____________
+List-like container with fast appends and pops on either end.
+
+from collections import deque
+d = deque([1, 2, 3])
+d.append(4)
+d.appendleft(0)
+print(d)  # Output: deque([0, 1, 2, 3, 4])
+________________
+Counter:
+__________________
+Dictionary subclass for counting hashable objects.
+
+from collections import Counter
+c = Counter('hello world')
+print(c)  # Output: Counter({'l': 3, 'o': 2, 'h': 1, 'e': 1, ' ': 1, 'w': 1, 'r': 1, 'd': 1})
+_______________
+OrderedDict:
+_________________
+Dictionary subclass that remembers the order entries were added.
+
+from collections import OrderedDict
+od = OrderedDict()
+od['a'] = 1
+od['b'] = 2
+print(od)  # Output: OrderedDict([('a', 1), ('b', 2)])
+_______________________
+defaultdict:
+_________________
+Dictionary subclass that calls a factory function to supply missing values.
+
+example 1
+
+from collections import defaultdict
+
+dd = defaultdict(int)
+dd['a'] += 1
+print(dd)  # Output: defaultdict(<class 'int'>, {'a': 1})
+
+exmaple 2
+
+from collections import defaultdict
+
+dd = defaultdict(int) # Initialize defaultdict with int as the default_factory
+print(dd['a'])  # Output: 0 (default int value is 0)
+dd['a'] += 1 # Incrementing a key that does not exist yet
+print(dd['a'])  # Output: 1
+
+example 3
+
+from collections import defaultdict
+
+# Initialize defaultdict with list as the default_factory
+dd = defaultdict(list)
+dd['a'].append(1)
+dd['a'].append(2)
+print(dd['a'])  # Output: [1, 2]
+dd['b'].append(3)
+print(dd['b'])  # Output: [3]
+print(dd)  # Output: defaultdict(<class 'list'>, {'a': [1, 2], 'b': [3]})
+
+example 4 (practical example)
+
+from collections import defaultdict
+
+words = ["apple", "banana", "apple", "orange", "banana", "apple"]
+word_count = defaultdict(int)
+
+for word in words:
+    word_count[word] += 1
+
+print(word_count)  # Output: defaultdict(<class 'int'>, {'apple': 3, 'banana': 2, 'orange': 1})
+
+key points: avoid KeyError, defaultdict avoids KeyError by automatically providing a default value for missing keys.
+
+
+__________________
+ChainMap:
+__________________
+Groups multiple dictionaries into a single view.
+
+from collections import ChainMap
+a = {'a': 1, 'b': 2}
+b = {'b': 3, 'c': 4}
+cm = ChainMap(a, b)
+print(cm)  # Output: ChainMap({'a': 1, 'b': 2}, {'b': 3, 'c': 4})
