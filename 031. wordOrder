@@ -1,7 +1,8 @@
 # Enter your code here. Read input from STDIN. Print output to STDOUT
 
 
-You are given n words. Some words may repeat. For each word, output its number of occurrences. The output order should correspond with the input order of appearance of the word. See the sample input/output for clarification.
+You are given n words. Some words may repeat. For each word, output its number of occurrences. The output order should correspond with the input order 
+of appearance of the word. See the sample input/output for clarification.
 
 Note: Each input line ends with a "\n" character.
 
@@ -34,7 +35,8 @@ Sample Output
 
 Explanation
 
-There are  distinct words. Here, "bcdef" appears twice in the input at the first and last positions. The other words appear once each. The order of the first appearances are "bcdef", "abcdefg" and "bcde" which corresponds to the output.
+There are 3 distinct words. Here, "bcdef" appears twice in the input at the first and last positions. The other words appear once each. The order of
+the first appearances are "bcdef", "abcdefg" and "bcde" which corresponds to the output.
 
 
 Solution:
