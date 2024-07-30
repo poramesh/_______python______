@@ -1,0 +1,70 @@
+Thw most basic model for (imperative)programming is sometimes called sequence, selection, iteration.
+
+1. Sequence: Performing operations one at a time in a specified order.
+2. Selection: Using conditional statements such as if to select which
+operations to execute.
+3. Iteration: Repeating some operations using loops or recursion.
+
+expressions and evaluation:
+python can do simple arithmetic. 2+2 is a simple arithmatic expression. 
+expression get evaluated and produces a value. 
+they dont always have to produce numericle value, it can also evalte to boolean value. 
+
+variables, typpes, and state:
+a variable, is created by aan assignment statement. 
+var_name = some_val
+The right side of = is an expression that gets evaluated first. Only later does the assignment happen. If the left side of the
+assignment is a variable name that already exist, it is overwritten. If it doesn’t already exist, it is created.
+
+Variables are just names. Every name is associated with some piece of
+data, called an object.
+The name is a string of characters and it is mapped to an object
+
+Every object has a type. The type often determines what you can do
+with the variable. The so-called atomic types in Python are integers,
+floats, and booleans, but any interesting program will contain variables of
+many other types as well. You can inspect the type of a variable using the
+type() function. In Python, the word type and class mean the same thing
+(most of the time)
+
+
+x = 5
+y = 3.2
+z = True
+print("x has type", type(x))
+print("y has type", type(y))
+print("z has type", type(z))
+x has type <class ’int’>
+y has type <class ’float’>
+z has type <class ’bool’>
+
+
+
+you should think of an object as having three things: an identity, a type,
+and a value. Its identity cannot change. It can be used to see if two objects
+are actually the same object with the is keyword. For example, consider
+the following code.
+
+x = [1, 2, 3]
+y = x 
+'''y = x assigns the reference of the list object [1, 2, 3] (which x points to) to the variable y. 
+Now both x and y point to the same object in memory'''
+z = [1, 2, 3]
+print(x is y) #True
+print(x is z) #false
+print(x == z) #true
+
+
+An object cannot change its identity. In Python, you also cannot change
+the type of an object. You can reassign a variable to point to different
+object of a different type, but that’s not the same thing. There are several
+functions that may seem to be changing the types of objects, but they are
+really just creating a new object from the old.
+
+x = 2
+print("x =", x) #x = 2
+print("float(x) =", float(x)) #float(x) = 2.0
+print("x still has type", type(x)) #x still has type <class ’int’>
+print("Overwriting x.") #Overwriting x.
+x = float(x)
+print("Now, x has type", type(x)) #Now, x has type <class ’float’>
