@@ -68,3 +68,147 @@ print("x still has type", type(x)) #x still has type <class ’int’>
 print("Overwriting x.") #Overwriting x.
 x = float(x)
 print("Now, x has type", type(x)) #Now, x has type <class ’float’>
+
+
+thisworks = float("inf") //postive infiinity
+print("float(\’inf\’) has type", type(thisworks)) //float(’inf’) has type <class ’float’>
+infinity_plus_one = float(’inf’) + 1 //inf only.
+thisworks = float("ioasodsanf") //cannot convert the string to the float. 
+
+
+collections:
+The next five most important types in Python are strings, lists, tuples,
+dictionaries, and sets. 
+
+Strings:
+
+Strings are sequences of characters and can be used to store text of all kinds.
+you can concatenate strings to create a new string using the plus sign. 
+You can also access individual characters using square brackets and an index.
+You can often turn other objects into strings.
+
+s = "Hello, "
+t = "World."
+u = s + t
+print(type(u)) #<class 'str'>
+print(u) Hello, World
+print(u[9]) r
+n = str(9876) 
+print(n[2])
+
+Lists:
+Lists are ordered sequences of objects. The objects do not have to be the
+same type. They are indicated by square brackets and the elements of the
+list are separated by commas.
+You can append an item to the end of a list
+L by using the command L.append(newitem). It is possible to index into a
+list exactly as we did with strings.
+
+L=[1,2,3,4,5,6]
+print(type(L)) #<class ’list’>
+L.append(100) #[1,2,3,4,5,6,100]
+print("The first item is", L[0]) #1
+print("The second item is", L[1]) #2
+print("The last item is", L[-1]) #100
+print("The second to last item is", L[-2] #6
+
+ou can also overwrite values in a list using regular assignment statements.
+L[2] = ’skip’
+L[3] = ’a’
+L[4] = ’few’
+L[-2] = 99
+print(L) [1, 2, 'skip', 'a', 'few', 99, 100]
+print(*L) #1 2 skip a few 99 100
+
+Tuples:
+Tuples are also ordered sequences of objects, but unlike lists, they are
+immutable. You can access the items but you can’t change what items are
+in the tuple after you create it. For example, trying to append raises an
+exception.
+
+t = (1, 2, "skip a few", 99, 100)
+print(type(t)) #<class ’tuple’>
+print(t) #(1, 2, ’skip a few’, 99, 100)
+print(t[4]) #100
+
+Here’s what happens when you try to append.
+t.append(101)
+Traceback (most recent call last):
+File "mdi8w4v9ms", line 3, in <module>
+t.append(101)
+AttributeError: ’tuple’ object has no attribute ’append’
+
+Here’s what happens when you try to assign a value to an item.
+t[4] = 99.5
+Traceback (most recent call last):
+File "me1lm8cv3r", line 3, in <module>
+t[4] = 99.5
+TypeError: ’tuple’ object does not support item assignment
+
+Note that it would be the same for strings.
+s = ’ooooooooo’
+s[4] = ’x’
+
+Traceback (most recent call last):
+File "x12wl1x2nf", line 4, in <module>
+s[4] = ’x’
+TypeError: ’str’ object does not support item assignment.
+
+you can update the tuple by  converting it the list or creatign a new tuple with the value "orange", and add that tuple:
+
+thistuple = ("apple", "banana", "cherry")
+y = ("orange",)
+thistuple += y
+print(thistuple) #('apple', 'banana', 'cherry', 'orange')
+
+____________________
+Dictionaries (dict)
+___________________
+Dictionaries store key-value pairs. That is, every element of a dictionary
+has two parts, a key and a value. If you have the key, you can get the
+value. The name comes from the idea that in a real dictionary (book), a
+word (the key) allows you to find its definition (the value).
+
+d = dict()
+d[5] = ’five’
+d[2] = ’two’
+d[’pi’] = 3.1 415926
+print(d) #{5: ’five’, 2: ’two’, ’pi’: 3.1415926}
+print(d[’pi’]) #3.1415926
+
+Keys can be different types, but they must be immutable types such as
+atomic types, tuples, or strings. but they must be immutable types such as
+atomic types, tuples, or strings. The reason for this requirement is that we
+will determine where to store something using the key. If the key changes,
+we will look in the wrong place when it’s time to look it up again.
+
+Dictionaries are also known as maps, mappings, or hash tables. We
+will go deep into how these are constructed later in the course. A dictionary
+doesn’t have a fixed order.
+If you assign to a key that’s not in the dictionary, it simply creates a
+new item. If you try to access a key that’s not in the dictionary, you will
+get a KeyError.
+D = {’a’: ’one’, ’b’: ’two’}
+D[’c’]
+Traceback (most recent call last):
+File "ln2yrzw6yb", line 2, in <module>
+D[’c’]
+KeyError: ’c’
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
