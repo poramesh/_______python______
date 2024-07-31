@@ -4,13 +4,16 @@ Thw most basic model for (imperative)programming is sometimes called sequence, s
 2. Selection: Using conditional statements such as if to select which
 operations to execute.
 3. Iteration: Repeating some operations using loops or recursion.
-
+____________________________
 expressions and evaluation:
+__________________________
 python can do simple arithmetic. 2+2 is a simple arithmatic expression. 
 expression get evaluated and produces a value. 
 they dont always have to produce numericle value, it can also evalte to boolean value. 
-
+_______________________________
 variables, typpes, and state:
+______________________________
+
 a variable, is created by aan assignment statement. 
 var_name = some_val
 The right side of = is an expression that gets evaluated first. Only later does the assignment happen. If the left side of the
@@ -77,11 +80,12 @@ thisworks = float("ioasodsanf") //cannot convert the string to the float.
 
 
 collections:
+
 The next five most important types in Python are strings, lists, tuples,
 dictionaries, and sets. 
-
+__________
 Strings:
-
+__________
 Strings are sequences of characters and can be used to store text of all kinds.
 you can concatenate strings to create a new string using the plus sign. 
 You can also access individual characters using square brackets and an index.
@@ -95,8 +99,9 @@ print(u) Hello, World
 print(u[9]) r
 n = str(9876) 
 print(n[2])
-
+__________
 Lists:
+__________
 Lists are ordered sequences of objects. The objects do not have to be the
 same type. They are indicated by square brackets and the elements of the
 list are separated by commas.
@@ -119,8 +124,9 @@ L[4] = ’few’
 L[-2] = 99
 print(L) [1, 2, 'skip', 'a', 'few', 99, 100]
 print(*L) #1 2 skip a few 99 100
-
+_____________
 Tuples:
+__________
 Tuples are also ordered sequences of objects, but unlike lists, they are
 immutable. You can access the items but you can’t change what items are
 in the tuple after you create it. For example, trying to append raises an
@@ -195,6 +201,61 @@ File "ln2yrzw6yb", line 2, in <module>
 D[’c’]
 KeyError: ’c’
 
+_______________
+sets
+___________
+They are collections of
+objects without duplicates. We use curly braces to denote them and commas
+to separate elements. a set has no fixed ordering.
+Be careful that empty braces indicates an empty dictionary and not
+an empty set.
+Notice that the duplicates have no effect on the value as its printed.
+
+s = {2,1}
+print(type(s))
+s.add(3)
+s.add(2)
+s.add(2)
+s.add(2)
+print(s)
+<class ’set’>
+{1, 2, 3}
+
+Be careful, is an empty dictionary. If you want an empty set, you would
+write set().
+_________________________________________
+some common things to do with collections>
+____________________________________________
+
+You can find the number of elements in the collection (the length) using
+len.
+a = "a string"
+b = ["my", "second", "favorite", "list"]
+c = (1, "tuple")
+d = {’a’: ’b’, ’b’: 2, ’c’: False}
+e = {1,2,3,4,4,4,4,2,2,2,1}
+
+print(len(a), len(b), len(c), len(d), len(e)) # 8 4 2 3 4
+print(e) #{1,2,3,4}
+
+For the sequential types (lists, tuples, and strings), you can slice a subsequence of indices using square brackets and a colon as in the following
+examples. 
+
+The range of indices is half open in that the slice will start with
+the first index and proceed up to but not including the last index. Negative
+indices count backwards from the end.
+
+Important: slicing a sequence creates a new object. That means a big
+slice will do a lot of copying. It’s really easy to write inefficient code this
+way.
+
+a = "a string"
+b = ["my", "second", "favorite", "list"]
+c = (1, 2,3,"tuple")
+print(a[3:7]) #trin
+print(a[1:-2]) #stri
+print(b[1:]) #[’second’, ’favorite’, ’list’]
+print(c[:2]) #(1, 2)
 
 
 
