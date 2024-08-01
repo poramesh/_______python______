@@ -178,6 +178,40 @@ print(items)  # Output: []
 
 The split method is particularly useful for parsing strings, processing text data, and preparing input for further processing in various applications.
 
+example 1:
+
+tr1 = "hello,world"
+result = str1.split(',') #['hello', 'world']
+
+Explanation:
+Before the ',' we have "hello".
+After the ',' we have "world".
+So, the result is ['hello', 'world'].
+
+example 2:
+
+str1 = ",world"
+result = str1.split(',') //['','world']
+
+example 3:
+
+str1 = "hello,"
+result = str1.split(',') //['hello','']
+
+example 4:
+
+str1 = ",A,B,"
+result = str1.split(',') //['','A,B,'] ->['','A','B,'] -> ['','A','B','']
+
+example 5:
+
+str1 = 'ABABAB'
+result =  str1.split('AB') //['','','','']
+
+example 6:
+
+str1 = 'ABCABCABC'
+result = str1.split('C')  //['AB',AB,AB,'']
 
 FORMAT:
 
