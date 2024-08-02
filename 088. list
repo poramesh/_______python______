@@ -1,0 +1,54 @@
+List
+
+Ordered: Elements in a list are stored in a specific order, and this order is maintained when you iterate over the list.
+Changeable: Lists are mutable, meaning you can modify elements after the list is created.
+Allows Duplicate Members: Lists can contain duplicate elements.
+
+Example: 
+# Creating a list
+my_list = [1, 2, 3, 3, 4]
+
+# Ordered and changeable
+print(my_list)  # Output: [1, 2, 3, 3, 4]
+
+# Modifying the list
+my_list[0] = 5
+print(my_list)  # Output: [5, 2, 3, 3, 4]
+
+# Allows duplicate members
+my_list.append(4)
+print(my_list)  # Output: [5, 2, 3, 3, 4, 4]
+
+
+you cant assign a value to the list cause it is not initialised so we use append or else it will error in index of range error.
+
+Direct Assignment: Use if the list and index already exist.
+Appending: Use to add elements to the end of the list.
+Inserting: Use to add elements at specific positions.
+Extending: Use to add elements from another iterable.
+List Comprehensions: Use for creating lists in a concise way.
+Pre-filling Lists: Useful when you know the size of the list beforehand and want to modify it by index later.
+
+
+the assignment works id we intitilaise it like with * FALSE;
+
+from typing import List
+
+class Solution:
+    def kidsWithCandies(self, candies: List[int], extraCandies: int) -> List[bool]:
+        max_candies = max(candies)
+        
+        # Initialize a list with the same length as candies
+        bool_list = [False] * len(candies)  # Pre-fill the list with False
+
+        for i in range(len(candies)):  # Ensure to loop through the entire list
+            if candies[i] + extraCandies >= max_candies:
+                bool_list[i] = True  # Assign True at the specific index
+            else:
+                bool_list[i] = False  # This line is not necessary as the list is already initialized with False
+
+        return bool_list
+
+# Example usage
+solution = Solution()
+print(solution.kidsWithCandies([2, 3, 5, 1, 3], 3))  # Output: [True, True, True, False, True]
