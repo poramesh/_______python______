@@ -169,6 +169,86 @@ Finally, the result is converted to a list and printed.
 Lambda functions are convenient for simple filtering operations because they allow you to define the filtering condition inline, 
 without the need to define a separate function.
 
+
+
+
+
+
+
+
+DIFFERENT WAYS OF DEFINING LAMBDA
+
+
+Basic Lambda Definition:
+_________________________
+
+square = lambda x: x ** 2
+print(square(5))  # Output: 25
+
+Lambda with Multiple Arguments:
+________________________________
+
+add = lambda x, y: x + y
+print(add(3, 5))  # Output: 8
+
+Lambda in a List:
+_________________
+
+funcs = [lambda x: x + 1, lambda x: x * 2, lambda x: x ** 2]
+for f in funcs:
+    print(f(3))
+# Output:
+# 4
+# 6
+# 9
+
+Lambda in map/filter/sorted:
+__________________________
+
+map:
+
+nums = [1, 2, 3, 4]
+doubled = map(lambda x: x * 2, nums)
+print(list(doubled))  # Output: [2, 4, 6, 8]
+
+
+filter:
+
+nums = [1, 2, 3, 4]
+evens = filter(lambda x: x % 2 == 0, nums)
+print(list(evens))  # Output: [2, 4]
+
+sorted with key:
+
+pairs = [(1, 'one'), (3, 'three'), (2, 'two')]
+sorted_pairs = sorted(pairs, key=lambda x: x[0])
+print(sorted_pairs)  # Output: [(1, 'one'), (2, 'two'), (3, 'three')]
+
+Lambda for Immediate Execution:
+
+As seen in your example: return (lambda c: sum(min(c[n], c[k-n]) for n in c))(Counter(nums))//2
+
+(lambda x: x + 1)(5)  # Output: 6
+The lambda function is immediately called with 5 as an argument.
+
+Lambda within a Function:
+
+def my_func(n):
+    return lambda x: x + n
+
+add_10 = my_func(10)
+print(add_10(5))  # Output: 15
+
+Lambda with Conditional Logic:
+
+max_func = lambda a, b: a if a > b else b
+print(max_func(10, 20))  # Output: 20
+
+
+
+
+
+
 ''''''
 SORTED()
 
