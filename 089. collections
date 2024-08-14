@@ -87,6 +87,52 @@ print(word_count)  # Output: defaultdict(<class 'int'>, {'apple': 3, 'banana': 2
 key points: avoid KeyError, defaultdict avoids KeyError by automatically providing a default value for missing keys.
 
 
+
+
+example 5:
+
+
+from collections import defaultdict
+
+# Defining a dict
+d = defaultdict(list)
+
+for i in range(5):
+    d[i].append(i)
+    
+print("Dictionary with values as list:")
+print(d)
+
+o/p:
+Dictionary with values as list:
+defaultdict(<class 'list'>, {0: [0], 1: [1], 2: [2], 3: [3], 4: [4]})
+
+
+
+
+example 6:
+
+
+ 
+from collections import defaultdict
+ 
+d = defaultdict(int)
+ 
+L = [1, 2, 3, 4, 2, 4, 1, 2]
+ 
+# Iterate through the list
+# for keeping the count
+for i in L:
+     
+    # The default value is 0
+    # so there is no need to 
+    # enter the key first
+    d[i] += 1
+     
+print(d) #defaultdict(<class 'int'>, {1: 2, 2: 3, 3: 1, 4: 2})
+
+
+
 __________________
 ChainMap:
 __________________
