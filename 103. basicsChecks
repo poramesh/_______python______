@@ -1,0 +1,12 @@
+would give the length
+len(list)
+
+
+to check if its a alphanumeric
+char = 'a'
+if (char.isalpha()): 
+if ('a' <= char <= 'z') or ('A' <= char <= 'Z'):
+
+to check if its a digit
+num_str = '12345'
+if num_str.isdigit():
