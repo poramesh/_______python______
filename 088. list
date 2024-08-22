@@ -18,16 +18,18 @@ print(my_list)  # Output: [5, 2, 3, 3, 4]
 # Allows duplicate members
 my_list.append(4)
 print(my_list)  # Output: [5, 2, 3, 3, 4, 4]
+_______________________________________________
 
+my_list = []      # Empty list
+my_list[0] = 10   # This will raise an IndexError
 
 you cant assign a value to the list cause it is not initialised so we use append or else it will error in index of range error.
 
-Direct Assignment: Use if the list and index already exist.
-Appending: Use to add elements to the end of the list.
-Inserting: Use to add elements at specific positions.
-Extending: Use to add elements from another iterable.
-List Comprehensions: Use for creating lists in a concise way.
-Pre-filling Lists: Useful when you know the size of the list beforehand and want to modify it by index later.
+my_list = [0] * 5  # Create a list with 5 elements, all initialized to 0
+my_list[2] = 10    # This works because index 2 exists
+print(my_list)     # Output: [0, 0, 10, 0, 0]
+
+
 
 
 the assignment works id we intitilaise it like with * FALSE;
@@ -38,7 +40,6 @@ class Solution:
     def kidsWithCandies(self, candies: List[int], extraCandies: int) -> List[bool]:
         max_candies = max(candies)
         
-        # Initialize a list with the same length as candies
         bool_list = [False] * len(candies)  # Pre-fill the list with False
 
         for i in range(len(candies)):  # Ensure to loop through the entire list
@@ -49,6 +50,70 @@ class Solution:
 
         return bool_list
 
-# Example usage
 solution = Solution()
 print(solution.kidsWithCandies([2, 3, 5, 1, 3], 3))  # Output: [True, True, True, False, True]
+
+
+1. Direct Assignment
+
+Use this when you know the list and the index already exist.
+
+my_list = [1, 2, 3, 4, 5]
+my_list[2] = 10
+print(my_list)  # Output: [1, 2, 10, 4, 5]
+
+In this example, we're directly assigning the value 10 to index 2 of the list my_list, which already has enough elements.
+
+2. Appending
+
+Use this to add elements to the end of the list.
+
+my_list = []
+my_list.append(1)
+my_list.append(2)
+my_list.append(3)
+print(my_list)  # Output: [1, 2, 3]
+
+Here, we use append() to add elements 1, 2, and 3 to the end of my_list.
+
+3. Inserting
+
+Use this to add elements at specific positions within the list.
+
+my_list = [1, 2, 4, 5]
+my_list.insert(2, 3)  # Inserts 3 at index 2
+print(my_list)  # Output: [1, 2, 3, 4, 5]
+
+In this example, insert() is used to add 3 at index 2, shifting the other elements to the right.
+
+4. Extending
+
+Use this to add elements from another iterable (like a list, tuple, etc.) to the end of the list.
+
+my_list = [1, 2, 3]
+other_list = [4, 5, 6]
+my_list.extend(other_list)
+
+print(my_list)  # Output: [1, 2, 3, 4, 5, 6]
+
+Here, extend() adds all elements from other_list to the end of my_list.
+
+5. List Comprehensions
+
+Use this for creating lists in a concise and readable way, often with transformations or filtering.
+
+squares = [x**2 for x in range(5)]
+print(squares)  # Output: [0, 1, 4, 9, 16]
+
+In this example, a list comprehension generates a list of squares for numbers from 0 to 4.
+
+6. Pre-filling Lists
+
+Useful when you know the size of the list beforehand and want to initialize it with default values.
+
+my_list = [0] * 5
+my_list[2] = 10
+print(my_list)  # Output: [0, 0, 10, 0, 0]
+
+
+
