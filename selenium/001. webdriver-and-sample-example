@@ -46,6 +46,13 @@ Remote communication can also take place using Selenium Server or Selenium Grid,
 | WebDriver | <---> | Selenium Grid| <---> |  Driver | <---> |  Browser  |
 +-----------+       +-------------+      +---------+      +-----------+
 
+
+// the Host System (or Grid Node) is the remote machine where the browser is actually running, while the
+Test System controls and sends commands to it via the Selenium Grid.
+
+
+
+
 https://www.selenium.dev/documentation/overview/components/
 
 Selenium controls web browsers
