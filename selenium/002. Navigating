@@ -63,9 +63,15 @@ tag selected. Dealing with SELECT tags isn’t too bad:
 
 element = driver.find_element(By.XPATH, "//select[@name='name']")
 all_options = element.find_elements(By.TAG_NAME, "option")
-for option in all_options:
-    print("Value is: %s" % option.get_attribute("value")) //print(f"Value is: {option.get_attribute('value')}")
+for option in all_options: 
+    print("Value is: %s" % option.get_attribute("value")) //print(f"Value is: {option.get_attribute('value')}") //    visible_text = option.text
     option.click()
+
+//
+Value is: 1
+Value is: 2
+Value is: 3
+
 
 First line (find_element) locates the parent dropdown element (<select>).
 Second line (find_elements) then searches inside that parent element (the dropdown) to find all the child elements (<option> tags).
@@ -124,9 +130,43 @@ Suppose in a test, we need the list of all default selected options, Select clas
 select = Select(driver.find_element(By.XPATH, "//select[@name='name']"))
 all_selected_options = select.all_selected_options
 
-To get all available options:
 
+<select name="fruits" multiple>
+  <option value="1" selected>Apple</option>
+  <option value="2" selected>Banana</option>
+  <option value="3">Orange</option>
+</select>To get all available options:
+
+Apple
+Banana
+
+cause they botha re selected.
+
+_________________________
 options = select.options
+
+The select.options property in Selenium returns a list of all the available options inside a <select> element, regardless of whether 
+they are selected or not. This is useful when you want to access or interact with all the options in a dropdown.
+
+
+from selenium.webdriver.support.ui import Select
+
+# Find the select element
+select = Select(driver.find_element(By.XPATH, "//select[@name='cars']"))
+
+# Get all options in the dropdown
+options = select.options
+
+# Print out the visible text of each option
+for option in options:
+    print(option.text)
+
+/Volvo
+BMW
+Audi
+
+
+_____________________________________________
 
 Once you’ve finished filling out the form, you probably want to submit it. One way to do this would be to find the “submit” button and click it:
 
