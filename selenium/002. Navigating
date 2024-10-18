@@ -29,10 +29,6 @@ You can also look for a link by its text, but be careful! The text must be an ex
 If there’s more than one element that matches the query, then only the first will be returned.
 If nothing can be found, a NoSuchElementException will be raised.
 
-WebDriver has an “Object-based” API; we represent all types of elements using the same interface. This means that although you may see a
-lot of possible methods you could invoke when you hit your IDE’s auto-complete key combination, not all of them will make sense or be valid. 
-Don’t worry! WebDriver will attempt to do the Right Thing, and if you call a method that makes no sense (“setSelected()” on a “meta” tag, for example)
-an exception will be raised.
 
 So, you’ve got an element. What can you do with it? First of all, you may want to enter some text into a text field:
 
@@ -219,6 +215,24 @@ Alternatively, you can pass a “window handle” to the “switch_to.window()�
 
 for handle in driver.window_handles:
     driver.switch_to.window(handle)
+
+
+more example:
+
+main_window = driver.current_window_handle
+
+for handle in driver.window_handles:
+    driver.switch_to.window(handle)
+    
+    if handle != main_window:
+        print(f"Closing window: {driver.title}")
+        driver.close()
+
+driver.switch_to.window(main_window)
+
+
+
+
 
 You can also swing from frame to frame (or into iframes):
 
