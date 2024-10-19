@@ -1,0 +1,242 @@
+
+You can use drag and drop, either moving an element by a certain amount, or on to another element:
+
+element = driver.find_element(By.NAME, "source")
+target = driver.find_element(By.NAME, "target")
+
+from selenium.webdriver import ActionChains
+action_chains = ActionChains(driver)
+action_chains.drag_and_drop(element, target).perform()
+
+
+
+
+Moving between windows and frames
+
+It’s rare for a modern web application not to have any frames or to be constrained to a single window. WebDriver supports moving
+between named windows using the “switch_to.window” method:
+
+
+Tabs and Windows in Selenium:
+
+Both tabs and windows are considered "windows" in Selenium, and each is assigned a unique handle.
+Whether a new window or tab is opened, Selenium can interact with them using their window handles.
+
+driver.switch_to.window("windowName")
+
+<a href="somewhere.html" target="windowName">Click here to open a new window</a>
+<a href="somewhere.html" target="_self">Open in the same window</a> 
+
+_self (default behavior): Opens the link in the same frame or window (i.e., the current window).
+_blank: Opens the link in a new window or tab.
+
+
+//target="windowName": Specifies that the link should open in a new window or tab named windowName. 
+If a window/tab with that name already exists, the content will be loaded in that
+window/tab instead of opening a new one.
+
+_____________________________________
+
+oepning and switching between windows:
+
+from selenium import webdriver
+
+driver = webdriver.Chrome()
+
+driver.get("https://www.example.com")
+print("First Window Title: ", driver.title) # Open the first window
+
+driver.execute_script("window.open('https://www.google.com', 'newWindow');") # Open a new window using JavaScript
+
+handles = driver.window_handles
+
+driver.switch_to.window(handles[1])
+print("Second Window Title: ", driver.title)
+
+driver.switch_to.window(handles[0])
+print("Back to First Window Title: ", driver.title)
+
+driver.quit()
+
+__________________________
+Key Factors:
+
+Browser Settings: Whether the link opens in a new tab or window depends on the user's browser preferences.
+By default, most modern browsers open links with a target in a new tab.
+
+JavaScript Control: If you want to explicitly control whether it opens in a new window or tab, 
+you would need to use JavaScript. 
+
+<a href="#section1">Go to Section 1</a>
+
+//The href="#section1" points to an element with id="section1" on the current page. Clicking 
+the link will scroll the page to that section.
+
+_______________________
+
+
+Alternatively, you can pass a “window handle” to the “switch_to.window()” method. Knowing this,
+it’s possible to iterate over every open window like so:
+
+for handle in driver.window_handles:
+    driver.switch_to.window(handle)
+
+
+more examples:
+
+main_window = driver.current_window_handle
+
+for handle in driver.window_handles:
+    driver.switch_to.window(handle)
+    
+    if handle != main_window:
+        print(f"Closing window: {driver.title}")
+        driver.close()
+
+driver.switch_to.window(main_window)
+
+
+
+____________________________
+
+You can also swing from frame to frame (or into iframes):
+
+driver.switch_to.frame("frameName")
+
+It’s possible to access subframes by separating the path with a dot, and
+you can specify the frame by its index too. That is:
+
+driver.switch_to.frame("frameName.0.child")
+
+would go to the frame named “child” of the first subframe of the frame called “frameName”.
+All frames are evaluated as if from *top*.
+Once we are done with working on frames, we will have to come back to the parent frame which can be done using:
+
+driver.switch_to.default_content()
+
+
+
+
+Popup dialogs
+
+In Selenium and web development, alerts refer to small pop-up messages that appear on the screen to deliver information, ask for
+confirmation, or prompt user input. They are created by the browser using JavaScript and can block user
+interaction with the page until the alert is handled.
+
+Types of JavaScript Alerts:
+
+Alert: 
+A simple pop-up message that only has an "OK" button.
+Displays a simple message and requires the user to click "OK" to continue.
+
+alert("This is a simple alert message!");
+
+
+
+Confirm:
+A pop-up that asks the user to confirm or cancel (with "OK" and "Cancel" buttons).
+Displays a message and requires the user to either confirm (by clicking "OK") or cancel (by clicking "Cancel").
+The return value is true for "OK" and false for "Cancel."
+
+var result = confirm("Are you sure?");
+if (result) {
+    console.log("User clicked OK");
+} else {
+    console.log("User clicked Cancel");
+}
+
+
+
+prompt():
+A pop-up that asks the user for input, along with "OK" and "Cancel" buttons.
+Asks the user to input some information. The return value is the input text if "OK" is clicked, or null if "Cancel" is clicked.
+
+var userInput = prompt("Please enter your name:", "Default Name");
+if (userInput != null) {
+    console.log("User entered: " + userInput);
+} else {
+    console.log("User cancelled the prompt");
+}
+
+
+
+
+Handling Alerts in Selenium:
+
+Switch to the Alert: You need to switch to the alert using the driver.switch_to.alert method because
+alerts exist outside the main page content.
+
+Handling a Simple alert():
+
+from selenium import webdriver
+
+driver = webdriver.Chrome()
+driver.get("https://www.example.com/alert")
+
+alert = driver.switch_to.alert
+
+print("Alert text: ", alert.text)
+
+alert.accept()
+driver.quit()
+
+
+Accepting or Dismissing Alerts: You can interact with the alert using accept(), dismiss(), or retrieve its text using text.
+
+
+from selenium import webdriver
+
+driver = webdriver.Chrome()
+
+driver.get("https://www.example.com/confirm")
+
+confirm = driver.switch_to.alert
+
+print("Confirm text: ", confirm.text)
+
+confirm.accept()
+
+# Or dismiss the confirm (click "Cancel")
+# confirm.dismiss()
+
+driver.quit()
+
+
+more example:
+
+from selenium import webdriver
+
+driver = webdriver.Chrome()
+driver.get("https://www.example.com/prompt")
+prompt = driver.switch_to.alert
+
+print("Prompt text: ", prompt.text)
+prompt.send_keys("Selenium User")
+
+prompt.accept()
+driver.quit()
+
+
+
+Handling Alerts with Timeouts:
+
+If you're expecting an alert to appear after some action, but it might take a while, you can use explicit waits to wait for the alert to appear.
+
+
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium import webdriver
+
+driver = webdriver.Chrome()
+
+driver.get("https://www.example.com/alert")
+
+WebDriverWait(driver, 10).until(EC.alert_is_present())
+
+alert = driver.switch_to.alert
+
+alert.accept()
+driver.quit()
+
+
