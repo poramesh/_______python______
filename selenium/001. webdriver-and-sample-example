@@ -188,6 +188,10 @@ def setup():
 def teardown(driver):
     driver.quit()
 
+# This block will execute when the script is run directly
+if __name__ == "__main__":
+    test_eight_components()
+
 
 ABOUT THE Drivers:
 Selenium requires a driver to interface with the chosen browser. Firefox, for example, requires geckodriver, which needs to be installed
