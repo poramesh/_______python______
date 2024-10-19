@@ -1,0 +1,137 @@
+
+Filling in forms
+
+<select name="name">
+  <option value="1">Option 1</option>
+  <option value="2">Option 2</option>
+  <option value="3">Option 3</option>
+</select>
+
+
+We’ve already seen how to enter text into a textarea or text field, but what about the other elements? 
+You can “toggle” the state of the drop down, and you can use “setSelected” to set something like an OPTION
+tag selected. Dealing with SELECT tags isn’t too bad:
+
+element = driver.find_element(By.XPATH, "//select[@name='name']")
+all_options = element.find_elements(By.TAG_NAME, "option")
+for option in all_options: 
+    print("Value is: %s" % option.get_attribute("value")) //print(f"Value is: {option.get_attribute('value')}") //    visible_text = option.text
+    option.click()
+
+//
+Value is: 1
+Value is: 2
+Value is: 3
+
+
+First line (find_element) locates the parent dropdown element (<select>).
+Second line (find_elements) then searches inside that parent element (the dropdown) to find all the child elements (<option> tags).
+
+
+This will find the first “SELECT” element on the page, and cycle through each of its OPTIONs in turn, printing out their values, and selecting each in turn.
+
+As you can see, this isn’t the most efficient way of dealing with SELECT elements. WebDriver’s support classes include one called a “Select”,
+which provides useful methods for interacting with these:
+
+from selenium.webdriver.support.ui import Select
+
+select = Select(driver.find_element(By.NAME, 'name'))
+select.select_by_index(index)
+select.select_by_visible_text("text")
+select.select_by_value(value)
+
+
+
+Example HTML Dropdown:
+
+
+<select name="name">
+  <option value="1">Option 1</option>
+  <option value="2">Option 2</option>
+  <option value="3">Option 3</option>
+</select>
+
+1. select_by_index(index):
+
+This selects an option by its index in the dropdown list (0-based index).
+
+from selenium.webdriver.support.ui import Select
+
+select = Select(driver.find_element(By.NAME, 'name')) # Locate the dropdown
+select.select_by_index(1) # Select the option at index 1 (this will select "Option 2")
+
+2. select_by_visible_text("text"):
+
+select.select_by_visible_text("Option 3") # Select the option by the visible text "Option 3"
+
+
+3. select_by_value(value):
+
+select.select_by_value("1") # Select the option where the value attribute is "1"
+
+WebDriver also provides features for deselecting all the selected options:
+
+
+select = Select(driver.find_element(By.ID, 'id'))
+select.deselect_all()
+This will deselect all OPTIONs from that particular SELECT on the page.
+
+Suppose in a test, we need the list of all default selected options, Select class provides a property method that returns a list:
+
+select = Select(driver.find_element(By.XPATH, "//select[@name='name']"))
+all_selected_options = select.all_selected_options
+
+
+<select name="fruits" multiple>
+  <option value="1" selected>Apple</option>
+  <option value="2" selected>Banana</option>
+  <option value="3">Orange</option>
+</select>To get all available options:
+
+Apple
+Banana
+
+cause they botha re selected.
+
+_________________________
+
+options = select.options
+
+The select.options property in Selenium returns a list of all the available options inside a <select> element, regardless of whether 
+they are selected or not. This is useful when you want to access or interact with all the options in a dropdown.
+
+
+from selenium.webdriver.support.ui import Select
+
+# Find the select element
+select = Select(driver.find_element(By.XPATH, "//select[@name='cars']"))
+
+# Get all options in the dropdown
+options = select.options
+
+# Print out the visible text of each option
+for option in options:
+    print(option.text)
+
+//
+Volvo
+BMW
+Audi
+
+
+_____________________________________________
+
+Once you’ve finished filling out the form, you probably want to submit it. One way to do this would be to find the “submit” button and click it:
+
+# Assume the button has the ID "submit" :)
+
+driver.find_element(By.ID, "submit").click()
+
+Alternatively, WebDriver has the convenience method “submit” on every element. If you call this on an element within a form,
+WebDriver will walk up the DOM until it finds the enclosing form and then calls submit on that. If the element isn’t in a form,
+then the NoSuchElementException will be raised:
+
+element.submit()
+
+
+
