@@ -59,3 +59,32 @@ if (n%2) or (6 <= n <= 20):
     print('Weird')
 else:
     print('Not Weird')
+
+
+
+// Read input (you can replace this with an appropriate input method if needed)
+let n = parseInt(prompt("Enter a number:").trim(), 10);
+
+if (n % 2 === 0) {
+    if (n >= 2 && n <= 5) {
+        console.log("Not Weird");
+    } else if (n >= 6 && n <= 20) {
+        console.log("Weird");
+    } else if (n > 20) {
+        console.log("Not Weird");
+    }
+} else {
+    console.log("Weird");
+}
+
+The 10 inside parseInt specifies the radix, which is the base of the numeral system used to interpret the input string. For example:
+
+10 means decimal (base 10), which is the standard numeral system we use.
+2 means binary (base 2).
+16 means hexadecimal (base 16)
+
+
+console.log(parseInt("101", 2)); // Output: 5 (binary 101 = decimal 5)
+console.log(parseInt("1101", 2)); // Output: 13 (binary 1101 = decimal 13)
+console.log(parseInt("102", 2)); // Output: 2 (stops parsing at '2' since it's invalid in base-2)
+console.log(parseInt("abc", 2)); // Output: NaN (invalid binary number)
