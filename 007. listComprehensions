@@ -1,4 +1,5 @@
 Task:
+""""expalnation in the end""
 
 Let's learn about list comprehensions! 
 You are given three integers x, y and z representing the dimensions of a cuboid along with an integer .
@@ -43,6 +44,25 @@ The return value is a new list, leaving the old list unchanged.
 #x, y, z, n = int(input()), int(input()), int(input()), int(input())
 
 SOLUTION
+
+Tuple: If you have values separated by commas inside parentheses, it's a tuple.
+Example: (2, 3, 4) is a tuple.
+a,b,c = (2,3,4) it is unpacking the values to the variables
+
+Generator: If you have an expression (like i for i in range(3)) inside parentheses, it creates a generator expression.
+Example: (i for i in range(3)) is a generator expression.
+var x,y,z = (i for i in range(3))  //unpacking the genertor.
+
+differnce between lsit comphrension and generator:
+
+
+Feature	                Generator Expression                             	           List/Set/Dict Comprehension
+Syntax	        Uses parentheses ()	Uses square brackets [] for lists,                  curly braces {} for sets and dictionaries
+Memory Usage	Lazy, memory-efficient; stores only one value at a time	Eager,          stores the entire collection in memory
+Evaluation	    Lazy evaluation (values are computed as needed)	                         Eager evaluation (all values are computed upfront)
+Performance	    More efficient for large data sets, as it generates values on demand	  Can be less efficient for large data sets, as all values are generated at once
+Return Type	    Returns a generator object	                                             Returns a list, set, or dictionary, depending on the comprehension
+
 
 x,y,z,n = (int(input()) for _ in range(4))
 
@@ -111,3 +131,34 @@ public class Main {
     }
 }
 
+
+
+
+You are given:
+
+Three integers x, y, and z representing the dimensions of a cuboid. This means the cuboid has:
+x units along the x-axis,
+y units along the y-axis,
+z units along the z-axis.
+
+Another integer n, and you need to print all possible coordinates (i, j, k) where:
+i ranges from 0 to x-1,
+j ranges from 0 to y-1,
+k ranges from 0 to z-1,
+and the sum i + j + k is not equal to n.
+
+The possible coordinates are the combinations of these values, 
+where 
+i ranges from 0 to x-1 (i.e., 0 to 1),
+j ranges from 0 to y-1 (i.e., 0 to 1),
+and k ranges from 0 to z-1 (i.e., 0 to 1).
+
+All possible coordinates for x = 2, y = 2, z = 2:
+(0, 0, 0)
+(0, 0, 1)
+(0, 1, 0)
+(0, 1, 1)
+(1, 0, 0)
+(1, 0, 1)
+(1, 1, 0)
+(1, 1, 1)
