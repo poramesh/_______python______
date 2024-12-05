@@ -15,7 +15,7 @@ def square(x):
     
 numbers = [1, 2, 3, 4, 5]
 squared_numbers = map(square, numbers)
-
+print(squared_numbers) #<map object at 0x7a51e8171ab0>
 print(list(squared_numbers))  # Output: [1, 4, 9, 16, 25]
 In this example:
 
@@ -34,7 +34,6 @@ We'll use a simple example where we square each number in a list.
 
 Consider the following code:
 
-python
 numbers = [1, 2, 3, 4, 5]
 squared_numbers = map(lambda x: x ** 2, numbers)
 
