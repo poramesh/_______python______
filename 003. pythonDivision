@@ -28,3 +28,33 @@ which indicates that the file is the main program. However, when a Python file i
 the value of name is set to the name of the file, which indicates that the file is a module.
 
 """
+
+
+Example:
+
+File: module_example.py
+
+def add(a, b):
+    return a + b
+
+if __name__ == "__main__":
+    a = int(input("Enter first number: "))
+    b = int(input("Enter second number: "))
+    print(f"The sum is: {add(a, b)}")
+
+
+File: main_script.py
+
+import module_example
+
+# Call the add function from the module
+result = module_example.add(5, 3)
+print(f"The result is: {result}")
+
+
+
+If you run module_example.py directly:
+It will prompt for user input and display the sum.
+If you run main_script.py:
+It will only execute the add function; the input prompts in module_example.py will be 
+skipped because __name__ in that file will not be "__main__".
