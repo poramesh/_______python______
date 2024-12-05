@@ -32,5 +32,9 @@ when you add * instead of [0, 1, 4, 9, 16] it will be 0 1 4 9 16
 #print("\n".join([str(i*i) for i in range(int(input()))]))
 
 
+Each square is converted to a string using str(i*i) because join() works only with strings, not integers.
+
+The list comprehension [str(i*i) for i in range(int(input()))] produces a list of strings. Each string represents the square of a number (i*i).
+
 
 
