@@ -55,3 +55,19 @@ In your code, avg is the only argument provided to format(), so it will be inser
 (or)
 
 print( format(sum(student_marks[query_name])/len(student_marks[query_name]), ".2f") )
+
+
+pi = 3.14159265359
+print(f'{pi:.2f}')
+
+more on this type of format
+
+1. Padding the number with zeros (to a width of 5):
+
+print(format(10, "05d"))  # Output: 00010
+
+2. Formatted as a hexadecimal
+
+print(format(10, "x"))  # Output: a (lowercase hexadecimal)
+
+
