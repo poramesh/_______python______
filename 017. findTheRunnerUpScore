@@ -26,7 +26,7 @@ Solution:
 n = int(input())
 arr = list(set(map(int, input().split())))
 arr.sort()
-print(arr[-2])
+print(arr[-2]) //negative indices are used to access elements from the end of a list (or array)
 
 (or)
 
@@ -36,6 +36,17 @@ z = max(lis)
 while max(lis) == z:
     lis.remove(max(lis))
 print(max(lis))
+
+
+
+lis = [1, 2, 3, 3]
+lis.remove(3) # Remove the first occurrence of 3
+print lis #[1, 2, 3]
+
+
+numbers = [3, 7, 2, 9, 5]
+max_value = max(numbers) # Find the maximum value
+
 
 (or)
 
