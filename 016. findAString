@@ -25,6 +25,24 @@ CDC
 Sample Output
 2
 
+
+what is substring?? A substring is a sequence of characters that appears within another string. It can be as short as a single character or as long as the entire string itself.
+
+For the string "Hello, World":
+
+"Hello", "World", ", W", and "o" are all substrings.
+"Hi" is not a substring because it does not appear in the string.
+
+Contiguous: Substrings are always contiguous sequences of characters. For example, in "apple", "apl" is not a substring since it skips characters.
+
+In Python:
+text = "Hello, World"
+print(text[0:5])  # Outputs "Hello"
+
+In JavaScript:
+let text = "Hello, World";
+console.log(text.substring(0, 5));  // Outputs "Hello"
+
 Solution:
 
 def count_substring(string, subString):
