@@ -56,14 +56,14 @@ print(sorted(list(set(arr)))[-2])
 
  n = int(input())
     arr = list(map(int, input().split()))
-    print(max([x for x in arr if x!=max(arr)]))
+    print(max([x for x in arr if x!=max(arr)])) # excluding max in the list comphrenstion and then getting the maax from the list that doesn contains first max
     
 (or)
 
 n = int(input())
 a = sorted(map(int, input().split()), reverse=True)
 #print(a) #[6, 6, 5, 3, 2]
-#print(a.count(a[0])) #2
+#print(a.count(a[0])) #2, isnt this brilliant?
 print(a[a.count(a[0])])
 
 
