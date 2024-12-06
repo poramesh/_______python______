@@ -101,25 +101,13 @@ for _ in range(int(input())):
     command, *args = input().split() #command, *args = ...: This line uses Python's unpacking feature. The first element of the list is assigned to command,
 and the rest of the elements (if any) are packed into the list args.
     try:
-        getattr(L, command)(*(int(x) for x in args)) #args will be ['1', '10'] and *(int(x) for x in args) converts to *(1, 10)
+        getattr(L, command)(*(int(x) for x in args)) #args will be ['1', '10'] and *(int(x) for x in args) unpacks the generator functions we can alos use list comphren an unpack it
     except AttributeError:
         print(L)
 
 (or)
 
-n = input()
-l = []
-for _ in range(n):
-    s = raw_input().split()
-    cmd = s[0]
-    args = s[1:]
-    if cmd !="print":
-        cmd += "("+ ",".join(args) +")"
-        eval("l."+cmd)
-    else:
-        print l
 
-(or)
 
 n = input()
 l = []
