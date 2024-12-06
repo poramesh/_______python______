@@ -1,3 +1,23 @@
+
+
+what is substring?? A substring is a sequence of characters that appears within another string. It can be as short as a single character or as long as the entire string itself.
+
+For the string "Hello, World":
+
+"Hello", "World", ", W", and "o" are all substrings.
+"Hi" is not a substring because it does not appear in the string.
+
+Contiguous: Substrings are always contiguous sequences of characters. For example, in "apple", "apl" is not a substring since it skips characters.
+
+In Python:
+text = "Hello, World"
+print(text[0:5])  # Outputs "Hello"
+
+In JavaScript:
+let text = "Hello, World";
+console.log(text.substring(0, 5));  // Outputs "Hello"
+
+
 Task: 
 
 
@@ -25,23 +45,6 @@ CDC
 Sample Output
 2
 
-
-what is substring?? A substring is a sequence of characters that appears within another string. It can be as short as a single character or as long as the entire string itself.
-
-For the string "Hello, World":
-
-"Hello", "World", ", W", and "o" are all substrings.
-"Hi" is not a substring because it does not appear in the string.
-
-Contiguous: Substrings are always contiguous sequences of characters. For example, in "apple", "apl" is not a substring since it skips characters.
-
-In Python:
-text = "Hello, World"
-print(text[0:5])  # Outputs "Hello"
-
-In JavaScript:
-let text = "Hello, World";
-console.log(text.substring(0, 5));  // Outputs "Hello"
 
 Solution:
 
@@ -78,3 +81,112 @@ if __name__ == '__main__':
     
     count = count_substring(string, sub_string)
     print(count)
+
+
+
+
+
+in js:
+
+let string = "hello world";
+let subString = "world";
+
+if (string.includes(subString)) {
+    console.log("Substring found!");
+} else {
+    console.log("Substring not found.");
+}
+
+(or)
+
+if (string.indexOf(subString) !== -1) {
+    console.log("Substring found!");
+} else {
+    console.log("Substring not found.");
+}
+
+(or)
+
+let regex = new RegExp(subString);
+
+if (regex.test(string)) {
+    console.log("Substring found!");
+} else {
+    console.log("Substring not found.");
+}
+
+
+
+
+
+function countSubstring(string, subString) {
+    let count = 0;
+
+    for (let i = 0; i <= string.length - subString.length; i++) {
+        if (string.slice(i, i + subString.length) === subString) {
+            count++;
+        }
+    }
+
+    return count;
+}
+
+let string = "hellohello";
+let subString = "hello";
+console.log(countSubstring(string, subString)); // Output: 2
+
+
+
+
+(or)
+
+function countSubstring(string, subString) {
+    let regex = new RegExp(subString, "g"); // Create a global regex for the substring
+    let matches = string.match(regex); // Get all matches
+    return matches ? matches.length : 0; // Return the count or 0 if no matches
+}
+
+let string = "hellohellohello";
+let subString = "hello";
+console.log(countSubstring(string, subString)); // Output: 3
+
+
+(or)
+
+let string = "hellohellohello";
+let subString = "hello";
+let count = 0;
+let index = 0;
+
+while ((index = string.indexOf(subString, index)) !== -1) {
+    count++; // Increment the count for each match
+    index++; // Move forward to check for overlapping matches
+}
+
+console.log(count); // Output: 3
+
+
+
+Walkthrough:
+
+First Iteration:
+indexOf(subString, 0) finds "hello" at position 0.
+index is now 0.
+count is incremented to 1.
+index++ sets index to 1 for the next search.
+
+Second Iteration:
+indexOf(subString, 1) finds "hello" at position 5.
+index is now 5.
+count is incremented to 2.
+index++ sets index to 6.
+
+Third Iteration:
+indexOf(subString, 6) finds "hello" at position 10.
+index is now 10.
+count is incremented to 3.
+index++ sets index to 11.
+
+Fourth Iteration:
+indexOf(subString, 11) returns -1 because there are no more matches.
+The loop terminates.
