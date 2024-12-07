@@ -53,10 +53,7 @@ def print_formatted(number):
     for i in range(1, number+1):
         print(" {}  {}  {}  {} ".format(i, oct(i).lstrip('0o'), hex(i).lstrip('0x'), bin(i).lstrip('0b')))        
         
-(or)
 
-        print (str(i).rjust(w,' '),str(oct(i)[2:]).rjust(w,' '),str(hex(i)[2:].upper()).rjust(w,' '),str(bin(i)[2:]).rjust(w,' '),sep=' ')
-        
 (or)
     w = len(bin(number)[2:]) // len =2, bin(number) = 0b10, bin(number)[2:] = 10
     for i in range(1, number+1):
@@ -67,7 +64,12 @@ def print_formatted(number):
         print(j, o, h, b)
 
 #width=10 
-#"pooja".center(width,'-')
+#"pooja".center(width,'-') // ---pooja---
+
+(or)
+
+        print (str(i).rjust(w,' '),str(oct(i)[2:]).rjust(w,' '),str(hex(i)[2:].upper()).rjust(w,' '),str(bin(i)[2:]).rjust(w,' '),sep=' ')
+        
       
 (or)
 
@@ -76,9 +78,6 @@ for i in xrange(1,n+1):
     print "{0:{width}d} {0:{width}o} {0:{width}X} {0:{width}b}".format(i, width=width)    
         #0 is the placeholder in the string format
 
-if __name__ == '__main__':
-    n = int(input())
-    print_formatted(n)
 
 
 
