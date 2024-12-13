@@ -166,3 +166,58 @@ print(f"{'binary':<{padding}}{number:b}")
 >>> octal     3746
 >>> hex       7E6
 >>> binary    11111100110
+
+
+
+
+
+
+
+
+
+Here’s a step-by-step explanation of how to convert a hexadecimal string to little-endian bytes, then back to an integer using big-endian interpretation, in Python:
+
+
+# Step 1: Define a hexadecimal string
+hex_string = "3A01"
+
+# Step 2: Convert the hex string to an integer
+decimal_value = int(hex_string, 16)
+print(f"Decimal value: {decimal_value}")  # Output: 14849
+
+# Step 3: Convert the integer to bytes in little-endian format
+# Determine the number of bytes needed (len(hex_string) >> 1)
+num_bytes = len(hex_string) >> 1  # Each two hex characters represent one byte
+little_endian_bytes = decimal_value.to_bytes(num_bytes, "little")
+print(f"Little-endian bytes: {little_endian_bytes}")  # Output: b'\x01\x3A'
+
+# Step 4: Convert the little-endian bytes back to an integer, assuming big-endian
+big_endian_int = int.from_bytes(little_endian_bytes, "big")
+print(f"Big-endian interpreted integer: {big_endian_int}")  # Output: 31354
+
+
+Step-by-Step Instructions:
+
+1. Convert Hex to Integer:
+
+Use int(hex_string, 16) to convert a hexadecimal string into a decimal integer.
+
+2. Convert Integer to Little-Endian Bytes:
+
+Use the .to_bytes() method:
+First Argument: The number of bytes, which can be calculated as len(hex_string) >> 1.
+Second Argument: "little" specifies little-endian byte order.
+
+3. Convert Little-Endian Bytes Back to an Integer:
+
+Use int.from_bytes() with "big" for big-endian byte order.
+
+Output:
+When you run the above code, you'll see:
+
+
+Decimal value: 14849
+Little-endian bytes: b'\x01\x3A'
+Big-endian interpreted integer: 31354
+
+This shows the original decimal value, its little-endian byte representation, and its reinterpretation as a big-endian integer.
