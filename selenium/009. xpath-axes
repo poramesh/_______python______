@@ -1,0 +1,126 @@
+html
+Copy code
+<!DOCTYPE html>
+<html>
+<head>
+    <title>XPath Example</title>
+</head>
+<body>
+    <div id="container">
+        <section id="section1">
+            <h2>Section 1</h2>
+            <p>This is a paragraph inside Section 1.</p>
+            <p class="important">This is an important paragraph in Section 1.</p>
+        </section>
+
+        <section id="section2">
+            <h2>Section 2</h2>
+            <p>This is a paragraph inside Section 2.</p>
+            <div>
+                <p>This is a paragraph inside a div in Section 2.</p>
+            </div>
+        </section>
+
+        <div id="footer">
+            <p>Footer content here.</p>
+        </div>
+    </div>
+</body>
+</html>
+
+XPath Axes Examples
+
+Let's apply various XPath axes to this HTML structure.
+
+1. ancestor
+Select all ancestors of the element with ID important (i.e., the paragraph with class important).
+XPath: //p[@class='important']/ancestor::*
+Explanation: This selects all ancestors (parents, grandparents, etc.) of the paragraph element with class important.
+Result: It will select the section and div elements (and possibly others, depending on the hierarchy).
+
+
+2. ancestor-or-self
+Select all ancestors of the element with class important, as well as the element itself.
+XPath: //p[@class='important']/ancestor-or-self::*
+Explanation: This selects the element with class important itself and all of its ancestors.
+Result: It will select the p element with class important and its section ancestor.
+
+
+3. attribute
+Select all attributes of the section element with ID section1.
+XPath: //section[@id='section1']/@*
+Explanation: This selects all attributes of the section element with the id of section1.
+Result: It will select the id="section1" attribute.
+
+
+4. child
+Select all children of the section with ID section2.
+XPath: //sectioncid='section2']/child::*
+Explanation: This selects all child elements within the section element with id="section2".
+Result: It will select the h2, p, and div elements inside section2.
+
+
+5. descendant
+Select all descendants of the div element with ID container.
+XPath: //div[@id='container']/descendant::*
+Explanation: This selects all descendant elements (children, grandchildren, etc.) of the div with id="container".
+Result: It will select every element inside the div#container, including section, p, div, h2, etc.
+
+
+6. descendant-or-self
+Select all descendants of the section with ID section2, as well as the section itself.
+XPath://section[@id='section2']/descendant-or-self::*
+Explanation: This selects the section with id="section2" and all of its descendants.
+Result: It will select the section#section2, h2, p, and div elements inside it.
+
+
+7. following
+Select all elements that come after the h2 inside section2.
+XPath: //section[@id='section2']//h2/following::*
+Explanation: This selects all elements that appear after the h2 element inside section2.
+Result: It will select the p and div elements that follow the h2 inside section2.
+
+
+8. following-sibling
+Select all siblings that come after the h2 in section1.
+XPath: //section[@id='section1']//h2/following-sibling::*
+Explanation: This selects all siblings that follow the h2 element within section1.
+Result: It will select the p and p elements that are siblings to the h2 inside section1.
+
+9. namespace
+Select all namespace nodes (if any).
+XPath: //@*
+Explanation: This selects all attributes in the document, which could include namespace attributes (though this HTML does not have namespaces).
+
+
+10. parent
+Select the parent of the p element inside section1.
+XPath:
+//section[@id='section1']//p/parent::*
+Explanation: This selects the parent of the p element inside section1, which is the section element.
+Result: It will select the section with id="section1".
+
+11. preceding
+Select all elements that come before the p element inside section1.
+XPath: //section[@id='section1']//p/preceding::*
+Explanation: This selects all elements that come before the p element inside section1.
+Result: It will select the h2 element, which comes before the p element in section1.
+
+
+12. preceding-sibling
+Select all siblings that come before the div with id="footer".
+XPath: //div[@id='footer']/preceding-sibling::*
+Explanation: This selects all sibling elements before the div#footer.
+Result: It will select the section elements that come before the footer.
+
+13. self
+Select the section element with id="section1" itself.
+XPath: //section[@id='section1']/self::*
+Explanation: This selects the section element with id="section1" itself.
+Result: It will select the section#section1 element.
+
+
+
+
+
+
