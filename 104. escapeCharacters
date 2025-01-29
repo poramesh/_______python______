@@ -1,0 +1,88 @@
+Without Raw String:
+path = "C:\\Users\\Admin\\Documents\\file.txt"  # Need double backslashes
+
+With Raw String (Cleaner & Safer):
+path = r"C:\Users\Admin\Documents\file.txt"  # No need to double the backslashes
+
+
+Understanding the Components
+
+
+Raw String Prefix (r"" or R"")
+
+The r before the string makes it a raw string.
+In a raw string, backslashes (\) are treated as literal characters, meaning they are not interpreted as escape sequences.
+Why Use r""" """?
+Prevents accidental escaping
+Example:
+
+without raw string:
+normal_string = "C:\new_folder\test"
+print(normal_string) //- Here, `\n` and `\t` are interpreted as **newline** and **tab**.
+Output:
+C:
+ew_folder est
+
+Using a raw string:
+raw_string = r"C:\new_folder\test" //Now \n and \t are not treated as escape sequences.
+print(raw_string)
+Output: 
+C:\new_folder\test
+
+
+
+
+what does \\\\ do?
+first \ escapes the second \ and it will be treated as literal
+and third \ escapes the fourth \ and it is treated as literal
+
+so print("\\\\") would print \\
+and print("\\\\\") and this would result in error 
+_________
+ERROR!
+Traceback (most recent call last):
+  File "<main.py>", line 10
+    print("\\\\\")
+          ^
+SyntaxError: unterminated string literal (detected at line 10)
+
+=== Code Exited With Errors ===
+_________
+
+
+
+
+Input String	Stored in Data	        Explanation
+\t	          Tab character	          \t is recognized as a tab.
+\\t  	        Literal \t (not a tab)	First \ escapes the second \, leaving \t as text.
+\"	          Literal "	              The backslash escapes the quote.
+\\\\	        Literal \\	            First \ escapes the second \, so you end up with \\ stored.
+
+
+
+
+
+
+
+
+
+Triple Quotes (""" """)
+
+Used to create a multiline string that can span multiple lines.
+Example:
+a = """Hello
+World"""
+print(a)
+Output:
+Hello
+World
+
+a =r"""Hello
+World"""
+print(a)
+Hello
+World
+
+WIth r AND WITHOUT r IT DOES PRINT IT IN THE NEXT LINE. NICEEEE !
+
+
