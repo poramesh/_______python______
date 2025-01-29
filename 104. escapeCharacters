@@ -86,3 +86,139 @@ World
 WIth r AND WITHOUT r IT DOES PRINT IT IN THE NEXT LINE. NICEEEE !
 
 
+ If u were a special character, i'd escape u with slashes so I wouldn’t break you so i could still  see you clear and unbroken
+just telling the compiler to treat you like the way you are and nothing special 
+
+
+
+
+
+MORE EXAMPLE ON REGEX::
+
+
+([^ ]*):
+
+[^ ]: This is a negated character class that matches any character except a space.
+*: This quantifier matches zero or more occurrences of the preceding pattern (in this case, any non-space character).
+([^ ]*): This captures (due to the parentheses) a sequence of non-space characters (i.e., it captures a word or token that doesn't contain spaces).
+
+
+log = "192.168.1.1 GET /index.html:8080 12/Feb/2025:19-23-00"
+([^ ]+) ([^ ]+) ([^ ]+):([0-9]+) ([^ ]+)[:-]([0-9]+) ([0-9.-]+)
+
+
+
+([.-0-9]*) means:
+
+. → Matches a dot (.).
+- → Matches a hyphen (-).
+0-9 → Matches any digit (0-9).
+* → Matches zero or more occurrences of any of the above characters in any order.
+Does it appear in order?
+No, the characters inside the brackets [.-0-9] can appear in any order, because character classes ([]) match any one of the characters inside, in any sequence.
+
+
+123	✅ 
+.-123	✅ 
+-.321	✅ 
+1.2-3	✅ 
+...	✅
+---	✅ 
+1--2.3
+abc	❌ No match (contains letters)
+
+
+*********************
+([^ ]+) ([^ ]+) ([^ ]+):([0-9]+) ([^ ]+)[:-]([0-9]+) ([0-9.-]+)
+Understanding the Groups
+([^ ]+) → Group 1: Matches one or more (+) characters that are not spaces ([^ ]).
+([^ ]+) → Group 2: Matches one or more (+) characters that are not spaces.
+([^ ]+) → Group 3: Matches one or more (+) characters that are not spaces.
+:([0-9]+) → Group 4: Matches digits (0-9), prefixed by a : (but the colon is not in the group).
+([^ ]+) → Group 5: Matches one or more (+) characters that are not spaces.
+[:-]([0-9]+) → Group 6: Matches digits (0-9), preceded by either : or - (but [:-] is not captured).
+([0-9.-]+) → Group 7: Matches numbers (0-9), dots (.), and hyphens (-) in any order.
+
+
+
+*****************
+
+
+
+Parentheses () in a regex pattern are used for grouping and capturing parts of a match.
+
+1. Grouping Without Capturing
+Parentheses group parts of a regex together so that operators like *, +, ?, {} apply to the whole group.
+
+Ex:
+(ab)+
+Matches:
+✅ ab
+✅ abab
+✅ ababab
+
+Here, ab is treated as a unit, so + applies to the entire ab, repeating it.
+
+2. Capturing Groups
+By default, () captures whatever is inside. You can reference the captured data later.
+
+Example:
+(\d{3})-(\d{2})-(\d{4})
+Matches:
+✅ 123-45-6789
+
+Here, the three groups capture:
+
+Group 1 → 123
+Group 2 → 45
+Group 3 → 6789
+If used in programming (e.g., Python, JavaScript), you can extract these groups separately.
+
+3. Non-Capturing Groups (?:...)
+If you want to group but not capture, use (?:...).
+
+Example:
+(?:hello|hi), my name is (\w+)
+Matches:
+✅ hello, my name is Alice
+✅ hi, my name is Bob
+
+Here, (?:hello|hi) groups hello and hi as alternatives but does not create a capture group.
+
+4. Using () for Backreferences
+Captured groups can be reused in the same regex with \1, \2, etc.
+
+Example:
+(\w+) \1
+Matches:
+✅ hello hello
+✅ test test
+(Ensures the same word repeats)
+
+
+
+
+
+more on caputirng and  non cpauting groups:
+
+Python Example: Capturing vs. Non-Capturing Groups
+
+import re
+
+# Capturing group
+pattern1 = r"(Hello|hi) there"
+match1 = re.search(pattern1, "Hello there")
+print(match1.groups())  # Output: ('Hello',)
+
+# Non-Capturing group
+pattern2 = r"(?:Hello|hi) there"
+match2 = re.search(pattern2, "Hello there")
+print(match2.groups())  # Output: ()  (No capturing!)
+
+
+🔹 (Hello|hi) → Captures "Hello" or "hi" as Group 1.
+🔹 (?:Hello|hi) → Matches "Hello" or "hi" but doesn't store it in a group.
+
+
+ Use capturing groups when you need to extract specific parts of the text.
+✔ Use non-capturing groups ((?:...)) when you just want to match without storing extra data.
