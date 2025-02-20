@@ -93,6 +93,27 @@ if __name__ == '__main__':
     for i in range(len(c)):
         print(c[i][1])
 
+
+a = [
+    [37.2, "Tina"],
+    [37.21, "Harry"],
+    [37.21, "Berry"],
+    [39, "Harsh"],
+    [41, "Akriti"]
+]
+
+b = [
+    [37.21, "Harry"],
+    [37.21, "Berry"],
+    [39, "Harsh"],
+    [41, "Akriti"]
+]
+
+c = [
+    [37.21, "Berry"],
+    [37.21, "Harry"]
+]
+
 *************
 
 This is an anonymous function (a small, unnamed function) defined using lambda.
