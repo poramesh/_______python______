@@ -78,7 +78,8 @@ Result: It will select the section#section2, h2, p, and div elements inside it.
 Select all elements that come after the h2 inside section2.
 XPath: //section[@id='section2']//h2/following::*
 Explanation: This selects all elements that appear after the h2 element inside section2.
-Result: It will select the p and div elements that follow the h2 inside section2.
+Result: It will select the p and div elements that follow the h2 inside section2.(nested elements as well
+whereas following sibling strictly gets only yhe sibling and not their childrens )
 
 
 8. following-sibling
