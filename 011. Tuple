@@ -17,7 +17,11 @@ Sample Output
 
 
 Solution: 
-print(input()==0 or hash(tuple(map(int,input().strip().split()))))
+print(input()==0 or hash(tuple(map(int,input().strip().split()))))  //.split(' ') splits that string into a list, using a space ' ' as the separator.
+
+
+
+
  (or)
 
 print(input() and hash(eval('('+input().replace(' ',',')+')'))) 
@@ -49,8 +53,7 @@ n = input()
 >>>Read in the second line -- this is just a single string ex. '1 2 3 4'
 input_line = input()
 >>>Split the string by whitespace into a list
-input_list = input_line.split()
-Note: This is a list of strings ex. ['1', '2', '3', '4'] But we want a list of integers ex. [1, 2, 3, 4]
+ Note: This is a list of strings ex. ['1', '2', '3', '4'] But we want a list of integers ex. [1, 2, 3, 4]
 >>>>We need to convert the list elements from strings to ints
 [Simple] Option 1 (since we know the number of elements, n):
     for i in range(n):
