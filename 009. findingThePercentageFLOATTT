@@ -45,7 +45,7 @@ for i in k:
     
 avg = (temp/3)
 
-print("{0:.2f}".format(avg)) 
+print("{0:.2f}".format(avg)) //print(f'{avg:.2f}')
 #When using the format() method, you can specify placeholders like {0}, {1}, {2}, etc., to indicate the position of the arguments passed to the format() method. 
 These indices correspond to the positional arguments provided in the format() method.
 
