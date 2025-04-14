@@ -223,6 +223,9 @@ Output:
 When you run the above code, you'll see:
 
 
+more:
+
+
 Decimal value: 14849
 Little-endian bytes: b'\x01\x3A'
 Big-endian interpreted integer: 31354
@@ -261,5 +264,108 @@ That gives you back 0x013A = 31354
 
 
 Imagine a 2-digit number like 56.
+
+another ex:
+
+Decimal: 1
+Binary (1 byte): 00000001
+Hex: 0x01
+
+Now say we want to store it in 2 bytes (16 bits). That means:
+00000000 00000001
+
+in hex: 
+0x00 0x01
+
+Big-Endian (MSB first):
+Store most significant byte first (big end)
+So memory will look like:
+[0x00] [0x01]
+
+Still represents 1 because:
+0x00 * 256 + 0x01 = 1
+
+Little-Endian (LSB first):
+Store least significant byte first
+So memory will look like:
+[0x01] [0x00]
+
+now:
+0x01 + 0x00 * 256 = 1
+
+print("Little-endian:", (1).to_bytes(2, byteorder='little'))  # b'\x01\x00'
+print("Big-endian:   ", (1).to_bytes(2, byteorder='big'))     # b'\x00\x01'
+
+
+
+**
+0x1A3
+
+1A3 (hex) = (1 * 16^2) + (A * 16^1) + (3 * 16^0)
+          = (1 * 256) + (10 * 16) + (3 * 1)
+          = 256 + 160 + 3
+          = 419 (decimal)
+
+print(int("1A3", 16))    # 419
+print(int("1234", 16))   # 4660
+print(hex(4660))         # '0x1234'
+
+**
+
+4660
+Decimal: 4660
+Hex: 0x1234
+Binary: 00010010 00110100 (16 bits)
+
+So it's made up of two bytes:
+MSB (Most Significant Byte): 0x12 (18 in decimal)
+LSB (Least Significant Byte): 0x34 (52 in decimal)
+
+
+Big-Endian:
+Store most significant byte first
+Memory layout:
+[0x12] [0x34]
+This is just:
+0x12 * 256 + 0x34 = 4660
+
+Little-Endian:
+Store least significant byte first
+Memory layout:
+[0x34] [0x12]
+This gives:
+0x34 + 0x12 * 256 = 13330
+
+See the difference?
+
+Same two bytes, but reversed
+Now the interpreted value becomes 13330, not 4660
+
+Python Example:
+num = 4660
+
+# Convert to 2 bytes
+little = num.to_bytes(2, byteorder='little')
+big = num.to_bytes(2, byteorder='big')
+
+print("Little-endian bytes:", little)  # b'4\x12'
+print("Big-endian bytes:   ", big)     # b'\x12\x34'
+
+# Reverse it back
+print("Little interpreted as big:", int.from_bytes(little, byteorder='big'))  # 13330
+print("Big interpreted as little:", int.from_bytes(big, byteorder='little'))  # 13330
+
+
+
+
+
+
+
+
+
+
+
+
+
 Big-endian: You say “fifty” then “six”
 Little-endian: You say “six” then “fifty”
