@@ -52,6 +52,23 @@ def swap_case(s):
 
 print ''.join([i.lower() if i.isupper() else i.upper() for i in input()])
 
+_---
+
+print ''.join([i.lower() for i in input() if i.isupper() else i.upper()])
+
+This one is invalid syntax and will raise a SyntaxError.
+Why?
+In list comprehensions, the if after for is used for filtering only.
+You cannot use an else with a filtering if like that.
+
+ex:
+[i for i in "HeLLo" if i.isupper()]
+
+Use if-else inside the expression when you want to transform each item differently.
+Use if after the loop when you want to filter out items.
+
+-------
+
 //The isupper() and islower() methods will return False for periods, so the else part of the conditional is executed, converting
 the period to uppercase using i.upper(). Since periods or space do not have a case, they remain unchanged.
 
