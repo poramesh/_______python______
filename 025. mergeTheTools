@@ -113,11 +113,12 @@ def merge_the_tools(string, k):
         print("".join(dict.fromkeys(y)))
 
  """
-x = ('key1', 'key2', 'key3')
+x = ('key1', 'key2', 'key3','key3')
 
 thisdict = dict.fromkeys(x)
 
 print(thisdict) #{'key1': None, 'key2': None, 'key3': None}
+Even though 'key3' appears twice, dictionary keys are unique, so it appears only once in the final dict.
 
 
 Join all items in a tuple into a string, using a hash character as separator:
