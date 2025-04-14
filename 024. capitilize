@@ -82,6 +82,9 @@ if __name__ == '__main__':
  s = ' '.join(map(str.capitalize, string.split(' '))) # if we dont s = then it wont be replaced cause string is immutable
  return s
 
+"hello world from python" is split into ["hello", "world", "from", "python"].
+The capitalize() function is applied to each word, turning each word into ["Hello", "World", "From", "Python"].
+' '.join(...) then combines them back into a single string: "Hello World From Python".
 
 """"
 print(input().title()) will not work because the question is asking to capitalise firse letter of each word keeping in mind that "if it is a letter". Title 
