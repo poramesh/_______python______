@@ -119,6 +119,10 @@ It allows you to provide a default value if the key is missing:
 dictionary.get("bogus", default_value)
 
 
+
+WE DONT NEED ORDER DICTORNAIRY OFR NEWWER VERSION OF PYTHON.
+
+
 """"
 The rpartition() method searches for the last occurrence of a specified string, and splits the string into a tuple containing three elements.
 
