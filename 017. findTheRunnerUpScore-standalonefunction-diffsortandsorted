@@ -67,3 +67,56 @@ a = sorted(map(int, input().split()), reverse=True)
 print(a[a.count(a[0])])
 
 
+
+diff between sort n sorted
+
+sorted() — built-in function
+Works on any iterable (not just lists).
+
+Returns a new sorted list.
+Doesn’t modify the original data.
+a = [3, 1, 2]
+b = sorted(a)
+print(a)  # [3, 1, 2]
+print(b)  # [1, 2, 3]
+You can also do:
+a = sorted(map(int, input().split()), reverse=True)
+
+
+list.sort() — method on lists only
+Sorts the list in-place.
+
+Returns None, so you shouldn’t assign it back to a variable.
+
+a = [3, 1, 2]
+a.sort()
+print(a)  # [1, 2, 3]
+
+a = a.sort()
+print(a)  # None
+
+sort() is a method, not a standalone function.
+You can only do a.sort() after you already have a list a.
+
+
+
+
+A standalone function is a function that:
+Is not attached to any object or class.
+Can be called on its own, by name.
+
+Examples: print(), len(), sorted(), sum(), max(), input() — all built-in standalone functions in Python.
+
+Think of it like this:
+sorted() is a standalone function → you just call it directly:
+sorted([3, 1, 2])
+
+But sort() is not standalone — it’s a method of list objects. You must call it on a list:
+my_list = [3, 1, 2]
+my_list.sort()  # works
+sort() 
+
+
+If functions were tools:
+A standalone function is like a screwdriver you can pick up and use any time.
+A method (like sort()) is like a built-in tool inside a toolbox (the list). You must open the toolbox (list) first to access and use it.
