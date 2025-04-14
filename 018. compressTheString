@@ -138,6 +138,16 @@ from itertools import *
 for i,j in groupby(map(int,list(raw_input()))):
     print(tuple([len(list(j)), i]) ,end = " ")
 
+The tuple() function converts any iterable (like a list or string) into a tuple.
+Example:
+tuple([1, 2, 3])         # → (1, 2, 3)
+tuple("abc")             # → ('a', 'b', 'c')
+tuple(range(3))          # → (0, 1, 2)
+In your code:
+tuple([len(list(j)), i])
+It creates a tuple like (3, 2) → count and the digit
+
+
 (or)
 
 from itertools import groupby
