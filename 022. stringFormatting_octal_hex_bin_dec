@@ -78,8 +78,15 @@ for i in xrange(1,n+1):
     print "{0:{width}d} {0:{width}o} {0:{width}X} {0:{width}b}".format(i, width=width)    
         #0 is the placeholder in the string format
 
+(or)
+n = 5  # example input
+width = len(f"{n:b}")
+for i in range(1, n + 1):
+    print(f"{i:{width}d} {i:{width}o} {i:{width}X} {i:{width}b}")
 
-
+f"{n:b}" means: convert n to binary
+5 in binary is '101'
+So len("101") = 3
 
 ""
 example 1: Convert an Integer to Binary
@@ -221,3 +228,38 @@ Little-endian bytes: b'\x01\x3A'
 Big-endian interpreted integer: 31354
 
 This shows the original decimal value, its little-endian byte representation, and its reinterpretation as a big-endian integer.
+
+
+
+Imagine a Number: 14849
+
+In hexadecimal, 14849 = 0x3A01
+This means it has 2 bytes:
+Byte 1: 0x3A (which is 58 in decimal)
+Byte 2: 0x01 (which is 1 in decimal)
+
+Now: How do we store those 2 bytes in memory?
+Depending on endianness, we fill these boxes left to right in different orders.
+
+Box 1     Box 2
+------    ------
+??        ??
+
+Big-Endian (BE) – "Big end first"
+Box 1     Box 2
+------    ------
+0x3A      0x01
+So in memory: [0x3A, 0x01]
+That gives you back 0x3A01 = 14849
+
+Little-Endian (LE) – "Little end first"
+Box 1     Box 2
+------    ------
+0x01      0x3A
+So in memory: [0x01, 0x3A]
+That gives you back 0x013A = 31354
+
+
+Imagine a 2-digit number like 56.
+Big-endian: You say “fifty” then “six”
+Little-endian: You say “six” then “fifty”
