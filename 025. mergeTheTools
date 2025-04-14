@@ -90,6 +90,21 @@ while string:
     print(seen)
     string = string[k:]
 
+
+string = "AABCAAADA"
+k = 3
+
+
+    string = string[k:]
+Update the string: string = string[3:] → string = "CAAADA".
+Update the string: string = string[3:] → string = "ADA".
+Update the string: string = string[3:] → string = "" (empty string).
+
+
+
+
+
+
 (or)
 
 def merge_the_tools(string, k):
