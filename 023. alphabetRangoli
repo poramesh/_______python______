@@ -101,6 +101,13 @@ if __name__ == '__main__':
     n = int(input())
     print_rangoli(n)
 
+alpha[i:n] gives slices like:
+i = 0 → 'abcde'
+i = 1 → 'bcde'
+i = 2 → 'cde'
+
+
+
 (or)
 
 def print_rangoli(size):
