@@ -299,7 +299,98 @@ AB
 CA
 AD
 
+
+
+
+
 """
+HOW DOES ZIP WORKS:::
+
+
+
+
+In Python, the zip() function is used to combine multiple iterables (like lists, tuples, etc.) element-wise into tuples. It aggregates
+elements from two or more iterables and returns an iterator of tuples.
+
+For example:
+list1 = [1, 2, 3]
+list2 = ['a', 'b', 'c']
+
+zipped = zip(list1, list2)
+zipped_list = list(zipped)  # Converting to list to see the result
+
+print(zipped_list)
+
+
+Example 1: Iterating Over Multiple Lists Simultaneously
+If you want to iterate over multiple lists at the same time, zip() is a great choice.
+names = ['Alice', 'Bob', 'Charlie']
+ages = [25, 30, 35]
+cities = ['New York', 'Los Angeles', 'Chicago']
+
+# Using zip to iterate over multiple lists simultaneously
+for name, age, city in zip(names, ages, cities):
+    print(f"{name} is {age} years old and lives in {city}.")
+
+Output:
+Alice is 25 years old and lives in New York.
+Bob is 30 years old and lives in Los Angeles.
+Charlie is 35 years old and lives in Chicago.
+
+Example 2: Unzipping a List of Tuples
+If you have a list of tuples and you want to separate the elements into individual lists (i.e., "unzip"), you can use zip(*iterables).
+
+zipped_list = [(1, 'a'), (2, 'b'), (3, 'c')]
+list1, list2 = zip(*zipped_list)
+
+print(list1)  # Output: (1, 2, 3)
+print(list2)  # Output: ('a', 'b', 'c')
+Here, zip(*zipped_list) unpacks the list of tuples and separates the elements into two lists.
+
+
+Example 3: Handling Different Lengths
+If the input iterables have different lengths, zip() stops when the shortest iterable is exhausted.
+
+list1 = [1, 2, 3, 4]
+list2 = ['a', 'b']
+zipped = zip(list1, list2)
+zipped_list = list(zipped)
+
+print(zipped_list)
+Output:
+[(1, 'a'), (2, 'b')]
+As you can see, the result stops after the second iterable (list2) runs out of items.
+
+Example 4: Using zip() with Dictionary Keys and Values
+You can also use zip() to combine two lists into a dictionary.
+
+keys = ['name', 'age', 'city']
+values = ['Alice', 25, 'New York']
+
+# Create a dictionary by zipping keys and values
+my_dict = dict(zip(keys, values))
+
+print(my_dict)
+Output:
+{'name': 'Alice', 'age': 25, 'city': 'New York'}
+
+Example 5: Creating a Transpose of a Matrix
+If you have a matrix represented as a list of lists and want to transpose it (swap rows and columns), zip() can be very handy.
+
+matrix = [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9]
+]
+
+# Transpose the matrix
+transposed = list(zip(*matrix))
+
+print(transposed)
+Output:
+[(1, 4, 7), (2, 5, 8), (3, 6, 9)]
+
+In this case, zip(*matrix) effectively transposes the matrix.
 
 
 """"
