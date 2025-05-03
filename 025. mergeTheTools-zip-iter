@@ -319,7 +319,7 @@ list2 = ['a', 'b', 'c']
 zipped = zip(list1, list2)
 zipped_list = list(zipped)  # Converting to list to see the result
 
-print(zipped_list)
+print(zipped_list) #[(1, 'a'), (2, 'b'), (3, 'c')]
 
 
 Example 1: Iterating Over Multiple Lists Simultaneously
@@ -394,3 +394,68 @@ In this case, zip(*matrix) effectively transposes the matrix.
 
 
 """"
+
+
+
+MORE ON ZIPPED:
+
+list1 = [1, 2, 3]
+list2 = ['a', 'b', 'c']
+
+zipped = zip(list1, list2) # basically it holds the object address
+print(zipped) #<zip object at 0x7fd13e057c00>
+
+for i in zipped:
+    print(",",i)
+    '''
+, (1, 'a')
+, (2, 'b')
+, (3, 'c')
+    
+    
+    '''
+
+zipped_list = list(zipped)  # Converting to list to see the result and it wont print anything since in the previous iteration for zipped , the values already read.
+
+print(zipped) #<zip object at 0x7fd13e057c00> , yet it holds the memory adress of the fucntion
+
+print(zipped_list) # [] , prints empty list or else it would have printed this [(1, 'a'), (2, 'b'), (3, 'c')]
+
+
+
+ipped_list = [(1, 'a'), (2, 'b'), (3, 'c')]
+list1, list2 = zip(*ipped_list) #without unpacking it wouldnt work
+print(list1,list2) #(1, 2, 3) ('a', 'b', 'c')
+
+
+for i in ipped_list:
+    print(i)
+    
+    '''
+(1, 'a')
+(2, 'b')
+(3, 'c')
+    '''
+    
+    
+print(*ipped_list) #(1, 'a') (2, 'b') (3, 'c')
+
+
+for i in zip(*ipped_list):
+    print(i)
+    
+    '''
+(1, 2, 3)
+('a', 'b', 'c')
+    '''
+
+for i,j in zip(list1,list2):
+    print(i,j)
+    
+'''
+1 a
+2 b
+3 c
+'''
+print(*list1) #1 2 3
+print(list1) #(1, 2, 3)
