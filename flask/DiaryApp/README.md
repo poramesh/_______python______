@@ -2,20 +2,13 @@
 
 DiaryApp is a simple application that allows users to write, edit, and manage their personal diary entries. It offers features like adding new entries/posts, viewing past entries, editing and deleting them, and more.
 
-## Features:
-- Add new diary entries
-- View diary entries by date
-- Edit existing entries
-- Delete diary entries
-- Simple and user-friendly interface
-
 ## Technologies Used:
 - **Flask** for web framework
 - **HTML/CSS/JavaScript** for frontend design
 - **SQLite** for local database
 - **Python 3.x** for backend logic
 
-## Installation
+## Installation:
 ```bash
 1. Clone the repository:
 git clone https://github.com/poramesh/_______python______.git
@@ -39,7 +32,7 @@ flask run
 navigate to this link- http://127.0.0.1:5000/
 ```
 
-Once the app is running, you can:
+## Once the app is running, you can:
 
 - Navigate through the homepage to view your diary entries.
 - Add a new entry by clicking on the "Add Entry" button
