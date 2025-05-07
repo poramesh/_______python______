@@ -1,0 +1,218 @@
+The datetime module in Python is a powerful tool for working with dates and times. It provides classes for manipulating dates and times, 
+and it's widely used to handle time-related data in Python programs.
+
+Key Components of the datetime Module:
+1. datetime class
+2. date class
+3. time class
+4. timedelta class
+5. timezone class
+
+
+
+
+1. The datetime Class
+
+The datetime class combines both date and time information. It is the most commonly used class in the datetime module.
+
+
+
+Creating a datetime object:
+
+You can create a datetime object by passing the year, month, day, hour, minute, second, and microsecond as arguments.
+
+from datetime import datetime
+dt = datetime(2025, 5, 6, 15, 30, 0) # Create a datetime object for 2025-05-06 15:30:00
+print(dt)  # Output: 2025-05-06 15:30:00
+
+
+
+Getting the current date and time:
+
+now = datetime.now() # Get the current date and time
+print(now)  # Output: current date and time (e.g., 2025-05-06 12:34:56.789012)
+
+
+
+Formatting datetime objects:
+
+You can format datetime objects as strings using the strftime() method.
+
+formatted_dt = now.strftime("%Y-%m-%d %H:%M:%S") # Format datetime into a string
+print(formatted_dt)  # Output: 2025-05-06 12:34:56
+
+Here are some common formatting directives:
+%Y: Year with century (e.g., 2025)
+%m: Month (01 to 12)
+%d: Day of the month (01 to 31)
+%H: Hour (00 to 23)
+%M: Minute (00 to 59)
+%S: Second (00 to 59)
+
+
+
+
+
+
+
+2. The date Class
+
+The date class represents the date (year, month, day) without the time component.
+
+
+Creating a date object:
+
+from datetime import date
+
+d = date(2025, 5, 6) # Create a date object
+print(d)  # Output: 2025-05-06
+
+
+Getting today's date:
+
+today = date.today()
+print(today)  # Output: current date (e.g., 2025-05-06)
+
+Accessing date components:
+You can access the year, month, and day as attributes of a date object.
+
+print(today.year)  # Output: 2025
+print(today.month)  # Output: 5
+print(today.day)  # Output: 6
+
+
+
+
+3. The time Class
+
+The time class represents the time of day (hour, minute, second, and microsecond) without any date information.
+
+Creating a time object:
+
+from datetime import time
+
+t = time(15, 30, 0)  # 15:30:00 # Create a time object
+print(t)  # Output: 15:30:00
+
+Accessing time components:
+
+print(t.hour)  # Output: 15
+print(t.minute)  # Output: 30
+print(t.second)  # Output: 0
+
+
+
+
+4. The timedelta Class
+
+The timedelta class represents the difference between two datetime or date objects. It is used to perform arithmetic operations on dates and times.
+
+Creating a timedelta object:
+
+from datetime import timedelta
+
+delta = timedelta(days=5) # Create a timedelta object representing 5 days
+print(delta)  # Output: 5 days, 0:00:00
+
+
+Adding and subtracting dates:
+
+You can add or subtract timedelta objects to/from datetime objects.
+
+new_date = today + delta # Add 5 days to today's date
+print(new_date)  # Output: 2025-05-11
+
+earlier_date = today - delta # Subtract 5 days from today's date
+print(earlier_date)  # Output: 2025-05-01
+
+
+Subtracting two datetime objects:
+
+dt1 = datetime(2025, 5, 6, 12, 0, 0)
+dt2 = datetime(2025, 5, 5, 12, 0, 0)
+delta = dt1 - dt2 # Get the difference between two datetime objects
+print(delta)  # Output: 1 day, 0:00:00
+
+
+
+5. The timezone Class
+
+The timezone class represents a fixed offset from UTC (Coordinated Universal Time).
+
+Creating a timezone object:
+
+from datetime import timezone, timedelta
+
+tz = timezone(timedelta(hours=5)) # Create a timezone object with a 5-hour offset
+print(tz)  # Output: UTC+05:00
+ 
+Using timezone with datetime:
+
+You can associate a timezone with a datetime object.
+
+dt_with_tz = datetime(2025, 5, 6, 15, 30, 0, tzinfo=tz) # Create a datetime object with a timezone
+print(dt_with_tz)  # Output: 2025-05-06 15:30:00+05:00
+
+
+
+Useful datetime Methods:
+now(): Returns the current local date and time.
+utcnow(): Returns the current UTC date and time.
+today(): Returns the current local date.
+fromtimestamp(timestamp): Converts a POSIX timestamp to a datetime object.
+timestamp(): Converts a datetime object to a POSIX timestamp.
+strptime(string, format): Converts a string into a datetime object based on a specified format.
+strftime(format): Converts a datetime object to a string based on a specified format.
+
+
+Example of strptime() (Parsing a string into a datetime):
+
+from datetime import datetime
+
+date_str = "2025-05-06 15:30:00"
+dt = datetime.strptime(date_str, "%Y-%m-%d %H:%M:%S")
+print(dt)  # Output: 2025-05-06 15:30:00
+
+
+and for strftime:
+
+formatted_dt = now.strftime("%Y-%m-%d %H:%M:%S") # Format datetime into a string
+print(formatted_dt)  # Output: 2025-05-06 12:34:56
+
+
+Summary:
+datetime is for working with both date and time.
+date is for working with just the date (year, month, day).
+time is for working with just the time (hour, minute, second).
+timedelta is for representing differences between datetime or date objects.
+timezone is for handling timezones and offsets.
+
+
+
+
+
+what is UTC?
+universal coordinated time.
+
+| Feature      | UTC (Coordinated Universal Time)                               | GMT (Greenwich Mean Time)                                                                |
+| -------------| -------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| Definition   | Official global time standard                                  | Mean solar time at Greenwich, UK                                                         |
+| Accuracy     | Highly precise (based on atomic clocks + leap seconds)         | Less precise (based on Earth's rotation)                                                 |
+| Use          | Scientific, technical, aviation, internet, global coordination | Common time zone reference, especially in the UK                                         |
+| Leap Seconds | Yes, occasionally added                                        | No                                                                                       |
+| Time Zone    | Not a time zone, a standard                                    | A time zone (used in UK winter)                                                          |
+| Offset       | Always +00:00                                                  | +00:00 (no daylight saving), but often overlaps with BST (British Summer Time) in summer |
+
+
+
+India follows a single time zone year-round called Indian Standard Time (IST), which is:
+IST = UTC +5:30
+That means:
+India is 5 hours and 30 minutes ahead of UTC
+Unlike many countries, India does not observe daylight saving time, so this offset stays the same throughout the year
+
+
+
+In winter, UK time is the same as UTC.
+In summer, UK time is 1 hour ahead of UTC.
+Right now (early May), the UK is on BST, so the UK is currently UTC+1.
