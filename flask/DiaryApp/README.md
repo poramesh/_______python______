@@ -37,10 +37,13 @@ navigate to this link- http://127.0.0.1:5000/
 
 ## Once the app is running, you can:
 
+- Login with you username and password
 - Navigate through the homepage to view your diary entries.
-- Add a new entry by clicking on the "Add Entry" button
+- Add a new entry by clicking on the "Add" button
 - Edit or delete existing entries by selecting the options next to each entry.
 - You can like and unlike with a flower Icon.
+- You can add comments on the posts/diary.
+- Only logged in users can like and view comments. 
 - Create an entries with tags to group together similar thoughts.
 - Search the dairy from the global search box.
 - Navigate through pages using pagination.
