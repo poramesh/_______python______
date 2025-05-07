@@ -1,4 +1,4 @@
-# basicFlaskApp
+# DiaryApp
 
 DiaryApp is a simple application that allows users to write, edit, and manage their personal diary entries. It offers features like adding new entries/posts, viewing past entries, editing and deleting them, and more.
 
@@ -16,8 +16,8 @@ DiaryApp is a simple application that allows users to write, edit, and manage th
 - **Python 3.x** for backend logic
 
 ## Installation
-1. Clone the repository:
 ```bash
+1. Clone the repository:
 git clone https://github.com/poramesh/_______python______.git
 cd _______python______/flask/DiaryApp
 
@@ -35,12 +35,20 @@ pip install -r requirements.txt
 Run the app:
 flask run
 
-4. Open the app in your browser: http://127.0.0.1:5000/
+4. Open the app in your browser:
+navigate to this link- http://127.0.0.1:5000/
 ```
+
 Once the app is running, you can:
 
-- Navigate to the homepage to view your diary entries
+- Navigate through the homepage to view your diary entries.
 - Add a new entry by clicking on the "Add Entry" button
-- Edit or delete existing entries by selecting the options next to each entry
+- Edit or delete existing entries by selecting the options next to each entry.
+- You can like and unlike with a flower Icon.
+- Create an entries with tags to group together similar thoughts.
+- Search the dairy from the global search box.
+- Navigate through pages using pagination.
+- Post a picture. 
+
 
 
