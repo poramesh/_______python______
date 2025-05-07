@@ -17,18 +17,18 @@ cd _______python______/flask/DiaryApp
 2. Create virtual enivronment:
 python -m venv venv
 
-Activate the virtual environment:
+3. Activate the virtual environment:
 .\venv\Scripts\activate
 On Mac/Linux:
 source venv/bin/activate
 
-3. Install the required dependencies:
+4. Install the required dependencies:
 pip install -r requirements.txt
 
-Run the app:
+5. Run the app:
 flask run
 
-4. Open the app in your browser:
+6. Open the app in your browser:
 navigate to this link- http://127.0.0.1:5000/
 ```
 
