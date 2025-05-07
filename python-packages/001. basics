@@ -1,0 +1,172 @@
+
+1. Create a Clean Folder Structure
+
+Create this structure in your system:
+
+my_fake_module/
+├── pyproject.toml
+├── README.md
+└── DUMMYDATA/
+    ├── __init__.py
+    ├── dummy_data_generator.py
+    └── generators/
+        ├── __init__.py
+        ├── name.py
+        ├── address.py
+        ├── date.py
+        └── email.py
+
+  
+2. pyproject.toml
+
+In my_fake_module/pyproject.toml, paste this:
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "my_fake_module"
+version = "0.1.0"
+description = "A fake data generation module"
+authors = [
+  { name = "Your Name", email = "your.email@example.com" }
+]
+readme = "README.md"
+requires-python = ">=3.7"
+
+
+3. Example Code
+
+DUMMYDATA/__init__.py
+from .dummy_data_generator import dummy_data_generator
+
+
+DUMMYDATA/dummy_data_generator.py
+from .generators import name, address, date, email
+
+class dummy_data_generator:
+    def name(self):
+        return name.generate()
+
+    def address(self):
+        return address.generate()
+
+    def date(self):
+        return date.generate()
+
+    def email(self):
+        return email.generate()
+
+DUMMYDATA/generators/__init__.py
+(leave it empty or use to re-export submodules)
+
+DUMMYDATA/generators/name.py
+import random
+
+def generate():
+    return random.choice(["Alice", "Bob", "Charlie", "Dana"])
+Repeat similar structure for address.py, date.py, and email.py.
+
+
+                        
+4. Install Your Package Locally
+
+Open terminal in my_fake_module/ and run:
+pip install -e .
+
+  
+5. Test It
+
+Now create a new file outside the DUMMYDATA folder (e.g., test_fake.py):
+
+from DUMMYDATA import dummy_data_generator
+
+faker = dummy_data_generator()
+print(faker.name())
+print(faker.address())
+print(faker.date())
+print(faker.email())
+
+Then run:
+python test_fake.py
+It should work!
+
+
+
+
+
+
+
+MORE ON THIS PACKAGING.
+  
+
+1. Installing a Package Locally with pip install -e .
+
+To install a package in editable mode, use the following command in the package directory:
+pip install -e .
+
+This makes your package available globally on your system, allowing you to import it from any directory.
+
+
+
+2. Checking if the Package Exists
+
+To check if a package is installed, use the command:
+pip list
+
+To check a specific package, run:
+pip show <package_name>
+
+Alternatively, you can check within Python by trying to import the package:
+import <package_name>
+
+
+
+3. Uninstalling a Package
+
+To uninstall a package, use:
+pip uninstall <package_name>
+Confirm the uninstallation by typing y when prompted.
+
+After uninstalling, you can verify the removal by running:
+pip list
+
+You can also check by trying to import the package in Python:
+import <package_name>  # Will raise ModuleNotFoundError if uninstalled
+
+
+
+4. Uninstalling from Virtual Environments
+
+If you're using a virtual environment, activate the environment first:
+
+For Windows:
+path\to\your\env\Scripts\activate
+For macOS/Linux:
+source path/to/your/env/bin/activate
+Then, run:
+pip uninstall <package_name>
+
+
+
+
+
+
+What is pyproject.toml and Why Do We Use It?
+
+pyproject.toml is the modern way to define Python packages.
+It tells Python tools (like pip, build, setuptools) how to build and install your project.
+
+Inside it:
+[build-system] tells which tool builds your package (setuptools, flit, etc.).
+[project] gives metadata: name, version, author, etc.
+It replaced older setup.py and setup.cfg.
+
+
+
+What happens under the hood:
+
+A .egg-link file is created in your Python environment (inside site-packages), pointing to your folder.
+An entry is added in easy-install.pth or .pth files, so your module becomes importable system-wide.
+If you had dependencies (faker, requests, etc.), they’d be installed too.
+
