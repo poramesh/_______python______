@@ -1,0 +1,181 @@
+random.choice(): Picks a single element at random from a list (uniformly distributed, no weights). so we dont have to do [0]
+first_names = ["John", "Jane", "Alice", "Bob", "Charlie"]
+first = random.choices(first_names)
+print(first) // Alice
+
+
+random.choices(): Picks one or more elements at random, with optional weights for each element (allowing biased selection and multiple selections).
+import random
+names = ["John", "Jane", "Alice", "Bob", "Charlie"]
+weights = [10, 10, 60, 10, 10]  # Weights for each name
+# Select three names with the specified weights (allowing repetition)
+selected_names = random.choices(names, weights=weights, k=3)
+print(selected_names)  # Output: e.g., ['Alice', 'Alice', 'John']
+
+
+
+
+Python script using Faker and random to generate mock data—like random dates, coupon codes, and products.
+
+from datetime import datetime, timedelta
+from faker import Faker 
+import random
+
+fake = Faker()
+#[0] is used specifically in the context of working with random selection functions to access the selected item from the list of choices, 
+coupon_code = random.choices([None, '50OFF', 'FREESHIPPING', 'BUYONEGETONE'], [5, 80, 5, 5])
+['FREESHIPPING'] will be returned but
+[0] is done, it will be FREESHIPPING
+
+
+o_date = fake.date_time_this_year() # this is not inside list so we can jsut not use [0] and this as well, # customer = random.choice(customers)
+
+
+s_date = random.choices([None, fake.date_time_between(start_date=o_date)], [10, 90])
+coupon_code = random.choices([None, '50OFF', 'FREESHIPPING', 'BUYONEGETONE'], [5, 80, 5, 5])
+random_date = fake.date_time_between(start_date='-1y', end_date='now') #-1y means one year ago from today.
+
+print("Random Date:", random_date)
+print("Year:", random_date.year)
+print("Month:", random_date.month)
+print("Day:", random_date.day)
+print("Hour:", random_date.hour)
+print("Minute:", random_date.minute)
+print("Second:", random_date.second)
+
+Random Date: 2024-08-14 13:42:11
+Year: 2024
+Month: 8
+Day: 14
+Hour: 13
+Minute: 42
+Second: 11
+
+
+print("fake.date_time_this_year:",o_date) #since this is not in list.
+print("shipped date with date_time_between(start_date):",s_date)
+print("shipped date with date_time_between(start_date):",s_date[0])
+
+o/p:
+fake.date_time_this_year: 2025-03-22 15:32:10
+shipped date with date_time_between(start_date): [2025-03-25 10:20:45]
+shipped date with date_time_between(start_date): 2025-03-25 10:20:45
+
+
+print(coupon_code)
+
+k = random.randint(1, 4)
+print(k)
+
+products = ['pooja','p','poo','pooj','poh']
+purchased_products = random.sample(products, k) #Unlike random.choice(), which selects one item randomly (with replacement), random.sample() ensures that the 
+selected items are unique and non-repeating. This is useful when you need to select a random subset of items without duplicates.
+print(' '.join(purchased_products))
+
+
+
+
+
+eg:
+
+from datetime import datetime
+from faker import Faker
+import random
+
+fake = Faker()
+
+def generate_mock_order():
+    # 1. Order date (anytime this year)
+    order_date = fake.date_time_this_year()
+
+    # 2. Shipped date (90% chance of having one, must be after order date)
+    shipped_date = random.choices(
+        [None, fake.date_time_between(start_date=order_date)],
+        weights=[10, 90]
+    )[0]
+
+
+    # 3. Coupon code (weighted selection)
+    coupon_code = random.choices(
+        [None, '50OFF', 'FREESHIPPING', 'BUYONEGETONE'],
+        weights=[5, 80, 5, 5]
+    )[0]
+
+    # 4. Random date within the past year
+    random_date = fake.date_time_between(start_date='-1y', end_date='now')
+
+    # 5. Purchased products (pick 1 to 4 unique items)
+    products = ['pooja', 'p', 'poo', 'pooj', 'poh']
+    k = random.randint(1, 4)
+    purchased_products = random.sample(products, k)
+
+    # Print everything
+    print("Order Date:", order_date)
+    print("Shipped Date:", shipped_date)
+    print("Coupon Code:", coupon_code)
+    print("Random Date:", random_date)
+    print("  Year:", random_date.year)
+    print("  Month:", random_date.month)
+    print("  Day:", random_date.day)
+    print("Purchased Products:", ', '.join(purchased_products))
+
+# Call the function
+generate_mock_order()
+
+
+
+
+
+
+
+THIS IS A NICE EXMAMPLE:
+
+
+import random
+
+first_names = ["John", "Jane", "Alice", "Bob", "Charlie"]
+weights = [10, 10, 60, 10, 10]
+
+# Repeat the names based on their weights
+weighted_names = [name for name, weight in zip(first_names, weights) for _ in range(weight)]
+print(weighted_names)
+
+# Choose one name randomly from the weighted list
+first = random.choice(weighted_names)
+
+print(first)
+
+
+
+
+['John', 'John', 'John', 'John', 'John', 'John', 'John', 'John', 'John', 'John', 'Jane', 'Jane', 'Jane', 'Jane', 'Jane', 'Jane', 'Jane',
+'Jane', 'Jane', 'Jane', 'Alice', 'Alice', 'Alice', 'Alice', 'Alice', 'Alice', 'Alice', 'Alice', 'Alice', 'Alice', 'Alice', 'Alice', 'Alice', 
+'Alice', 'Alice', 'Alice', 'Alice', 'Alice', 'Alice', 'Alice', 'Alice', 'Alice', 'Alice', 'Alice', 'Alice', 'Alice', 'Alice', 'Alice', 'Alice', 
+'Alice', 'Alice', 'Alice', 'Alice', 'Alice', 'Alice', 'Alice', 'Alice', 'Alice', 'Alice', 'Alice', 'Alice', 'Alice', 'Alice', 'Alice', 'Alice', 
+'Alice', 'Alice', 'Alice', 'Alice', 'Alice', 'Alice', 'Alice', 'Alice', 'Alice', 'Alice', 'Alice', 'Alice', 'Alice', 'Alice', 'Alice', 'Bob', 
+'Bob', 'Bob', 'Bob', 'Bob', 'Bob', 'Bob', 'Bob', 'Bob', 'Bob', 'Charlie', 'Charlie', 'Charlie', 'Charlie',
+'Charlie', 'Charlie', 'Charlie', 'Charlie', 'Charlie', 'Charlie']
+Alice
+
+
+
+
+another example:
+
+import random
+
+domains = ["gmail.com", "yahoo.com", "hotmail.com", "outlook.com"]
+
+def generate_email():
+    random_u = random.choices("abcdefghijklmnopqrstuvwxyz0123456789", k=10)
+    print(random_u)
+    username = "".join(random_u)
+    print(username)
+    domain = random.choice(domains)
+    return f"{username}@{domain}"
+    
+print(generate_email())
+
+['g', 'z', 'u', '2', 's', 'd', 'i', '7', 'i', '5']
+gzu2sdi7i5
+gzu2sdi7i5@gmail.com
