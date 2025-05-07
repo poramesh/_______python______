@@ -1,0 +1,47 @@
+<!doctype html>
+<title>{% block title %}{% endblock %} - Racoon</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<nav>
+  <h1><a href="{{ url_for('blog.index') }}" >Racoon</h1></a>
+  <ul>
+    <form action="{{ url_for('blog.search')}}" method = "get">
+      <li><span><input type="text" id ="searchBox" name="query" placeholder="search users/posts.." ></span></li>
+      <button type="submit" style="display: none;" >Search</button>
+      </form>
+
+    {% if g.user %}
+      <li><span>{{ g.user['username'] }}</span>
+      <li><a href="{{ url_for('auth.logout') }}">Log Out</a>
+    {% else %}
+      <li><a href="{{ url_for('auth.register') }}">Register</a>
+      <li><a href="{{ url_for('auth.login') }}">Log In</a>
+    {% endif %}
+  </ul>
+  
+</nav>
+<section class="content">
+  <header>
+    {% block header %}{% endblock %}
+  </header>
+  {% for message in get_flashed_messages() %}
+    <div class="flash">{{ message }}</div>
+  {% endfor %}
+  
+  {% block content %}{% endblock %}
+
+  {% if page %}
+  <br>
+  <br>
+  <div class="pagination">
+    {% if page > 1 %}
+        <a href="/?page={{ page - 1 }}">&laquo; Previous</a>
+    {% endif %}
+    {% for p in range(1, total_pages + 1) %}
+        <a href="/?page={{ p }}" class="{% if p == page %}active{% endif %}">{{ p }}</a>
+    {% endfor %}
+    {% if page < total_pages %}
+        <a href="/?page={{ page + 1 }}">Next &raquo;</a>
+    {% endif %}
+  {% endif %}
+</div>
+</section>
