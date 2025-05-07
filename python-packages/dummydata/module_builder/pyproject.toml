@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dummydata"
+version = "0.1.0"
+description = "A fake data generation module"
+authors = [
+    { name = "pooja", email = "poojajramesh@gmail.com" }
+]
+requires-python = ">=3.7"
+
