@@ -9,26 +9,31 @@ DiaryApp is a simple application that allows users to write, edit, and manage th
 - **Python 3.x** for backend logic
 
 ## Installation:
-```bash
 1. Clone the repository:
+```bash
 git clone https://github.com/poramesh/_______python______.git
 cd _______python______/flask/DiaryApp
-
+```
 2. Create virtual enivronment:
+```bash
 python -m venv venv
-
+```
 3. Activate the virtual environment:
+```bash
 .\venv\Scripts\activate
 On Mac/Linux:
 source venv/bin/activate
-
+```
 4. Install the required dependencies:
+```bash
 pip install -r requirements.txt
-
+```
 5. Run the app:
+```bash
 flask run
-
+```
 6. Open the app in your browser:
+```bash
 navigate to this link- http://127.0.0.1:5000/
 ```
 
