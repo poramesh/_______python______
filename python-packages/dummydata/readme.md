@@ -1,4 +1,6 @@
-DummyData is a Python package designed to facilitate the creation of synthetic data modules. Inspired by the popular Faker library, this project serves as a learning tool to understand the intricacies of Python package development, including module structuring, class initialization, and package distribution using pyproject.toml
+## DummyData
+
+Dummydata is a Python package designed to facilitate the creation of synthetic data modules. Inspired by the popular Faker library, this project serves as a learning tool to understand the intricacies of Python package development, including module structuring, class initialization, and package distribution using pyproject.toml
 
 
 ## Features
