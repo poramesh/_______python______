@@ -9,7 +9,7 @@ Dummydata is a Python package designed to facilitate the creation of synthetic d
 - Class-Based Structure: Demonstrates object-oriented principles with clear class definitions and interactions.
 - Package Configuration: Showcases the use of pyproject.toml for package metadata and distribution settings.
 
-## Instalation
+## Installation
 
 ```
 git clone https://github.com/poramesh/_______python______/tree/main/python-packages/dummydata.git
