@@ -1,0 +1,103 @@
+A primary goal of object-oriented programming is to make it possible
+to write code that is close to the way you think about the things your code
+represents. This will make it easier to reason about the code and think
+through its correctness.
+
+A class is a data type. In Python, type and class are (mostly) synonymous. An object is an instance of a class. For example, Python has a
+list class. If I make a list called mylist. Then, mylist is an object of type
+list.
+
+mylist = []
+print(type(mylist)) #<class ’list’>
+print(isinstance(mylist, list)) #true 
+print(isinstance(mylist, str)) #FALSE
+
+There are all kinds of classes built into Python. Some you might not
+expect.
+
+def foo():
+    return 0
+print(type(foo)) <class ’function’>
+
+
+For the advanced students, here is a more exotic example called a generator. In Python you can yield instead of return. If so, the result will be
+something called a generator and not a function. This powerful idea shows
+up a lot in Python, but we won’t really be able to get our head around it
+until we understand how classes are able to package up data and code.
+
+def mygenerator(n):
+   for i in range(n):
+       yield i
+       
+print(type(mygenerator)) #<class ’function’>
+print(type(mygenerator(5))) #<class ’generator’>
+
+
+
+
+
+simple class:
+
+class Car:
+    def __init__(self, color, model):
+        self.color = color
+        self.model = model
+        self.running = False  # Initialize running attribute to False upon instantiation
+
+    def start(self):
+        self.running = True
+
+    def stop(self):
+        self.running = False
+
+# Creating instances of Car
+car1 = Car(color="Red", model="Tesla Model S")
+car2 = Car(color="Blue", model="Honda Civic")
+
+# Accessing and manipulating attributes
+print(car1.color)  # Output: Red
+print(car2.model)  # Output: Honda Civic
+
+# Checking the initial state of the running attribute
+print(car1.running)  # Output: False
+
+# Starting the car
+car1.start()
+
+# Checking the running attribute after starting
+print(car1.running)  # Output: True
+
+# Stopping the car
+car1.stop()
+
+# Checking the running attribute after stopping
+print(car1.running)  # Output: False
+
+
+If attributes were not part of self within a class in Python, they would not be instance attributes but rather would be local variables or class variables,
+depending on where they are defined. Here's how attributes behave differently when they are not part of self:
+
+Local Variables Example
+Let's consider a scenario where attributes are defined as local variables within a method of a class:
+
+python
+Copy code
+class Car:
+    def __init__(self, color, model):
+        self.color = color
+        self.model = model
+
+    def start(self):
+        running = True  # Local variable 'running' within the start method
+        return running
+
+# Creating an instance of Car
+car1 = Car(color="Red", model="Tesla Model S")
+
+# Accessing and manipulating attributes
+print(car1.color)  # Output: Red
+print(car1.model)  # Output: Tesla Model S
+
+# Calling the start method
+is_running = car1.start()
+print(is_running)  # Output: True
