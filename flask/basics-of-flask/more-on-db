@@ -1,0 +1,87 @@
+from . import db and db.init_app(app)
+
+This line is typically in your __init__.py inside create_app():
+
+def create_app():
+    app = Flask(__name__)
+    # config and setup stuff...
+
+    from . import db  #  Import your db.py module
+    db.init_app(app)  #  Run that function to connect CLI & cleanup to app
+
+    return app
+
+
+
+Why do we do this?
+
+>db.py contains reusable functions for database operations (get_db, close_db, init_db, etc.).
+>init_app(app) in db.py registers two things onto the Flask app:
+app.teardown_appcontext(close_db) — so Flask knows how to clean up DB after each request.
+app.cli.add_command(init_db_command) — so you can run flask init-db from the command line.
+
+By importing and calling db.init_app(app) in create_app(), you "plug in" the database logic into your app.
+
+
+
+
+Why Functions Are Passed as Arguments?
+
+Example:
+app.teardown_appcontext(close_db)
+
+You're not calling close_db() here. You're passing the function itself to Flask, saying:
+"Hey Flask, after every request, please call this function (close_db) for me."
+
+Same with:
+app.cli.add_command(init_db_command)
+
+You're saying:
+"Hey Flask, add this function as a CLI command."
+This is called callback registration. You're telling Flask when to call certain things, not calling them directly yourself.
+
+
+Why We Use init_app(app) in db.py?
+
+Let’s say you put this in db.py:
+
+def init_app(app):
+    app.teardown_appcontext(close_db)
+    app.cli.add_command(init_db_command)
+Now, db.py becomes plug-and-play. It’s a clean module you can "attach" to any app by doing db.init_app(app).
+This is excellent design for reusability and modularity.
+If your app grows to have other plugins like auth, blog, email, etc., each one can follow the same style.
+
+
+
+What’s Happening in get_db(), close_db(), and init_db()?
+
+get_db():
+Checks if g.db exists.
+If not, it:
+Connects to SQLite
+Sets .row_factory = sqlite3.Row (to get rows as dicts)
+Stores it in g — a special Flask object that lasts for just one request.
+
+close_db():
+Pops g.db off — if it was created.
+Closes the DB connection (cleanup).
+
+init_db():
+Gets the DB connection via get_db()
+Opens schema.sql
+Runs its SQL to initialize the tables
+
+
+
+
+CLI Integration
+
+You wrote:
+@click.command('init-db')
+def init_db_command():
+    ...
+This registers a command like:
+$ flask init-db
+Once you register this using app.cli.add_command(init_db_command), Flask knows:
+"When the user types flask init-db, I will run this function."
