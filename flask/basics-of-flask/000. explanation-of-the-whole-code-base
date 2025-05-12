@@ -157,6 +157,8 @@ app = create_app(test_config=test_config)
 
 This would override the default configuration values with those specified in the test_config dictionary.
 
+^^^more on from_mapping and from_pyfile : https://github.com/poramesh/_______python______/blob/main/flask/basics-of-flask/from-mapping-and-from-pyfile
+
 Summary
 from_mapping allows you to set multiple configuration values at once using a dictionary.
 SECRET_KEY should be a secure random value in production.
@@ -237,6 +239,7 @@ In web applications this connection is typically tied to the request. It is crea
 and closed before the response is sent.
 
 flaskr/db.py
+
 import sqlite3
 
 import click
@@ -277,42 +280,9 @@ def close_db(e=None):
     if db is not None:
         db.close()
 
-"""
-
-
-In Flask applications that use an application factory pattern, the current_app and g (short for "global") context variables are
-crucial for accessing certain objects, such as database connections (g.db). Here’s why you typically can’t directly use app.database in the context of
-handling requests:
-
-Application Factory Pattern
-When you define your Flask application using an application factory, like the create_app() function shown earlier, the application object (app)
-itself is not available globally. Instead, it is created dynamically within the create_app() function and returned at the end of the function. 
-This approach allows for more flexibility and cleaner separation of concerns in larger applications.
-
-Why Not app.database?
-Scope of app Object:
-
-The app object created inside create_app() is local to that function scope. It is returned from the factory function and typically stored in a
-variable in your main application script (e.g., app = create_app() in run.py).
-Once the Flask application (app) is created, it is accessible via the current_app context variable within the request context.
-Request Context:
-
-Flask uses a request context to handle each HTTP request. Within this context, current_app points to the Flask application handling the current request.
-During the request lifecycle, you interact with current_app to access various application-level objects and configurations, such as the database connection.
-Global vs. Request Context:
-
-current_app is a proxy object that dynamically points to the correct application context based on the request being handled. This allows Flask to manage
-multiple applications in the same Python process, each with its own configuration and state.
-On the other hand, app created within the factory function is not directly accessible globally outside of the request context. 
-Attempting to access app.database outside of current_app could lead to errors or unintended behavior, as app may not be instantiated or 
-may refer to a different application instance.
-
-"""
 
 g is a special object that is unique for each request. It is used to store data that might be accessed by multiple functions during the request. 
 The connection is stored and reused instead of creating a new connection if get_db is called a second time in the same request.
-
-
 
 current_app is another special object that points to the Flask application handling the request. Since you used an application factory, 
 there is no application object when writing the rest of your code. get_db will be called when the application has been created and is handling a request,
@@ -325,6 +295,11 @@ sqlite3.Row tells the connection to return rows that behave like dicts. This all
 
 close_db checks if a connection was created by checking if g.db was set. If the connection exists, it is closed. Further down you will tell your application
 about the close_db function in the application factory so that it is called after each request.
+
+
+^^^^if you want to know more on application context: https://github.com/poramesh/_______python______/blob/main/flask/basics-of-flask/application-context
+
+
 
 Create the tables:
 
@@ -351,6 +326,8 @@ CREATE TABLE post (
   FOREIGN KEY (author_id) REFERENCES user (id)
 );
 
+
+
 Add the Python functions that will run these SQL commands to the db.py file:
 
 flaskr/db.py
@@ -358,7 +335,8 @@ flaskr/db.py
 def init_db():
     db = get_db()
 
-    with current_app.open_resource('schema.sql') as f: #Using current_app.open_resource allows you to open files relative to the application context, making it easier to work with application-specific resources.
+    with current_app.open_resource('schema.sql') as f: #Using current_app.open_resource allows you to open files relative to the application context, making it
+easier to work with application-specific resources.
         db.executescript(f.read().decode('utf8'))
 
 
@@ -367,6 +345,8 @@ def init_db_command():
     """Clear the existing data and create new tables."""
     init_db()
     click.echo('Initialized the database.')
+
+
 ----
 @click.command('init-db'): This line declares a new Click command named init-db. The string 'init-db' is the name of the command that you will use in the command 
 line.
@@ -383,6 +363,8 @@ Register with the Application:
 The close_db and init_db_command functions need to be registered with the application instance; otherwise, they won’t be used by the application. 
 However, since you’re using a factory function, that instance isn’t available when writing the functions. Instead, write a function that takes
 an application and does the registration.
+
+
 
 flaskr/db.py
 -------
@@ -420,6 +402,21 @@ Run the init-db command:
 $ flask --app flaskr init-db
 Initialized the database.
 There will now be a flaskr.sqlite file in the instance folder in your project.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 BLUEPRINT AND VIEWS
