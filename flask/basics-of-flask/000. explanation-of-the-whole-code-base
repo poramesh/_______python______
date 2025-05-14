@@ -425,6 +425,7 @@ A view function is the code you write to respond to requests to your application
 should handle it. The view returns data that Flask turns into an outgoing response. Flask can also go the other direction and generate a URL to a view
 based on its name and arguments.
 
+
 Create a Blueprint
 A Blueprint is a way to organize a group of related views and other code. Rather than registering views and other code directly with an application,
 they are registered with a blueprint. Then the blueprint is registered with the application when it is available in the factory function.
@@ -460,11 +461,12 @@ def create_app():
     app.register_blueprint(auth.bp)
 
     return app
+
 The authentication blueprint will have views to register new users and to log in and log out.
 
 The First View: Register
 When the user visits the /auth/register URL, the register view will return HTML with a form for them to fill out. When they submit the form, 
-it will validate their input and either show the form again with an error message or create the new user and go to the login page.
+it will validate their input and either show the form again with an error message 2 create the new user and go to the login page.
 
 For now you will just write the view code. On the next page, you’ll write templates to generate the HTML form.
 
@@ -493,7 +495,6 @@ def register():
                 error = f"User {username} is already registered."
             else:
                 return redirect(url_for("auth.login"))
-
         flash(error)
 
     return render_template('auth/register.html')
@@ -567,6 +568,9 @@ def login():
 
     return render_template('auth/login.html')
 
+
+
+
 There are a few differences from the register view:
 
 The user is queried first and stored in a variable for later use.
@@ -639,6 +643,13 @@ If it took an argument, which you’ll see later, it would be linked to using ur
 When using a blueprint, the name of the blueprint is prepended to the name of the function, so the endpoint for the login function you wrote above is 
 'auth.login' because you added it to the 'auth' blueprint.
 
+
+
+
+
+
+
+
 TEMPLATES
 
 Templates
@@ -688,6 +699,7 @@ flaskr/templates/base.html
   {% endfor %}
   {% block content %}{% endblock %}
 </section>
+
 g is automatically available in templates. Based on if g.user is set (from load_logged_in_user), either the username and a log out link are displayed, 
 or links to register and log in are displayed. url_for() is also automatically available, and is used to generate URLs to views instead of writing them
 out manually.
@@ -771,6 +783,12 @@ Fill out a username and password and you’ll be redirected to the login page. T
 password. If you log in you’ll get an error because there’s no index view to redirect to yet.
 
 
+
+
+
+
+
+
 STATIC FILES
 
 The authentication views and templates work, but they look very plain right now. Some CSS can be added to add style to the HTML layout you constructed.
@@ -788,15 +806,15 @@ This tutorial isn’t focused on how to write CSS, so you can just copy the foll
 
 flaskr/static/style.css
 html { font-family: sans-serif; background: #eee; padding: 1rem; }
-body { max-width: 960px; margin: 0 auto; background: white; }
+body { max-width: 960px; margin: 0 auto; background: white; } # content will not stretch beyond 960 pixels in width, even on wider screens.
 h1 { font-family: serif; color: #377ba8; margin: 1rem 0; }
 a { color: #377ba8; }
-hr { border: none; border-top: 1px solid lightgray; }
+hr { border: none; border-top: 1px solid lightgray; } #adds a light gray horizontal line at the top of the element.
 nav { background: lightgray; display: flex; align-items: center; padding: 0 0.5rem; }
-nav h1 { flex: auto; margin: 0; }
+nav h1 { flex: auto; margin: 0; } #this is where it nav h1 takes extra space..more on this example below to get the undetstanding
 nav h1 a { text-decoration: none; padding: 0.25rem 0.5rem; }
 nav ul  { display: flex; list-style: none; margin: 0; padding: 0; }
-nav ul li a, nav ul li span, header .action { display: block; padding: 0.5rem; }
+nav ul li a, nav ul li span, header .action { display: block; padding: 0.5rem; } #makes it all looks dabba in the same line cause it is defined as flex in previou. 
 .content { padding: 0 1rem 1rem; }
 .content > header { border-bottom: 1px solid lightgray; display: flex; align-items: flex-end; }
 .content > header h1 { flex: auto; margin: 1rem 0 0.25rem 0; }
@@ -819,6 +837,88 @@ Go to http://127.0.0.1:5000/auth/login and the page should look like the screens
 
 You can read more about CSS from Mozilla’s documentation. If you change a static file, refresh the browser page. If the change doesn’t show up,
 try clearing your browser’s cache.
+
+
+
+::::
+
+
+flex: <flex-grow> <flex-shrink> <flex-basis>;
+
+Each part controls how the item behaves inside a flex container:
+
+| Part          | Meaning                                                            |
+| ------------- | ------------------------------------------------------------------ |
+| flex-grow   | Can it grow to take up extra space? (1 = yes, 0 = no)      |
+| flex-shrink | Can it shrink if space is tight? (1 = yes, 0 = no)         |
+| flex-basis  | What size to **start with** (default: auto, or you can set px/%) |
+
+
+
+flex: auto (shorthand for 1 1 auto)
+flex-grow: 1;
+flex-shrink: 1;
+flex-basis: auto;
+Starts at its content’s natural size
+Can grow to fill space
+Can shrink if needed
+
+
+flex: none (shorthand for 0 0 auto)
+flex-grow: 0;
+flex-shrink: 0;
+flex-basis: auto;
+Keeps the element at its content’s natural size
+Does not grow or shrink
+
+
+flex: 1 (shorthand for 1 1 0%)
+flex-grow: 1;
+flex-shrink: 1;
+flex-basis: 0%;
+Ignores natural content size
+Starts at 0 width
+Grows to fill container, equally with other flex: 1 items
+
+example:
+
+
+<!DOCTYPE html>
+<html>
+<style>
+.container {
+  display: flex;
+}
+
+.left {
+  flex: auto;
+}
+
+.right {
+  width: 100px;
+}
+</style>
+<body>
+
+<div class="container">
+  <div class="left">Left</div>
+  <div class="right">Right</div>
+</div>
+</body>
+</html>
+
+
+
+
+
+
+::::
+
+
+
+
+
+
 
 BLOG BLUEPRINT
 
@@ -869,6 +969,7 @@ Index
 The index will show all of the posts, most recent first. A JOIN is used so that the author information from the user table is available in the result.
 
 flaskr/blog.py
+
 @bp.route('/')
 def index():
     db = get_db()
@@ -880,6 +981,7 @@ def index():
     return render_template('blog/index.html', posts=posts)
 
 flaskr/templates/blog/index.html
+
 {% extends 'base.html' %}
 
 {% block header %}
