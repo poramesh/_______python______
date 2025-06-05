@@ -312,3 +312,15 @@ which you defined in the index view.
 
 Page not found?
 If you get an error page here, check that you’re going to http://localhost:8000/polls/ and not http://localhost:8000/.
+
+
+
+
+
+and now when we add just okay in the polls urls and we try to access any other urls it guides us this ursl we can access.
+
+Using the URLconf defined in mysite.urls, Django tried these URL patterns, in this order:
+
+admin/
+polls/ okay [name='index']
+The current path, polls/, didn’t match any of these.
