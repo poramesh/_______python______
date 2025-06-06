@@ -156,7 +156,23 @@ The sqlmigrate command takes migration names and returns their SQL:
 
 $ python manage.py sqlmigrate polls 0001
 
+
+*****
+We use sqlmigrate polls 0001 instead of 0001_initial.py because:
+Django identifies migrations by their number prefix (0001) within an app.
+The suffix (_initial) is optional and ignored by the command.
 You should see something similar to the following (we’ve reformatted it for readability):
+
+
+
+If you try:
+python manage.py sqlmigrate polls 0001_initial
+it will give an error like:
+Migration polls.0001_initial does not exist
+because Django expects just the number (0001).
+
+
+****
 
 BEGIN;
 --
@@ -241,6 +257,53 @@ control system and ship them with your app; they not only make your development 
 
 
 
+
+----------
+1. $ python manage.py makemigrations polls
+Purpose:
+This generates a migration file based on changes you've made to the models in your polls/models.py.
+What it does:
+Detects new or changed models (like creating a new Question or Choice model).
+Creates a migration file like polls/migrations/0001_initial.py.
+This file contains Python code that describes the changes to be made in the database.
+
+Why:
+So Django knows how to turn your Python model definitions into database schema (tables, fields, etc.).
+
+2. $ python manage.py sqlmigrate polls 0001
+Purpose:
+Shows the raw SQL that Django will execute for the migration (but does not run it).
+What it does:
+Translates 0001_initial.py into the SQL commands needed to create the tables.
+Why:
+Just for inspection or learning — this is optional. It’s useful to:
+Understand what SQL Django will run.
+Debug or verify database changes before actually applying them.
+
+3. $ python manage.py migrate
+Purpose:
+Actually applies the migration — i.e., it runs the SQL statements on the database.
+What it does:
+Executes the changes described in polls/migrations/0001_initial.py.
+Creates tables, adds constraints, sets up initial schema.
+Why:
+To sync your database with your models so your app can store and retrieve data properly.
+
+| Command                 | What it does                   | Required? |
+| ----------------------- | ------------------------------ | --------- |
+| `makemigrations polls`  | Prepares the migration file    | Yes       |
+| `sqlmigrate polls 0001` | Shows the SQL that will be run | No        |
+| `migrate`               | Actually changes the database  | Yes       |
+You must run makemigrations and migrate. sqlmigrate is optional and for learning/debugging.
+
+
+
+
+---------
+
+
+
+
 Playing with the API
 
 Now, let’s hop into the interactive Python shell and play around with the free API Django gives you. To invoke the Python shell, use this command:
@@ -286,8 +349,109 @@ datetime.datetime(2012, 2, 26, 13, 0, 0, 775217, tzinfo=datetime.timezone.utc)
 <QuerySet [<Question: Question object (1)>]>
 
 
+
+
+
+
+----------
+
+why objects between Question.objects.all()
+
+
+The objects part in Question.objects.all() is a core part of Django’s ORM (Object-Relational Mapping) system.
+
+Why do we use objects?
+Because objects is the default manager that Django provides for every model. It’s how you access the database 
+through your model.
+
+What is a "manager"?
+A manager in Django is a Python object through which database query operations are provided to Django models.
+By default, every model class gets a manager named objects. So when you write:
+Question.objects.all()
+
+you're saying:
+"Question is my model class."
+objects is the manager for that model.
+.all() is a query method that asks: “Get all rows in the database table for this model.”
+
+What does it look like under the hood?
+This:
+Question.objects.all()
+is conceptually like:
+Question._default_manager.all()
+Where _default_manager is set to the manager named objects.
+
+The objects manager gives you access to the queryset API, like:
+all()
+filter(...)
+get(...)
+create(...)
+exclude(...)
+and many more.
+
+Can we change objects to something else?
+Yes, you can define custom managers with custom names. For example:
+
+class Question(models.Model):
+    question_text = models.CharField(max_length=200)
+    my_query = models.Manager()
+
+Then you'd use:
+Question.my_query.all()
+But unless you need special logic, stick to the default:
+Question.objects.all()
+
+
+| Part     | Meaning                                              |
+| -------- | ---------------------------------------------------- |
+| Question | Your Django model class                              |
+| objects  | The default manager — interface to run DB queries    |
+| .all()   | A method that returns all rows for the model's table |
+
+
+----------
+
+
+The __str__(self) method is indeed pure Python, not Django-specific. It’s one of Python's 
+"magic methods" (like __init__, __len__, etc.) and is used to define what happens when you
+convert an object to a string using str() or print().
+
+Example: A Pure Python Class Using __str__
+
+class Dog:
+    def __init__(self, name, breed):
+        self.name = name
+        self.breed = breed
+
+    def __str__(self):
+        return f"{self.name} is a {self.breed}"
+
+# Creating an object
+my_dog = Dog("Buddy", "Golden Retriever")
+
+# Printing the object
+print(my_dog)  # Output: Buddy is a Golden Retriever
+Without __str__, this would print something like:
+<__main__.Dog object at 0x7f8c123abcde>
+Which is not helpful.
+
+How it works behind the scenes
+str(my_dog)
+automatically calls:
+my_dog.__str__()
+
+So defining __str__() lets you customize string representations of your objects.
+
+
+
+----------
+
+
+
+
 Wait a minute. <Question: Question object (1)> isn’t a helpful representation of this object. Let’s fix that by editing the
 Question model (in the polls/models.py file) and adding a __str__() method to both Question and Choice:
+
 
 
 
@@ -407,17 +571,158 @@ True
 # Let's delete one of the choices. Use delete() for that.
 >>> c = q.choice_set.filter(choice_text__startswith="Just hacking")
 >>> c.delete()
-For more information on model relations, see Accessing related objects. For more on how to use double underscores to perform field lookups via the API, see Field lookups. For full details on the database API, see our Database API reference.
+For more information on model relations, see Accessing related objects. For more on how to use double underscores to perform field lookups via the API, 
+see Field lookups. For full details on the database API, see our Database API reference.
+
+
+
+****
+
+explain why the name _set? how does it work?
+
+class Choice(models.Model):
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    choice_text = models.CharField(max_length=200)
+    votes = models.IntegerField(default=0)
+
+In this case:
+Choice has a ForeignKey to Question.
+Django automatically creates a reverse relationship on Question called choice_set.
+
+So:
+q=Question.objects.get(pk=1)
+q.choice_set.all()
+means:
+“Get all choices related to this question.”
+It returns a QuerySet of Choice objects linked to q.
+
+
+You can customize this name
+If you don't like choice_set, you can rename it using the related_name parameter:
+question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name="choices")
+Then you’d write:
+q.choices.all()
+
+
+
+By default, Django creates a reverse accessor called:
+<lowercase model name>_set
+So here:
+Choice is the model name.
+The reverse relationship on Question becomes:
+question_instance.choice_set
+
+
+
+Use the Django shell to inspect it
+Open the shell:
+python manage.py shell
+Try this:
+from polls.models import Question
+
+q = Question.objects.first()
+
+# Check reverse relationships
+dir(q)
+You’ll see 'choice_set' in the list of attributes and methods.
+
+You can also do:
+q._meta.get_fields()
+And look for something like:
+<ManyToOneRel: polls.Choice>
+That’s the reverse relationship Django created for you.
 
 
 
 
 
+exaplin the difference between django orm and sql?
+
+Django ORM:
+q = Question.objects.get(pk=1)
+Equivalent SQL:
+SELECT * FROM polls_question WHERE id = 1;
+Django uses id as the default primary key, so pk=1 → id=1.
+
+
+
+Django ORM:
+q.choice_set.all()
+Equivalent SQL:
+SELECT * FROM polls_choice WHERE question_id = 1;
+Django uses the foreign key question_id in the polls_choice table to link back to polls_question.
+
+
+Django ORM:
+q.choice_set.create(choice_text="Not much", votes=0)
+Equivalent SQL:
+INSERT INTO polls_choice (question_id, choice_text, votes)
+VALUES (1, 'Not much', 0);
+Django automatically sets the question_id to the primary key of q.
 
 
 
 
+How Foreign Keys Work in SQL
+If you wrote the SQL to create these tables manually, it might look like:
 
+CREATE TABLE polls_question (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    question_text VARCHAR(200),
+    pub_date DATETIME
+);
+
+CREATE TABLE polls_choice (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    question_id INTEGER,
+    choice_text VARCHAR(200),
+    votes INTEGER DEFAULT 0,
+    FOREIGN KEY (question_id) REFERENCES polls_question(id)
+);
+The question_id column in polls_choice links each choice to a specific question.
+This is how q.choice_set.all() knows what to query.
+
+
+
+
+how does primary key work?
+
+By default, Django adds an id field to every model:
+If you define a model like this:
+
+class Question(models.Model):
+    question_text = models.CharField(max_length=200)
+    pub_date = models.DateTimeField()
+
+Django will automatically create an id field like:
+class Question(models.Model):
+    id = models.AutoField(primary_key=True)  # automatically added
+    question_text = models.CharField(max_length=200)
+    pub_date = models.DateTimeField()
+That means:
+It's an integer field
+It auto-increments
+It's the primary key
+
+
+Want to confirm it?
+You can run:
+python manage.py sqlmigrate polls 0001
+And you’ll see SQL like:
+CREATE TABLE polls_question (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    question_text VARCHAR(200),
+    pub_date DATETIME NOT NULL
+);
+Even though you never wrote id in your Python code, Django added it for you.
+
+
+Can you override it?
+Yes. If you want to use a custom primary key (like a UUID or a slug), you can define it yourself:
+id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+But if you don’t define any primary key, Django will add id for you.
+
+****
 
 
 
