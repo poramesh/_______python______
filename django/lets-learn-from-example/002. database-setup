@@ -38,8 +38,54 @@ If you’re interested, run the command-line client for your database and type \
 or SELECT TABLE_NAME FROM USER_TABLES; (Oracle) to display the tables Django created.
 
 
+****
+or  we can do this.
+
+1. Using Django's dbshell (Database Shell)
+You can launch the database shell that Django connects to:
+python manage.py dbshell
+On SQLite, this opens the SQLite prompt.
+
+Then run the command:
+.tables
+This will list all the tables in your Django SQLite database.
 
 
+
+2. Using SQLite CLI directly (if you know the path)
+If you know the path to the SQLite database file (usually db.sqlite3 by default):
+sqlite3 db.sqlite3
+Once inside the SQLite prompt:
+.tables
+Or for more details:
+.schema
+
+
+3. Using Django's ORM (inspectdb)
+Run this command to see the structure Django sees from the DB:
+python manage.py inspectdb
+It will print the database tables and fields as Django model definitions.
+
+4. Using Django's Python Shell
+You can inspect database tables using Django's ORM:
+python manage.py shell
+Then:
+from django.db import connection
+connection.introspection.table_names()
+This returns a list of all table names in the connected DB.
+
+
+5. Query the database using raw SQL
+In the Django shell:
+from django.db import connection
+
+with connection.cursor() as cursor:
+    cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
+    tables = cursor.fetchall()
+
+print(tables)
+
+****
 :For the minimalists:
 Like we said above, the default applications are included for the common case, but not everybody needs them. If you don’t need any or 
 all of them, feel free to comment-out or delete the appropriate line(s) from INSTALLED_APPS before running migrate. 
