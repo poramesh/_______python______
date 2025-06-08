@@ -10,10 +10,12 @@ Your Output (stdout)
 4,3,2,1,0,-1,-2,-3,-4,
 """"
 
+size = 5
+
 for i in list(range(size))[::-1] + list(range(1, size)):
         print(i)
-        print(list(range(size))[::-1])
-        print( list(range(1, size)))
+        print(list(range(size))[::-1]) #[4,3,2,1,0]
+        print( list(range(1, size))) #[1,2,3,4]
         print(list(range(size))[::-1] + list(range(1, size)))
 
 o/p
@@ -93,13 +95,21 @@ print("7a",b[:-1]) #!
 
 #the upper bound and the lower bound are essentially reversed. And a negative stride indicates we start slicing from right and if -1 wasnt there it wouldnt work
 """
-print("8", item[1::-1]) #for b it is eh
+print("8", item[1::-1]) #[JUICE,APPLE]
 
 item = ['APPLE', 'JUICE', '10']
 ['JUICE', 'APPLE']
 item = ['CANDY', '5']
 ['5', 'CANDY']
 
+c = [1,2,3,4,5,7,8]
+print(c[1::-1]) #[2,1]
+print(c[1:0:-1]) #[2]
+print(c[5:2:-1]) #[7, 5, 4]
+print(c[:0:-1]) #[8, 7, 5, 4, 3, 2]
+print(c[:-3:-1])#[8,7]
+print(c[:3]) #[1,2,3]
+print(c[-3:]) #[5,7,8]
 
 >>> l = ['abc', 'def', 'ghi', 'jkl', 'mno', 'pqr', 'stu', 'vwx', 'yz&']
 
