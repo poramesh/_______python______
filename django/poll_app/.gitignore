@@ -1,0 +1,4 @@
+.env
+/djangotutorial/db.sqlite3
+/djangotutorial/polls/migrations/
+/djangotutorial/polls/__pycache__/
