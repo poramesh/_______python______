@@ -1,0 +1,293 @@
+Example 1: Without Descriptor (normal attribute)
+
+
+class Person:
+    pass
+
+p = Person()
+p.name = "Alice"  # Just stores in p.__dict__
+print("Without descriptor:", p.name)
+print("Internal __dict__:", p.__dict__)
+
+Expected output:
+Without descriptor: Alice
+Internal __dict__: {'name': 'Alice'}
+
+
+
+
+Example 2: With Descriptor (custom attribute access)
+
+class Descriptor:
+    def __get__(self, instance, owner):
+        print("Getting attribute")
+        return instance.__dict__.get('name', None)
+
+    def __set__(self, instance, value):
+        print("Setting attribute")
+        instance.__dict__['name'] = value
+
+class Person:
+    name = Descriptor()  # descriptor assigned here
+
+p = Person()
+p.name = "Alice"      # Calls Descriptor.__set__
+print("With descriptor:", p.name)  # Calls Descriptor.__get__
+print("Internal __dict__:", p.__dict__)
+
+
+Expected output:
+
+Setting attribute
+Getting attribute
+With descriptor: Alice
+Internal __dict__: {'name': 'Alice'}
+
+
+
+| What you write   | What Python does internally                                                 |
+| ---------------- | --------------------------------------------------------------------------- |
+| p.name = "Alice" | Calls Person.name.__set__(p, "Alice") (because `name` is a data descriptor) |
+| print(p.name)    | Calls Person.name.__get__(p, Person) (because `name` is a data descriptor)  |
+
+
+
+| Descriptor method | Parameter  | Meaning                                                |
+| ----------------- | ---------- | ------------------------------------------------------ |
+| __get__           | instance | The instance (`p`) you're accessing the attribute from   |
+| __get__           | owner    | The class (`Person`) the descriptor was defined on       |
+| __set__           | instance | The instance (`p`) you're assigning the value to         |
+| __set__           | value    | The value being assigned (`"Alice"`)                     |
+
+
+
+
+
+
+
+
+
+ModelMeta — What is a metaclass?
+
+In Python:
+A metaclass is the class that creates a class.
+Normally, when you write:
+
+class MyClass:
+    ...
+
+Python calls type() to create it:
+
+MyClass = type("MyClass", (BaseClasses,), dict_of_attributes)
+
+
+In Python, everything is an object, even classes.
+And just like you use Dog() to make a new object, Python uses type() to make a new class.
+
+
+
+
+When you define a class:
+
+class Person:
+    name = "Alice"
+
+Python under the hood does something like this:
+Person = type("Person", (object,), {"name": "Alice"})
+
+
+So what's happening here?
+type(name, bases, attrs)
+
+| Argument          | What it means                              |
+| ----------------- | ------------------------------------------ |
+| "Person"          | Name of the class                          |
+| (object,)         | Tuple of base classes (just `object` here) |
+| {"name": "Alice"} | Dictionary of attributes/methods           |
+
+
+So type() here creates a new class object named Person.
+
+
+Let's build a class using type directly
+
+# Equivalent to: class Person: name = "Alice"
+Person = type("Person", (object,), {"name": "Alice"})
+
+p = Person()
+print(p.name)  # Alice
+Yes, you just created a class without using the class keyword.
+
+
+
+How Python uses type() under the hood
+
+When you define:
+
+class MyClass(Base1, Base2, ...):
+    attr1 = ...
+    def method(self): ...
+
+Internally Python does this:
+
+MyClass = type("MyClass", (Base1, Base2, ...), {
+    "attr1": ...,
+    "method": method,
+})
+
+
+
+class A:
+    def greet(self):
+        print("Hello from A")
+
+# Internally the same as:
+A = type("A", (), {
+    "greet": lambda self: print("Hello from A")
+})
+
+
+What are bases, name, attrs again?
+
+When defining a class:
+
+class Dog(Animal):
+    sound = "bark"
+
+Python translates this to:
+type(
+    "Dog",                       # name
+    (Animal,),                   # bases
+    {"sound": "bark"}            # attrs
+)
+
+
+
+
+
+So if you want to customize how classes are created, you can define a custom metaclass.
+
+
+class ModelMeta(type):  # <- Custom metaclass
+    def __new__(cls, name, bases, attrs):
+        ...
+        return new_class
+
+Let’s decode this:
+
+Signature:
+def __new__(cls, name, bases, attrs
+
+| Parameter | What it means                                          |
+| --------- | ------------------------------------------------------ |
+| cls       | The metaclass itself (`ModelMeta`)                     |
+| name      | The name of the class being created (e.g. `'Person'`)  |
+| bases     | Tuple of base classes (e.g. `(Model,)`)                |
+| attrs     | Dictionary of all attributes defined in the class body |
+
+
+When you want to intercept class creation, you use a metaclass.
+
+Example:
+
+class Meta(type):
+    def __new__(cls, name, bases, attrs):
+        print("Creating class", name)
+        return super().__new__(cls, name, bases, attrs)
+
+class MyClass(metaclass=Meta):
+    x = 5
+
+# Output: Creating class MyClass
+When Python sees class MyClass(metaclass=Meta), it calls:
+Meta.__new__(Meta, "MyClass", (), {"x": 5})
+Which gives you full control over how classes are created!
+
+
+Why does type even exist?
+type(obj) → returns the type of obj
+type(...) → can create a new class!
+
+print(type(5))           # <class 'int'>
+print(type(int))         # <class 'type'>
+
+               Yes, even int, str, list — they are all classes created by type.
+
+
+
+In normal classes, __new__ creates an instance:
+obj = MyClass()  →  calls MyClass.__new__()
+
+In a metaclass, __new__ creates a class:
+class MyClass(metaclass=Meta)  → calls Meta.__new__()
+So your Meta.__new__ creates the class object itself, not an instance.
+
+Why super().__new__(...)?
+This is how you delegate the actual class creation to the built-in type.__new__.
+If you don’t do this, you're not actually returning a class — you'd break Python's internals.
+
+Here's the call:
+super().__new__(cls, name, bases, attrs)
+It’s the same as:
+type.__new__(cls, name, bases, attrs)
+
+And this creates the class properly, including:
+Building its method resolution order (MRO)
+Setting up inheritance,
+Creating the __dict__, etc.
+
+Example: Logging every class
+
+               
+class LoggingMeta(type):
+    def __new__(cls, name, bases, attrs):
+        print(f"Class being created: {name}")
+        return super().__new__(cls, name, bases, attrs)
+
+class Animal(metaclass=LoggingMeta):
+    pass
+
+class Dog(Animal):
+    pass
+
+# Output:
+# Class being created: Animal
+# Class being created: Dog
+              
+You didn’t have to write metaclass=LoggingMeta for Dog — it inherits it from Animal.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+               
