@@ -261,6 +261,25 @@ You didn’t have to write metaclass=LoggingMeta for Dog — it inherits it from
 
 
 
+and more
+
+
+# --- Custom metaclass ---
+class ModelMeta(type):
+    def __new__(cls, name, bases, attrs):
+        print(f"[ModelMeta.__new__] Creating class: {name}")
+        return super().__new__(cls, name, bases, attrs)
+
+# --- Base class using ModelMeta ---
+class Model(metaclass=ModelMeta):
+    pass
+
+# --- Subclass inheriting from Model ---
+class Person(Model):
+    pass
+
+[ModelMeta.__new__] Creating class: Model
+[ModelMeta.__new__] Creating class: Person
 
 
 
@@ -269,6 +288,83 @@ You didn’t have to write metaclass=LoggingMeta for Dog — it inherits it from
 
 
 
+so heres the code:
+
+
+# --- 1. Field Base Class ---
+class Field:
+    def __init__(self, name=None):
+        print(f"[Field.__init__] name={name}")
+        self.name = name
+
+    def __set_name__(self, owner, name):
+        self.name = name
+
+    def __get__(self, instance, owner):
+        return instance.__dict__.get(self.name)
+
+    def __set__(self, instance, value):
+        instance.__dict__[self.name] = value
+
+
+# --- 2. CharField ---
+class CharField(Field):
+    def __init__(self, max_length=100):
+        print(f"[CharField.__init__] max_length={max_length}")
+        super().__init__()
+        self.max_length = max_length
+
+
+# --- 3. ModelMeta ---
+class ModelMeta(type):
+    def __new__(cls, name, bases, attrs):
+        print(f"[ModelMeta.__new__] Creating class: {name}")
+        for k, v in attrs.items():
+            print(f"  ├── Attr: {k} = {v}")
+        fields = {k: v for k, v in attrs.items() if isinstance(v, Field)}
+        attrs['_meta'] = {'fields': list(fields.keys())}
+        return super().__new__(cls, name, bases, attrs)
+
+
+# --- 4. Model Base Class ---
+class Model(metaclass=ModelMeta):
+    pass
+
+
+# --- 5. Your Model ---
+class Person(Model):
+    print("[Defining Person class]")
+    first_name = CharField(max_length=30)
+    last_name = CharField(max_length=50)
+
+
+
+[ModelMeta.__new__] Creating class: Model
+  ├── Attr: __module__ = __main__
+  ├── Attr: __qualname__ = Model
+[Defining Person class]
+[CharField.__init__] max_length=30
+[Field.__init__] name=None
+[CharField.__init__] max_length=50
+[Field.__init__] name=None
+[ModelMeta.__new__] Creating class: Person
+  ├── Attr: __module__ = __main__
+  ├── Attr: __qualname__ = Person
+  ├── Attr: first_name = <__main__.CharField object at 0x79dd908b9d00>
+  ├── Attr: last_name = <__main__.CharField object at 0x79dd908b9d30>
+
+
+
+
+Python runs the class body first, so CharField(...) is called — and their __init__() methods are executed.
+After the body is complete, Python calls ModelMeta.__new__(), passing in all those collected variables in attrs.
+Inside __new__(), you can inspect or modify attributes before the class is actually created.
+
+
+
+Why This Order?
+Because Python must know what variables exist in the class (first_name, last_name) before it can build the class.
+If Python called the metaclass first, the class wouldn’t yet be fully defined!
 
 
 
@@ -276,13 +372,65 @@ You didn’t have to write metaclass=LoggingMeta for Dog — it inherits it from
 
 
 
+A LIL BIT MORE
+
+When Python sees:
+
+class Person(Model):
+    first_name = CharField(max_length=30)
+    last_name = CharField(max_length=30)
+
+Internally, Python does something similar to:
+
+attrs = {
+    'first_name': CharField(max_length=30),
+    'last_name': CharField(max_length=30),
+    '__module__': '__main__',
+    '__qualname__': 'Person',
+}
+Person = ModelMeta('Person', (Model,), attrs)
+
+
+
+When a class is being created, Python temporarily collects its attributes into a plain dictionary called attrs. This attrs is
+then passed to the metaclass’s __new__() method to allow customization before the actual class object (and its __dict__) exists.
+
+Once the class is created (inside ModelMeta.__new__), then those attributes will appear in ClassName.__dict__.
 
 
 
 
 
+more on this:
 
+Python parses the class body:
 
+It creates two instances:
+CharField(max_length=30)
+CharField(max_length=50)
+
+These are stored in a dictionary called attrs, like:
+
+attrs = {
+    '__module__': '__main__',
+    '__qualname__': 'Person',
+    'first_name': <CharField>,
+    'last_name': <CharField>,
+}
+
+Python finds the metaclass of Model:
+
+Model was defined as:
+class Model(metaclass=ModelMeta):
+So, the metaclass of Person is ModelMeta.
+
+Python calls:
+ModelMeta.__new__(ModelMeta, 'Person', (Model,), attrs)
+
+ModelMeta: the metaclass
+'Person': the name of the class
+(Model,): the base class(es)
+attrs: the class attributes
 
 
 
@@ -291,3 +439,143 @@ You didn’t have to write metaclass=LoggingMeta for Dog — it inherits it from
 
 
                
+
+
+1. Top-level class definitions get evaluated first — line by line
+
+When you import or run the file, Python executes all top-level code in order:
+
+a. Field and CharField are just class definitions
+These are evaluated and stored in memory. Nothing runs inside these classes yet — no methods are executed,
+just the class objects are created.
+
+b. ModelMeta (your metaclass) is also just a class
+Again, Python stores it but doesn't run its body yet.
+
+2. The first real action happens at class Person(Model)
+
+Python sees:
+class Person(Model):
+    first_name = CharField(max_length=30)
+    last_name = CharField(max_length=30)
+Here's what happens step by step:
+
+a. CharField(max_length=30) is called — twice
+So these lines:
+first_name = CharField(max_length=30)
+last_name = CharField(max_length=30)
+create two instances of CharField.
+Each one runs the __init__ method of CharField, setting self.max_length.
+
+b. Then Python calls your ModelMeta.__new__()
+Because Model uses metaclass=ModelMeta, every subclass of Model (like Person) is created using ModelMeta.
+
+Inside this method:
+def __new__(cls, name, bases, attrs):
+name is 'Person'
+bases is (Model,)
+attrs is a dictionary like:
+{
+  'first_name': <CharField>,
+  'last_name': <CharField>,
+  '__module__': 'mini_orm',
+  '__qualname__': 'Person'
+}
+Here you:
+Filter out fields using isinstance(value, Field)
+Store field names in _meta
+Finally return a new class object: Person
+Now the class Person is fully created and usable.
+
+3. Now Python reaches this block:
+if __name__ == "__main__":
+This block runs only when you execute the file directly, not when it's imported.
+
+a. First line executed is:
+print(Person.create_table_sql())
+This calls your @classmethod, and it:
+
+Loops through cls._meta['fields']
+
+For each field, checks if it's a CharField and builds SQL accordingly.
+
+Example output:
+CREATE TABLE person (first_name VARCHAR(30), last_name VARCHAR(30));
+
+
+4. Saving data:
+Person(first_name="Alice", last_name="Smith").save()
+
+Creates a new Person instance
+Inside Model.__init__, it calls setattr() for first_name and last_name
+These fields are descriptors, so CharField.__set__ runs
+Then .save() adds the instance to the class-level _db list
+This happens three times for Alice Smith, Bob Smith, and Alice Jones.
+
+5. Filtering:
+
+results = Person.filter(first_name="Alice")
+print(results)
+This looks through _db and returns objects where first_name == "Alice".
+
+Output is something like:
+[<Person(first_name='Alice', last_name='Smith')>, <Person(first_name='Alice', last_name='Jones')>]
+
+
+
+
+
+
+isinstance() is a built-in Python function. It’s used to check whether an object is an instance of a particular class or a subclass of it.
+
+
+
+
+class Animal:
+    pass
+
+class Dog(Animal):
+    pass
+
+a = Animal()
+d = Dog()
+
+print(isinstance(a, Animal))  # True
+print(isinstance(d, Dog))     # True
+print(isinstance(d, Animal))  # True, because Dog inherits from Animal
+print(isinstance(a, Dog))     # False
+
+
+class Field:
+    pass
+
+class CharField(Field):
+    def __init__(self, max_length):
+        self.max_length = max_length
+
+class Person:
+    name = CharField(max_length=30)
+    age = 25  # Not a Field, just a regular attribute
+
+# Simulate what a metaclass might do
+for attr_name, value in Person.__dict__.items():
+    if isinstance(value, Field):
+        print(f"{attr_name} with {value} is a Field")
+    else:
+        print(f"{attr_name} with {value}is NOT a Field")
+
+
+
+o/p:
+
+__module__ with __main__is NOT a Field
+name with <__main__.CharField object at 0x7a144eebdc40> is a Field
+age with 25is NOT a Field
+__dict__ with <attribute '__dict__' of 'Person' objects>is NOT a Field
+__weakref__ with <attribute '__weakref__' of 'Person' objects>is NOT a Field
+__doc__ with Noneis NOT a Field
+
+
+
+
+
