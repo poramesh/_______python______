@@ -1,3 +1,112 @@
+# mini_orm.py
+
+# --- 1. Field Base Class ---
+class Field:
+    def __init__(self, name=None):
+        self.name = name
+
+    def __set_name__(self, owner, name):
+        self.name = name
+
+    def __get__(self, instance, owner):
+        if instance is None:
+            return self
+        return instance.__dict__.get(self.name)
+
+    def __set__(self, instance, value):
+        instance.__dict__[self.name] = value
+
+# --- 2. CharField ---
+class CharField(Field):
+    def __init__(self, max_length=100):
+        super().__init__()
+        self.max_length = max_length
+
+    def __set__(self, instance, value):
+        if not isinstance(value, str):
+            raise TypeError(f"{self.name} must be a string")
+        if len(value) > self.max_length:
+            raise ValueError(f"{self.name} exceeds max length of {self.max_length} characters")
+        super().__set__(instance, value)
+
+# --- 3. ModelMeta ---
+class ModelMeta(type):
+    def __new__(cls, name, bases, attrs):
+        fields = {}
+        for key, value in attrs.items():
+            if isinstance(value, Field):
+                fields[key] = value
+        attrs['_meta'] = {'fields': list(fields.keys())}
+        new_class = super().__new__(cls, name, bases, attrs)
+        return new_class
+
+# --- 4. Model Base Class ---
+class Model(metaclass=ModelMeta):
+    _db = []
+
+    def __init__(self, **kwargs):
+
+        for key in self._meta['fields']:
+            setattr(self, key, kwargs.get(key))
+
+    def save(self):
+        self.__class__._db.append(self)
+
+    @classmethod
+    def all(cls):
+        return cls._db
+
+    @classmethod
+    def filter(cls, **kwargs):
+        results = []
+        print(cls._db)
+        for instance in cls._db:
+            match = all(getattr(instance, k) == v for k, v in kwargs.items())
+            if match:
+                results.append(instance)
+        return results
+
+    @classmethod
+    def create_table_sql(cls):
+        lines = []
+        for field_name in cls._meta['fields']:
+            field = getattr(cls, field_name)
+            sql_type = "VARCHAR" if isinstance(field, CharField) else "TEXT"
+            lines.append(f"{field_name} {sql_type}({field.max_length})")
+        fields_sql = ", ".join(lines)
+        return f"CREATE TABLE {cls.__name__.lower()} ({fields_sql});"
+
+    def __repr__(self):
+        field_values = ', '.join(f"{f}={getattr(self, f)!r}" for f in self._meta['fields'])
+        return f"<{self.__class__.__name__}({field_values})>"
+
+# --- 5. Your Model ---
+class Person(Model):
+    first_name = CharField(max_length=30)
+    last_name = CharField(max_length=30)
+
+# --- 6. Test Usage ---
+if __name__ == "__main__":
+    print(Person.create_table_sql())
+
+    Person(first_name="Alice", last_name="Smith").save()
+    Person(first_name="Bob", last_name="Smith").save()
+    Person(first_name="Alice", last_name="Jones").save()
+
+    results = Person.filter(first_name="Alice")
+    print(results)
+
+
+
+
+
+
+
+
+
+
+
+
 Example 1: Without Descriptor (normal attribute)
 
 
