@@ -30,13 +30,13 @@ class Car(models.Model):
 
   CREATE TABLE manufacturer (
     id SERIAL PRIMARY KEY
-    -- other columns defined in Manufacturer model
+     other columns defined in Manufacturer model
 );
 
 CREATE TABLE car (
     id SERIAL PRIMARY KEY,
     manufacturer_id INTEGER NOT NULL,
-    -- other columns defined in Car model
+     other columns defined in Car model
     FOREIGN KEY (manufacturer_id) REFERENCES manufacturer(id) ON DELETE CASCADE
 );
 
@@ -86,7 +86,7 @@ class Article(models.Model):
     id SERIAL PRIMARY KEY,
     first_name VARCHAR(30),
     last_name VARCHAR(30),
-    email VARCHAR(254)  -- Default max length for Django's EmailField
+    email VARCHAR(254)   Default max length for Django's EmailField
 );
 
 CREATE TABLE article (
@@ -99,29 +99,29 @@ CREATE TABLE article (
 
 
 
--- Insert first reporter
+ Insert first reporter
 INSERT INTO reporter (first_name, last_name, email)
 VALUES ('John', 'Smith', 'john@example.com');
 
--- Insert second reporter
+ Insert second reporter
 INSERT INTO reporter (first_name, last_name, email)
 VALUES ('Paul', 'Jones', 'paul@example.com');
 
--- Insert article associated with John Smith (assumed id = 1)
+ Insert article associated with John Smith (assumed id = 1)
 INSERT INTO article (headline, pub_date, reporter_id)
 VALUES ('This is a test', '2005-07-27', 1);
 
 
   SELECT reporter_id FROM article WHERE id = 1;
 
--- Output:
--- reporter_id = 1
+ Output:
+ reporter_id = 1
 
 SELECT * FROM reporter WHERE id = 1;
 
--- Output:
--- id | first_name | last_name | email
---  1 | John       | Smith     | john@example.com
+ Output:
+ id | first_name | last_name | email
+  1 | John       | Smith     | john@example.com
 
   
 What follows are examples of operations that can be performed using the Python API facilities.
@@ -172,7 +172,7 @@ Reporter → has an auto-created attribute → `article_set
 
 
   | Operation                   | Equivalent to                                |
-| --------------------------- | -------------------------------------------- |
+| - |  |
 | `r.article_set.all()`       | `Article.objects.filter(reporter=r)`         |
 | `r.article_set.create(...)` | `Article.objects.create(..., reporter=r)`    |
 | `r.article_set.filter(...)` | `Article.objects.filter(reporter=r, ...)`    |
@@ -371,3 +371,211 @@ a2.publications.add(p3)  # adding again – will be ignored
 SQL:
 Nothing happens here, because the join table has a unique constraint:
 UNIQUE(article_id, publication_id)
+
+
+
+
+
+
+
+
+Reverse relationship: .article_set
+
+p1.article_set.all()
+This uses Django’s automatically created reverse relationship name. Because Article has:
+publications = models.ManyToManyField(Publication)
+
+Django automatically creates a reverse accessor on the Publication model called:
+article_set
+
+SQL behind this:
+
+SELECT article.*
+FROM article
+JOIN article_publications ON article.id = article_publications.article_id
+WHERE article_publications.publication_id = 1;
+
+2. Forward relationship: .publications.all()
+
+a1.publications.all()
+This fetches all Publication records related to a given Article instance.
+
+SQL behind this:
+
+SELECT publication.*
+FROM publication
+JOIN article_publications ON publication.id = article_publications.publication_id
+WHERE article_publications.article_id = 1;
+
+3. Lookups across relationships
+
+Article.objects.filter(publications__id=1)
+This tells Django:
+“Give me all Articles where there is at least one Publication with id=1.”
+
+All of these are equivalent:
+
+Article.objects.filter(publications__id=1)
+Article.objects.filter(publications__pk=1)
+Article.objects.filter(publications=p1)
+Article.objects.filter(publications=1)
+
+SQL:
+
+SELECT DISTINCT article.*
+FROM article
+JOIN article_publications ON article.id = article_publications.article_id
+WHERE article_publications.publication_id = 1;
+
+
+4. Filter with field lookup on related model
+
+Article.objects.filter(publications__title__startswith="Science")
+This finds all Articles linked to any Publication whose title starts with “Science”.
+
+SQL:
+
+SELECT article.*
+FROM article
+JOIN article_publications ON article.id = article_publications.article_id
+JOIN publication ON article_publications.publication_id = publication.id
+WHERE publication.title LIKE 'Science%';
+
+
+5. Why .distinct() is needed
+
+Article.objects.filter(publications__title__startswith="Science")
+If an article is linked to multiple matching publications, it will appear multiple times in the result.
+
+Using .distinct() eliminates duplicates:
+Article.objects.filter(publications__title__startswith="Science").distinct()
+
+
+
+
+
+
+ Django Models Reference with SQL
+ 
+
+ Django:
+ class Publication(models.Model):
+     title = models.CharField(max_length=30)
+     class Meta:
+         ordering = ["title"]
+
+ class Article(models.Model):
+     headline = models.CharField(max_length=100)
+     publications = models.ManyToManyField(Publication)
+     class Meta:
+         ordering = ["headline"]
+
+
+ SQL Table Definitions:
+ Table: publication
+ CREATE TABLE publication (
+     id SERIAL PRIMARY KEY,
+     title VARCHAR(30) NOT NULL
+ );
+
+ Table: article
+ CREATE TABLE article (
+     id SERIAL PRIMARY KEY,
+     headline VARCHAR(100) NOT NULL
+ );
+
+ Junction Table for Many-to-Many:
+ CREATE TABLE article_publications (
+     id SERIAL PRIMARY KEY,
+     article_id INTEGER NOT NULL REFERENCES article(id) ON DELETE CASCADE,
+     publication_id INTEGER NOT NULL REFERENCES publication(id) ON DELETE CASCADE,
+     UNIQUE(article_id, publication_id)
+ );
+
+
+Django:
+ Article.objects.filter(publications__title__startswith="Science").count()
+SQL:
+SELECT COUNT(*)
+FROM article a
+JOIN article_publications ap ON a.id = ap.article_id
+JOIN publication p ON ap.publication_id = p.id
+WHERE p.title LIKE 'Science%';
+
+
+Django:
+ Article.objects.filter(publications__title__startswith="Science").distinct().count()
+SQL:
+SELECT COUNT(DISTINCT a.id)
+FROM article a
+JOIN article_publications ap ON a.id = ap.article_id
+JOIN publication p ON ap.publication_id = p.id
+WHERE p.title LIKE 'Science%';
+
+Django:
+ Publication.objects.filter(article__headline__startswith="NASA")
+SQL:
+SELECT DISTINCT p.*
+FROM publication p
+JOIN article_publications ap ON p.id = ap.publication_id
+JOIN article a ON ap.article_id = a.id
+WHERE a.headline LIKE 'NASA%';
+
+Django:
+ Article.objects.exclude(publications=p2)
+SQL:
+SELECT * FROM article
+WHERE id NOT IN (
+    SELECT article_id FROM article_publications WHERE publication_id = 2
+);
+
+Django:
+ p2.article_set.clear()
+SQL:
+DELETE FROM article_publications WHERE publication_id = 2;
+
+Django:
+ a4.publications.set([p3])
+SQL:
+DELETE FROM article_publications WHERE article_id = 4;
+INSERT INTO article_publications (article_id, publication_id) VALUES (4, 3);
+
+
+The .set() method resets the many-to-many relationships for that article, deleting old links and adding the new ones 
+you specify. This is why you see both a DELETE and an INSERT query.
+If you had just done .add(), it would only insert new rows without deleting existing ones.
+
+
+
+a4.publications.set([p3])
+This means: "For the Article instance a4, replace all its associated Publication objects with just the one publication p3."
+
+Behind the scenes in SQL
+DELETE FROM article_publications WHERE article_id = 4;
+
+First, it removes all existing links between the article with id=4 and any publications.
+
+This clears the previous many-to-many relationships.
+INSERT INTO article_publications (article_id, publication_id) VALUES (4, 3);
+Then, it creates a new link between the article id=4 and the publication id=3.
+So now, article 4 is associated only with publication 3.
+
+
+
+
+
+Django:
+ Publication.objects.filter(title__startswith="Science").delete()
+SQL:
+DELETE FROM publication WHERE title LIKE 'Science%';
+DELETE FROM article_publications
+WHERE publication_id NOT IN (SELECT id FROM publication);
+
+Django:
+ Article.objects.filter(headline__startswith="Django").delete()
+SQL:
+DELETE FROM article WHERE headline LIKE 'Django%';
+DELETE FROM article_publications
+WHERE article_id NOT IN (SELECT id FROM article);
+
+
