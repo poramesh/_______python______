@@ -1,0 +1,373 @@
+https://docs.djangoproject.com/en/5.2/topics/db/models/#automatic-primary-key-fields
+
+
+
+Many-to-one relationships
+  
+To define a many-to-one relationship, use django.db.models.ForeignKey. You use it just like any other Field type: by including it as a class attribute of your model.
+
+ForeignKey requires a positional argument: the class to which the model is related.
+
+For example, if a Car model has a Manufacturer – that is, a Manufacturer makes multiple cars but each Car 
+  only has one Manufacturer – use the following definitions:
+
+from django.db import models
+
+
+class Manufacturer(models.Model):
+    # ...
+    pass
+
+
+class Car(models.Model):
+    manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE)
+    # ...
+
+
+
+  in sql:
+
+
+  CREATE TABLE manufacturer (
+    id SERIAL PRIMARY KEY
+    -- other columns defined in Manufacturer model
+);
+
+CREATE TABLE car (
+    id SERIAL PRIMARY KEY,
+    manufacturer_id INTEGER NOT NULL,
+    -- other columns defined in Car model
+    FOREIGN KEY (manufacturer_id) REFERENCES manufacturer(id) ON DELETE CASCADE
+);
+
+
+
+
+
+
+
+
+eg:
+
+
+To define a many-to-one relationship, use ForeignKey.
+
+In this example, a Reporter can be associated with many Article objects, but an Article can only have one Reporter object:
+
+from django.db import models
+
+
+class Reporter(models.Model):
+    first_name = models.CharField(max_length=30)
+    last_name = models.CharField(max_length=30)
+    email = models.EmailField()
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
+
+
+class Article(models.Model):
+    headline = models.CharField(max_length=100)
+    pub_date = models.DateField()
+    reporter = models.ForeignKey(Reporter, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.headline
+
+    class Meta:
+        ordering = ["headline"]
+
+
+
+
+          in sql:
+
+          CREATE TABLE reporter (
+    id SERIAL PRIMARY KEY,
+    first_name VARCHAR(30),
+    last_name VARCHAR(30),
+    email VARCHAR(254)  -- Default max length for Django's EmailField
+);
+
+CREATE TABLE article (
+    id SERIAL PRIMARY KEY,
+    headline VARCHAR(100),
+    pub_date DATE,
+    reporter_id INTEGER NOT NULL,
+    FOREIGN KEY (reporter_id) REFERENCES reporter(id) ON DELETE CASCADE
+);
+
+
+
+-- Insert first reporter
+INSERT INTO reporter (first_name, last_name, email)
+VALUES ('John', 'Smith', 'john@example.com');
+
+-- Insert second reporter
+INSERT INTO reporter (first_name, last_name, email)
+VALUES ('Paul', 'Jones', 'paul@example.com');
+
+-- Insert article associated with John Smith (assumed id = 1)
+INSERT INTO article (headline, pub_date, reporter_id)
+VALUES ('This is a test', '2005-07-27', 1);
+
+
+  SELECT reporter_id FROM article WHERE id = 1;
+
+-- Output:
+-- reporter_id = 1
+
+SELECT * FROM reporter WHERE id = 1;
+
+-- Output:
+-- id | first_name | last_name | email
+--  1 | John       | Smith     | john@example.com
+
+  
+What follows are examples of operations that can be performed using the Python API facilities.
+
+Create a few Reporters:
+
+>>> r = Reporter(first_name="John", last_name="Smith", email="john@example.com")
+>>> r.save()
+
+>>> r2 = Reporter(first_name="Paul", last_name="Jones", email="paul@example.com")
+>>> r2.save()
+Create an Article:
+
+>>> from datetime import date
+>>> a = Article(id=None, headline="This is a test", pub_date=date(2005, 7, 27), reporter=r)
+>>> a.save()
+
+>>> a.reporter.id
+1
+
+>>> a.reporter
+<Reporter: John Smith>
+
+
+
+>>> r3 = Reporter(first_name="John", last_name="Smith", email="john@example.com")
+>>> Article.objects.create(
+...     headline="This is a test", pub_date=date(2005, 7, 27), reporter=r3
+... )
+Traceback (most recent call last):
+...
+ValueError: save() prohibited to prevent data loss due to unsaved related object 'reporter'.
+
+
+
+
+
+
+reporter = models.ForeignKey(Reporter, on_delete=models.CASCADE)
+
+  Django automatically creates a reverse relation on the related model (Reporter), which points back to the model that has the foreign key (Article).
+By default, the name of this reverse relation is <modelname>_set, so in this case:
+
+Reporter → has an auto-created attribute → `article_set
+
+  This is a RelatedManager that lets you access all Article objects related to a given Reporter.
+
+
+
+  | Operation                   | Equivalent to                                |
+| --------------------------- | -------------------------------------------- |
+| `r.article_set.all()`       | `Article.objects.filter(reporter=r)`         |
+| `r.article_set.create(...)` | `Article.objects.create(..., reporter=r)`    |
+| `r.article_set.filter(...)` | `Article.objects.filter(reporter=r, ...)`    |
+| `r.article_set.count()`     | `Article.objects.filter(reporter=r).count()` |
+
+
+
+you don’t use .object after r.article_set. That’s because r.article_set is already a special manager (specifically, a RelatedManager) that
+behaves just like Django's regular model managers (Model.objects).
+
+Think of it like this:
+Article.objects → used to query all Article objects
+r.article_set → used to query all Article objects related to that specific Reporter (r)
+
+
+
+article_set?
+type(r.article_set)  # <class 'django.db.models.fields.related_descriptors.create_reverse_many_to_one_manager.<locals>.RelatedManager'>
+So it's a special manager, not a model or field.
+
+  but a manager object with methods like:
+
+.all() — get all related Articles
+.filter(...) — filter related Articles
+.create(...) — create a new Article related to the Reporter
+.exclude(...), .order_by(...), etc.
+  
+You can do things like:
+
+r = Reporter.objects.get(id=1)
+r.article_set.all()        # Get all related articles
+r.article_set.create(...)  # Create a new related article
+
+
+
+
+
+
+
+  MAny to Many relationship
+
+
+
+
+  from django.db import models
+
+
+class Publication(models.Model):
+    title = models.CharField(max_length=30)
+
+    class Meta:
+        ordering = ["title"]
+
+    def __str__(self):
+        return self.title
+
+
+class Article(models.Model):
+    headline = models.CharField(max_length=100)
+    publications = models.ManyToManyField(Publication)
+
+    class Meta:
+        ordering = ["headline"]
+
+    def __str__(self):
+        return self.headline
+What follows are examples of operations that can be performed using the Python API facilities.
+
+
+
+
+
+SQL Equivalent
+1. publication table
+
+CREATE TABLE publication (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(30) NOT NULL
+);
+
+2. article table
+  
+CREATE TABLE article (
+    id SERIAL PRIMARY KEY,
+    headline VARCHAR(100) NOT NULL
+);
+
+3. Many-to-many join table: article_publications
+Django automatically creates a join table for the ManyToManyField.
+
+
+CREATE TABLE article_publications (
+    id SERIAL PRIMARY KEY,
+    article_id INTEGER NOT NULL REFERENCES article(id) ON DELETE CASCADE,
+    publication_id INTEGER NOT NULL REFERENCES publication(id) ON DELETE CASCADE,
+    UNIQUE(article_id, publication_id)
+);
+
+
+Separate CONSTRAINT block
+Alternatively, you can write foreign keys like this:
+article_id INTEGER NOT NULL,
+publication_id INTEGER NOT NULL,
+
+CONSTRAINT fk_article
+    FOREIGN KEY (article_id)
+    REFERENCES article(id)
+    ON DELETE CASCADE,
+
+CONSTRAINT fk_publication
+    FOREIGN KEY (publication_id)
+    REFERENCES publication(id)
+    ON DELETE CASCADE
+
+This table:
+Links each article to one or more publications.
+Allows one publication to be linked to many articles.
+Ensures uniqueness of each article–publication pair.
+
+
+
+
+  https://docs.djangoproject.com/en/5.2/topics/db/examples/many_to_many/
+
+
+
+
+
+
+1. Create Publications
+
+p1 = Publication(title="The Python Journal")
+p1.save()
+
+SQL:
+INSERT INTO publication (title) VALUES ('The Python Journal');
+
+
+p2 = Publication(title="Science News")
+p2.save()
+
+SQL:
+INSERT INTO publication (title) VALUES ('Science News');
+
+p3 = Publication(title="Science Weekly")
+p3.save()
+
+SQL:
+INSERT INTO publication (title) VALUES ('Science Weekly');
+
+
+2. Create Article
+
+a1 = Article(headline="Django lets you build web apps easily")
+a1.save()
+
+SQL:
+INSERT INTO article (headline) VALUES ('Django lets you build web apps easily');
+Assume this gives a1 an ID of 1, and p1 has ID 1.
+
+  
+3. Associate Article with Publication
+
+a1.publications.add(p1)
+
+SQL:
+INSERT INTO article_publications (article_id, publication_id) VALUES (1, 1);
+
+
+4. Create second Article
+
+a2 = Article(headline="NASA uses Python")
+a2.save()
+
+SQL:
+
+INSERT INTO article (headline) VALUES ('NASA uses Python');
+Assume a2.id = 2, p2.id = 2, p3.id = 3.
+
+
+5. Add multiple publications to a2
+
+a2.publications.add(p1, p2)
+SQL:
+INSERT INTO article_publications (article_id, publication_id) VALUES (2, 1);
+INSERT INTO article_publications (article_id, publication_id) VALUES (2, 2);
+
+a2.publications.add(p3)
+
+SQL:
+INSERT INTO article_publications (article_id, publication_id) VALUES (2, 3);
+
+
+a2.publications.add(p3)  # adding again – will be ignored
+
+SQL:
+Nothing happens here, because the join table has a unique constraint:
+UNIQUE(article_id, publication_id)
