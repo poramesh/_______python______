@@ -11,6 +11,33 @@ ForeignKey requires a positional argument: the class to which the model is relat
 For example, if a Car model has a Manufacturer – that is, a Manufacturer makes multiple cars but each Car 
   only has one Manufacturer – use the following definitions:
 
+
+CarModel                        Manufacturer
++--------------+              +------------------+
+| car_model_id |              | manufacturer_id  |
+| model_name   |              | name             |
+| manufacturer_id | --------> | manufacturer_id  |
++--------------+              +------------------+
+     (Many)                          (One)
+
+
+
+Manufacturer Table
+| manufacturer\_id | name   |
+| ---------------- | ------ |
+| 1                | Toyota |
+| 2                | Ford   |
+
+CarModel Table
+| car\_model\_id | model\_name | manufacturer\_id |
+| -------------- | ----------- | ---------------- |
+| 101            | Corolla     | 1                |
+| 102            | Camry       | 1                |
+| 103            | Mustang     | 2                |
+
+
+
+
 from django.db import models
 
 
@@ -28,15 +55,15 @@ class Car(models.Model):
   in sql:
 
 
-  CREATE TABLE manufacturer (
+CREATE TABLE manufacturer (
     id SERIAL PRIMARY KEY
-     other columns defined in Manufacturer model
+    other columns defined in Manufacturer model
 );
 
 CREATE TABLE car (
     id SERIAL PRIMARY KEY,
     manufacturer_id INTEGER NOT NULL,
-     other columns defined in Car model
+    other columns defined in Car model
     FOREIGN KEY (manufacturer_id) REFERENCES manufacturer(id) ON DELETE CASCADE
 );
 
@@ -82,7 +109,7 @@ class Article(models.Model):
 
           in sql:
 
-          CREATE TABLE reporter (
+CREATE TABLE reporter (
     id SERIAL PRIMARY KEY,
     first_name VARCHAR(30),
     last_name VARCHAR(30),
@@ -112,7 +139,7 @@ INSERT INTO article (headline, pub_date, reporter_id)
 VALUES ('This is a test', '2005-07-27', 1);
 
 
-  SELECT reporter_id FROM article WHERE id = 1;
+SELECT reporter_id FROM article WHERE id = 1;
 
  Output:
  reporter_id = 1
@@ -133,6 +160,7 @@ Create a few Reporters:
 
 >>> r2 = Reporter(first_name="Paul", last_name="Jones", email="paul@example.com")
 >>> r2.save()
+
 Create an Article:
 
 >>> from datetime import date
@@ -177,6 +205,14 @@ Reporter → has an auto-created attribute → `article_set
 | `r.article_set.create(...)` | `Article.objects.create(..., reporter=r)`    |
 | `r.article_set.filter(...)` | `Article.objects.filter(reporter=r, ...)`    |
 | `r.article_set.count()`     | `Article.objects.filter(reporter=r).count()` |
+
+| **Django ORM**              | **SQL Equivalent**                                                      |
+| --------------------------- | ----------------------------------------------------------------------- |
+| `r.article_set.all()`       | `SELECT * FROM Article WHERE reporter_id = r.id;`                       |
+| `r.article_set.create(...)` | `INSERT INTO Article (title, content, reporter_id) VALUES (..., r.id);` |
+| `r.article_set.filter(...)` | `SELECT * FROM Article WHERE reporter_id = r.id AND ...;`               |
+| `r.article_set.count()`     | `SELECT COUNT(*) FROM Article WHERE reporter_id = r.id;`                |
+
 
 
 
@@ -522,7 +558,7 @@ JOIN article a ON ap.article_id = a.id
 WHERE a.headline LIKE 'NASA%';
 
 Django:
- Article.objects.exclude(publications=p2)
+Article.objects.exclude(publications=p2)
 SQL:
 SELECT * FROM article
 WHERE id NOT IN (
@@ -530,12 +566,20 @@ WHERE id NOT IN (
 );
 
 Django:
- p2.article_set.clear()
+p2.article_set.clear()
 SQL:
 DELETE FROM article_publications WHERE publication_id = 2;
 
+
+| Operation                | What It Affects                                              |
+| ------------------------ | ------------------------------------------------------------ |
+| `p2.article_set.clear()` | Only deletes rows in **join table** (`article_publications`) |
+| `p2.delete()`            | Deletes the **publication** itself                           |
+
+
+
 Django:
- a4.publications.set([p3])
+a4.publications.set([p3])
 SQL:
 DELETE FROM article_publications WHERE article_id = 4;
 INSERT INTO article_publications (article_id, publication_id) VALUES (4, 3);
@@ -579,3 +623,418 @@ DELETE FROM article_publications
 WHERE article_id NOT IN (SELECT id FROM article);
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+Many to Many relationship with through:
+
+
+A standard many-to-many relationship is when:
+One record in a model can be related to many records in another model.
+And vice versa.
+
+Example:
+
+class Pizza(models.Model):
+    toppings = models.ManyToManyField(Topping)
+
+Django handles the creation of an intermediate table behind the scenes to store the links between Pizza and Topping.
+
+What if you need extra info in that relationship?
+Suppose you're not just interested in who belongs to what, but when someone joined or why they joined. You need
+more data about the relationship itself — not just the two entities involved.
+
+Example use-case:
+A musician (Person) can be part of multiple bands (Group).
+For each membership, you want to store:
+When they joined (date_joined)
+Why they were invited (invite_reason)
+A regular ManyToManyField won’t help here — it can't store this extra data. So we define an intermediate model: Membership.
+
+Using an Intermediate (through) Model
+
+Here’s the full working structure:
+
+from django.db import models
+
+class Person(models.Model):
+    name = models.CharField(max_length=128)
+
+class Group(models.Model):
+    name = models.CharField(max_length=128)
+    members = models.ManyToManyField(Person, through="Membership")
+
+class Membership(models.Model):
+    person = models.ForeignKey(Person, on_delete=models.CASCADE)
+    group = models.ForeignKey(Group, on_delete=models.CASCADE)
+    date_joined = models.DateField()
+    invite_reason = models.CharField(max_length=64)
+
+Group.members uses a ManyToManyField to Person, but says use Membership as the intermediate table.
+
+Membership explicitly connects Person and Group with ForeignKeys.
+It also stores additional fields: date_joined, invite_reason.
+
+Why add a Unique Constraint?
+You don’t want the same person to be added to the same group multiple times.
+So we enforce this rule:
+
+class Meta:
+    constraints = [
+        models.UniqueConstraint(
+            fields=["person", "group"], name="unique_person_group"
+        )
+    ]
+
+
+SQL Table Translation
+
+
+1. person table:
+
+CREATE TABLE person (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(128) NOT NULL
+);
+
+
+2. group table:
+
+CREATE TABLE group (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(128) NOT NULL
+);
+
+
+3. membership (intermediate) table:
+
+CREATE TABLE membership (
+    id SERIAL PRIMARY KEY,
+    person_id INTEGER NOT NULL REFERENCES person(id) ON DELETE CASCADE,
+    group_id INTEGER NOT NULL REFERENCES group(id) ON DELETE CASCADE,
+    date_joined DATE NOT NULL,
+    invite_reason VARCHAR(64) NOT NULL,
+    CONSTRAINT unique_person_group UNIQUE (person_id, group_id)
+);
+
+This table replaces the default auto-generated many-to-many table.
+
+
+
+Important Rules
+
+The through model must have only one foreign key to each side of the relationship. If there’s ambiguity 
+(e.g., more than one foreign key to the same model), use through_fields to be explicit.
+
+In self-referential many-to-many relationships (e.g., a Person related to other Persons), two foreign keys to the same model 
+are allowed. Again, through_fields may be needed if it's unclear which is which.
+
+Creating Relationships Now
+Since you're using an intermediate model, you don’t do:
+
+group.members.add(person)
+
+Instead, you create a Membership instance:
+
+Membership.objects.create(
+    person=some_person,
+    group=some_group,
+    date_joined="2025-06-01",
+    invite_reason="Outstanding guitarist"
+)
+This gives you full control and the ability to store rich relationship data.
+
+Summary
+Use ManyToManyField(through=...) when you need extra fields on the relationship.
+Define an explicit intermediate model (with ForeignKeys and extra fields).
+Add UniqueConstraint if you want to prevent duplicate relationships.
+Be careful with multiple foreign keys — you may need to specify through_fields
+
+
+
+
+
+
+*******
+
+Context
+When you define a ManyToManyField using a custom intermediate model (via through=...), Django must know:
+Which foreign key in the intermediate model points to the source model (the one that owns the ManyToManyField)
+Which one points to the target model
+If your intermediate model has more than one ForeignKey to the same model, Django won’t know which is which — 
+unless you tell it explicitly using the through_fields argument.
+
+
+Self-referential ManyToMany with Extra Fields
+Suppose you're building a social network where a Person can follow other Persons.
+
+You want to store extra info like when the follow started.
+
+class Person(models.Model):
+    name = models.CharField(max_length=100)
+    follows = models.ManyToManyField(
+        "self", through="Follow", symmetrical=False,
+        through_fields=("follower", "followed")
+    )
+
+class Follow(models.Model):
+    follower = models.ForeignKey(Person, on_delete=models.CASCADE, related_name='following_set')
+    followed = models.ForeignKey(Person, on_delete=models.CASCADE, related_name='followers_set')
+    since = models.DateTimeField()
+
+
+
+
+So if you write:
+person1.follows.add(person2)
+
+Django uses Follow to create:
+Follow(follower=person1, followed=person2)
+
+
+Without through_fields, Django would say:
+I see two foreign keys to the same model. I don’t know which one is "from" and which one is "to". Please be explicit.
+
+
+
+Django uses the through_fields values to determine how to populate the custom through table when you use ORM methods like:
+person1.follows.add(person2)
+So if you get the order wrong, your app's logic is reversed — people will follow the wrong people.
+
+
+>>> alice = Person.objects.create(name="Alice")
+>>> bob = Person.objects.create(name="Bob")
+
+>>> alice.follows.add(bob)
+
+>>> Follow.objects.all()
+<QuerySet [<Follow: Alice follows Bob>]>
+
+
+
+
+
+
+Another Example: Multiple FKs to Same Model
+
+class User(models.Model):
+    name = models.CharField(max_length=50)
+    contacts = models.ManyToManyField(
+        "self", through="Connection",
+        through_fields=("requester", "receiver"),
+        symmetrical=False,
+    )
+
+class Connection(models.Model):
+    requester = models.ForeignKey(User, on_delete=models.CASCADE, related_name='requests_sent')
+    receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name='requests_received')
+    status = models.CharField(max_length=10)
+
+Connection has two FKs to User
+You must use through_fields=("requester", "receiver")
+
+
+
+
+
+
+
+
+user Table
+
+CREATE TABLE user (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(50) NOT NULL
+);
+Django creates an auto-incrementing primary key field (id) by default, unless you explicitly define one.
+
+2. connection Table (Intermediate Model)
+
+CREATE TABLE connection (
+    id SERIAL PRIMARY KEY,
+    requester_id INTEGER NOT NULL REFERENCES user(id) ON DELETE CASCADE,
+    receiver_id INTEGER NOT NULL REFERENCES user(id) ON DELETE CASCADE,
+    status VARCHAR(10) NOT NULL
+);
+
+requester_id and receiver_id are foreign keys pointing to the user table.
+status is a custom field for the relationship (e.g., "pending", "accepted", etc.).
+ON DELETE CASCADE means if a user is deleted, related connections are deleted too.
+
+SQL Relationship Notes
+This structure allows you to do things like:
+
+Insert a new connection:
+INSERT INTO connection (requester_id, receiver_id, status)
+VALUES (1, 2, 'pending');
+
+Query a user’s connections (from Django’s perspective):
+-- Who does user 1 follow (sent requests)?
+SELECT u.name
+FROM user u
+JOIN connection c ON u.id = c.receiver_id
+WHERE c.requester_id = 1;
+
+-- Who follows user 1 (received requests)?
+SELECT u.name
+FROM user u
+JOIN connection c ON u.id = c.requester_id
+WHERE c.receiver_id = 1;
+
+
+About through_fields
+In SQL, this doesn't change anything — it’s purely for Django’s ORM to know:
+requester = source side of the many-to-many (User.contacts)
+receiver = target side
+Without through_fields, Django would raise an error since both fields point to the same table (user), and it wouldn’t know which is which.
+
+*******
+
+
+
+
+
+
+
+>>> ringo = Person.objects.create(name="Ringo Starr")
+>>> paul = Person.objects.create(name="Paul McCartney")
+>>> beatles = Group.objects.create(name="The Beatles")
+>>> m1 = Membership(
+...     person=ringo,
+...     group=beatles,
+...     date_joined=date(1962, 8, 16),
+...     invite_reason="Needed a new drummer.",
+... )
+>>> m1.save()
+>>> beatles.members.all()
+<QuerySet [<Person: Ringo Starr>]>
+>>> ringo.group_set.all()
+<QuerySet [<Group: The Beatles>]>
+>>> m2 = Membership.objects.create(
+...     person=paul,
+...     group=beatles,
+...     date_joined=date(1960, 8, 1),
+...     invite_reason="Wanted to form a band.",
+... )
+>>> beatles.members.all()
+<QuerySet [<Person: Ringo Starr>, <Person: Paul McCartney>]>
+
+
+
+Creating Person records
+
+INSERT INTO person (name) VALUES ('Ringo Starr');
+-- Ringo gets id = 1
+
+INSERT INTO person (name) VALUES ('Paul McCartney');
+-- Paul gets id = 2
+
+
+Creating the Group
+
+INSERT INTO "group" (name) VALUES ('The Beatles');
+-- The Beatles gets id = 1
+
+
+Creating Membership entries
+
+-- Ringo joins The Beatles
+INSERT INTO membership (person_id, group_id, date_joined, invite_reason)
+VALUES (1, 1, '1962-08-16', 'Needed a new drummer.');
+
+-- Paul joins The Beatles
+INSERT INTO membership (person_id, group_id, date_joined, invite_reason)
+VALUES (2, 1, '1960-08-01', 'Wanted to form a band.');
+
+
+Equivalent Queries from Django ORM
+
+beatles.members.all()
+SELECT p.*
+FROM person p
+JOIN membership m ON m.person_id = p.id
+WHERE m.group_id = 1;
+
+ringo.group_set.all()
+SELECT g.*
+FROM "group" g
+JOIN membership m ON m.group_id = g.id
+WHERE m.person_id = 1;
+
+
+
+You can also use add(), create(), or set() to create relationships, as long as you specify through_defaults for any required fields:
+
+>>> beatles.members.add(john, through_defaults={"date_joined": date(1960, 8, 1)})
+>>> beatles.members.create(
+...     name="George Harrison", through_defaults={"date_joined": date(1960, 8, 1)}
+... )
+>>> beatles.members.set(
+...     [john, paul, ringo, george], through_defaults={"date_joined": date(1960, 8, 1)}
+... )
+
+
+
+
+ou may prefer to create instances of the intermediate model directly.
+
+If the custom through table defined by the intermediate model does not enforce uniqueness on the (model1, model2) pair, allowing multiple values, the remove() call will remove all intermediate model instances:
+
+>>> Membership.objects.create(
+...     person=ringo,
+...     group=beatles,
+...     date_joined=date(1968, 9, 4),
+...     invite_reason="You've been gone for a month and we miss you.",
+... )
+>>> beatles.members.all()
+<QuerySet [<Person: Ringo Starr>, <Person: Paul McCartney>, <Person: Ringo Starr>]>
+>>> # This deletes both of the intermediate model instances for Ringo Starr
+>>> beatles.members.remove(ringo)
+>>> beatles.members.all()
+<QuerySet [<Person: Paul McCartney>]>
+The clear() method can be used to remove all many-to-many relationships for an instance:
+
+>>> # Beatles have broken up
+>>> beatles.members.clear()
+>>> # Note that this deletes the intermediate model instances
+>>> Membership.objects.all()
+<QuerySet []>
+Once you have established the many-to-many relationships, you can issue queries. Just as with normal many-to-many relationships, you can
+query using the attributes of the many-to-many-related model:
+
+# Find all the groups with a member whose name starts with 'Paul'
+>>> Group.objects.filter(members__name__startswith="Paul")
+<QuerySet [<Group: The Beatles>]>
+As you are using an intermediate model, you can also query on its attributes:
+
+# Find all the members of the Beatles that joined after 1 Jan 1961
+>>> Person.objects.filter(
+...     group__name="The Beatles", membership__date_joined__gt=date(1961, 1, 1)
+... )
+<QuerySet [<Person: Ringo Starr]>
+If you need to access a membership’s information you may do so by directly querying the Membership model:
+
+>>> ringos_membership = Membership.objects.get(group=beatles, person=ringo)
+>>> ringos_membership.date_joined
+datetime.date(1962, 8, 16)
+>>> ringos_membership.invite_reason
+'Needed a new drummer.'
+
+
+Another way to access the same information is by querying the many-to-many reverse relationship from a Person object:
+
+>>> ringos_membership = ringo.membership_set.get(group=beatles)
+>>> ringos_membership.date_joined
+datetime.date(1962, 8, 16)
+>>> ringos_membership.invite_reason
+'Needed a new drummer.'
