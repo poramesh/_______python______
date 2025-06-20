@@ -1038,3 +1038,177 @@ Another way to access the same information is by querying the many-to-many rever
 datetime.date(1962, 8, 16)
 >>> ringos_membership.invite_reason
 'Needed a new drummer.'
+
+
+
+
+
+One - to - One Relationship
+
+
+https://docs.djangoproject.com/en/5.2/topics/db/examples/one_to_one/
+
+To define a one-to-one relationship, use OneToOneField.
+
+In this example, a Place optionally can be a Restaurant:
+
+from django.db import models
+
+
+class Place(models.Model):
+    name = models.CharField(max_length=50)
+    address = models.CharField(max_length=80)
+
+    def __str__(self):
+        return f"{self.name} the place"
+
+
+class Restaurant(models.Model):
+    place = models.OneToOneField(
+        Place,
+        on_delete=models.CASCADE,
+        primary_key=True,
+    )
+    serves_hot_dogs = models.BooleanField(default=False)
+    serves_pizza = models.BooleanField(default=False)
+
+
+    def __str__(self):
+        return "%s the restaurant" % self.place.name
+
+
+class Waiter(models.Model):
+    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return "%s the waiter at %s" % (self.name, self.restaurant)
+
+
+
+
+
+
+1. Place
+
+CREATE TABLE place (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    address VARCHAR(80) NOT NULL
+);
+
+2. Restaurant
+CREATE TABLE restaurant (
+    place_id INTEGER PRIMARY KEY REFERENCES place(id) ON DELETE CASCADE,
+    serves_hot_dogs BOOLEAN NOT NULL DEFAULT FALSE,
+    serves_pizza BOOLEAN NOT NULL DEFAULT FALSE
+);
+
+Note:
+place_id is both the primary key and a foreign key to place(id).
+This enforces a strict one-to-one relationship.
+
+3. Waiter
+CREATE TABLE waiter (
+    id SERIAL PRIMARY KEY,
+    restaurant_id INTEGER NOT NULL REFERENCES restaurant(place_id) ON DELETE CASCADE,
+    name VARCHAR(50) NOT NULL
+);
+
+This shows:
+One restaurant exists at one place.
+Multiple waiters (via foreign key) can work at that restaurant.
+
+What follows are examples of operations that can be performed using the Python API facilities.
+
+Create a couple of Places:
+
+>>> p1 = Place(name="Demon Dogs", address="944 W. Fullerton")
+>>> p1.save()
+>>> p2 = Place(name="Ace Hardware", address="1013 N. Ashland")
+>>> p2.save()
+
+Create a Restaurant. Pass the “parent” object as this object’s primary key:
+
+>>> r = Restaurant(place=p1, serves_hot_dogs=True, serves_pizza=False)
+>>> r.save()
+
+A Restaurant can access its place:
+
+>>> r.place
+<Place: Demon Dogs the place>
+A Place can access its restaurant, if available:
+
+>>> p1.restaurant
+<Restaurant: Demon Dogs the restaurant>
+p2 doesn’t have an associated restaurant:
+
+>>> from django.core.exceptions import ObjectDoesNotExist
+>>> try:
+...     p2.restaurant
+... except ObjectDoesNotExist:
+...     print("There is no restaurant here.")
+...
+
+There is no restaurant here.
+You can also use hasattr to avoid the need for exception catching:
+
+>>> hasattr(p2, "restaurant")
+False
+Set the place using assignment notation. Because place is the primary key on Restaurant, the save will create a new restaurant:
+
+>>> r.place = p2
+>>> r.save()
+>>> p2.restaurant
+<Restaurant: Ace Hardware the restaurant>
+>>> r.place
+<Place: Ace Hardware the place>
+Set the place back again, using assignment in the reverse direction:
+
+>>> p1.restaurant = r
+>>> p1.restaurant
+<Restaurant: Demon Dogs the restaurant>
+
+
+
+
+
+
+
+
+a lil story time:
+
+
+What it used to mean (older versions of Django):
+In early Django versions (before ~1.0), if you added a OneToOneField to a model, it would automatically 
+become the primary key of that model — even if you didn’t say so explicitly.
+
+So this:
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+Would behave as if you had written:
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+
+That made it impossible to add more than one OneToOneField to a model, because there can only be one primary key.
+
+
+
+What it means now (modern Django):
+
+Now, Django does not automatically treat OneToOneField as the primary key. You have to say it explicitly:
+
+class Restaurant(models.Model):
+    place = models.OneToOneField(Place, on_delete=models.CASCADE, primary_key=True)
+If you don’t specify primary_key=True, then Django creates its usual id field as the primary key.
+
+
+Result: Multiple OneToOneFields now allowed
+Because of this change, you can now do this:
+class Person(models.Model):
+    name = models.CharField(max_length=50)
+    passport = models.OneToOneField(Passport, on_delete=models.CASCADE)
+    profile = models.OneToOneField(Profile, on_delete=models.CASCADE)
+This is now perfectly valid — both passport and profile can be OneToOneFields, and the model still uses its own
+auto-generated id field as the primary key.
